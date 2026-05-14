@@ -63,7 +63,10 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
     my.set(0.5);
   };
 
-  const screenshot = `/screens/${project.name.toLowerCase()}.jpg`;
+  // Slugify so multi-word project names produce hyphenated filenames
+  // ("Kusum Farm" → kusum-farm.jpg) instead of spaces in URLs.
+  const slug = project.name.toLowerCase().replace(/\s+/g, "-");
+  const screenshot = `/screens/${slug}.jpg`;
   const hasScreenshot = project.hasScreenshot !== false;
   const isPrivate = project.privateProject === true;
 

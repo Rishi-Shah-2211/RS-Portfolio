@@ -117,7 +117,6 @@ export const PROJECTS: Project[] = [
       "Custom .com domain, fully owned by the client",
       "Mobile-first, share-friendly product detail pages",
     ],
-    hasScreenshot: false,
   },
   {
     index: "06",
@@ -138,7 +137,6 @@ export const PROJECTS: Project[] = [
       "Photo pipeline cleaned and colour-graded for a showroom feel",
       "Mobile-first product pages tuned for sharing on WhatsApp",
     ],
-    hasScreenshot: false,
   },
   {
     index: "07",
