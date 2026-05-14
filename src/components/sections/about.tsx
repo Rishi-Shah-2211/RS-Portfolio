@@ -31,10 +31,11 @@ export default function About() {
               className="absolute inset-[-8%]"
             >
               <Image
-                src="/rishi.jpeg"
+                src="/rishi.png"
                 alt="Rishi Shah"
                 fill
                 priority
+                quality={95}
                 sizes="(min-width: 768px) 40vw, 90vw"
                 className="object-cover"
               />

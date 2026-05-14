@@ -19,11 +19,11 @@ export default function Projects() {
         </Reveal>
 
         <h2 className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
-          <SplitWords text="Four products," />{" "}
+          <SplitWords text="Seven projects," />{" "}
           <span className="italic text-terracotta">
-            <SplitWords text="all live," delay={0.1} />
+            <SplitWords text="six live," delay={0.1} />
           </span>{" "}
-          <SplitWords text="all shipped." delay={0.2} />
+          <SplitWords text="one under NDA." delay={0.2} />
         </h2>
 
         <div className="mt-20 space-y-32 md:space-y-44">
@@ -50,7 +50,10 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
   const rx = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 200, damping: 20 });
   const ry = useSpring(useTransform(mx, [0, 1], [-8, 8]), { stiffness: 200, damping: 20 });
 
-  const onMove = (e: MouseEvent<HTMLAnchorElement>) => {
+  // Typed against the union of element types this handler is bound to —
+  // anchor for public projects, div for NDA cards. Both expose
+  // `currentTarget.getBoundingClientRect`, so the parallax math is identical.
+  const onMove = (e: MouseEvent<HTMLAnchorElement | HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
     mx.set((e.clientX - r.left) / r.width);
     my.set((e.clientY - r.top) / r.height);
@@ -61,38 +64,75 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
   };
 
   const screenshot = `/screens/${project.name.toLowerCase()}.jpg`;
+  const hasScreenshot = project.hasScreenshot !== false;
+  const isPrivate = project.privateProject === true;
 
-  return (
-    <article ref={ref} className="relative grid gap-10 md:grid-cols-12 md:items-center md:gap-14">
-      {/* preview */}
-      <div className={flip ? "md:col-span-7 md:col-start-6" : "md:col-span-7 md:col-start-1"}>
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cursor="visit"
-          onMouseMove={onMove}
-          onMouseLeave={onLeave}
-          className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(232,112,44,0.36)]"
-          style={{ perspective: "1200px" }}
-        >
-          <motion.div
+  // The preview block is a link when public, a static panel when under NDA.
+  // We share the inner content between both modes to keep the visual rhythm.
+  const previewInner = (
+    <>
+      <motion.div
+        style={{
+          y,
+          rotateX: rx,
+          rotateY: ry,
+          transformStyle: "preserve-3d",
+        }}
+        className="relative h-[112%] w-full will-change-transform"
+      >
+        {hasScreenshot ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={screenshot}
+            alt={`${project.name} preview`}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
+            loading="lazy"
+          />
+        ) : (
+          // Typographic placeholder for projects without a captured screenshot.
+          // Layered radial + linear gradients in the project's accent give each
+          // card a distinct, premium-looking surface without needing imagery.
+          <div
+            className="absolute inset-0 h-full w-full transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
             style={{
-              y,
-              rotateX: rx,
-              rotateY: ry,
-              transformStyle: "preserve-3d",
+              background: `
+                radial-gradient(120% 90% at 15% 10%, ${project.accent}55 0%, transparent 60%),
+                radial-gradient(120% 90% at 85% 90%, ${project.accent}33 0%, transparent 55%),
+                linear-gradient(135deg, #1a1a1d 0%, #2a2a2f 100%)
+              `,
             }}
-            className="relative h-[112%] w-full will-change-transform"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={screenshot}
-              alt={`${project.name} preview`}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
-              loading="lazy"
+            <div className="absolute inset-0 grid place-items-center px-8 text-center">
+              <div>
+                <div
+                  className="font-mono text-[10px] uppercase tracking-[0.28em]"
+                  style={{ color: project.accent }}
+                >
+                  {isPrivate ? "Under NDA" : "Live"} · {project.year}
+                </div>
+                <div className="mt-4 font-display text-3xl font-light leading-[1.05] tracking-[-0.03em] text-cream-dim md:text-5xl">
+                  {project.name}
+                </div>
+                <div className="mt-3 max-w-md text-xs leading-relaxed text-cream-dim/70 md:text-sm">
+                  {project.tagline}
+                </div>
+              </div>
+            </div>
+            {/* hairline crosshatch — subtle texture */}
+            <div
+              className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px)",
+                backgroundSize: "48px 48px",
+              }}
             />
-            {/* color wash */}
+          </div>
+        )}
+
+        {hasScreenshot && (
+          <>
+            {/* color wash (only over a real screenshot) */}
             <div
               className="absolute inset-0 mix-blend-soft-light opacity-50 transition-opacity duration-700 group-hover:opacity-30"
               style={{
@@ -101,28 +141,67 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
             />
             {/* sheen */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/10" />
-          </motion.div>
+          </>
+        )}
+      </motion.div>
 
-          <div className="absolute inset-0 ring-1 ring-inset ring-ink/15" />
+      <div className="absolute inset-0 ring-1 ring-inset ring-ink/15" />
 
-          {/* corner badge */}
-          <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-ink/10 bg-cream-dim/80 px-3 py-1.5 backdrop-blur-md">
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ background: project.accent }}
-            />
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink">
-              Live · {project.year}
-            </span>
+      {/* corner badge */}
+      <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full border border-ink/10 bg-cream-dim/80 px-3 py-1.5 backdrop-blur-md">
+        <span
+          className="h-1.5 w-1.5 rounded-full"
+          style={{ background: project.accent }}
+        />
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink">
+          {isPrivate ? "Under NDA" : "Live"} · {project.year}
+        </span>
+      </div>
+
+      {/* bottom-right action: Visit when public, NDA chip when private */}
+      <div
+        className={`absolute bottom-4 right-4 flex items-center gap-2 rounded-full px-3 py-1.5 backdrop-blur-md transition-transform duration-500 ${
+          isPrivate
+            ? "border border-cream-dim/20 bg-ink/70 text-cream-dim/85"
+            : "bg-ink/90 text-cream-dim group-hover:-translate-y-1"
+        }`}
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
+          {isPrivate ? "Private" : "Visit"}
+        </span>
+        {!isPrivate && <span>↗</span>}
+      </div>
+    </>
+  );
+
+  return (
+    <article ref={ref} className="relative grid gap-10 md:grid-cols-12 md:items-center md:gap-14">
+      {/* preview */}
+      <div className={flip ? "md:col-span-7 md:col-start-6" : "md:col-span-7 md:col-start-1"}>
+        {isPrivate ? (
+          <div
+            data-cursor="locked"
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(232,112,44,0.36)]"
+            style={{ perspective: "1200px" }}
+          >
+            {previewInner}
           </div>
-
-          <div className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-ink/90 px-3 py-1.5 text-cream-dim backdrop-blur-md transition-transform duration-500 group-hover:-translate-y-1">
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em]">
-              Visit
-            </span>
-            <span>↗</span>
-          </div>
-        </a>
+        ) : (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="visit"
+            onMouseMove={onMove}
+            onMouseLeave={onLeave}
+            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(232,112,44,0.36)]"
+            style={{ perspective: "1200px" }}
+          >
+            {previewInner}
+          </a>
+        )}
       </div>
 
       {/* meta */}
