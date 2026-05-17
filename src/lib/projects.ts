@@ -140,10 +140,11 @@ export const PROJECTS: Project[] = [
   },
   {
     index: "07",
-    name: "Atlas",
-    tagline: "A private cross-platform operations suite, built solo — under NDA.",
+    name: "Bizmate",
+    tagline: "Daily business, organised — across web, mobile, and desktop.",
     description:
-      "A custom business operations app for a private client. Five platforms — web, Android, iOS, Windows, and macOS — sharing a single codebase, with database-enforced role-based access, realtime cross-device sync, daily / monthly / yearly analytics, and full asset handover at delivery. Project details and client identity remain confidential.",
+      "A cross-platform operations app for small businesses. Sales, IN / OUT / BAKI cash flow, clients with credit tracking, daily / monthly / yearly analytics, and a Day-close audit trail — all from a single Next.js codebase wrapped for Android, iOS, Windows, and macOS via Capacitor and Electron. Database-enforced role-based access (Postgres RLS), realtime cross-device sync, and English + Gujarati support out of the box.",
+    url: "https://bizmate.vercel.app",
     year: "2026",
     role: "Solo · End-to-end",
     stack: [
@@ -154,9 +155,8 @@ export const PROJECTS: Project[] = [
     highlights: [
       "Five platforms from one codebase — web + Android + iOS + Windows + macOS",
       "Database-enforced role-based access (Postgres Row-Level Security)",
-      "Realtime cross-device sync, English + regional language UI",
+      "Realtime cross-device sync + English / Gujarati UI",
     ],
     hasScreenshot: false,
-    privateProject: true,
   },
 ];

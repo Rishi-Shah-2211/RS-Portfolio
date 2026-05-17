@@ -19,11 +19,11 @@ export default function Projects() {
         </Reveal>
 
         <h2 className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
-          <SplitWords text="Seven projects," />{" "}
+          <SplitWords text="Seven products," />{" "}
           <span className="italic text-terracotta">
-            <SplitWords text="six live," delay={0.1} />
+            <SplitWords text="all live," delay={0.1} />
           </span>{" "}
-          <SplitWords text="one under NDA." delay={0.2} />
+          <SplitWords text="all shipped." delay={0.2} />
         </h2>
 
         <div className="mt-20 space-y-32 md:space-y-44">
