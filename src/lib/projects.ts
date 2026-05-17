@@ -144,7 +144,7 @@ export const PROJECTS: Project[] = [
     tagline: "Daily business, organised — across web, mobile, and desktop.",
     description:
       "A cross-platform operations app for small businesses. Sales, IN / OUT / BAKI cash flow, clients with credit tracking, daily / monthly / yearly analytics, and a Day-close audit trail — all from a single Next.js codebase wrapped for Android, iOS, Windows, and macOS via Capacitor and Electron. Database-enforced role-based access (Postgres RLS), realtime cross-device sync, and English + Gujarati support out of the box.",
-    url: "https://bizmate-rishi-shah-2211s-projects.vercel.app",
+    url: "https://bizmate-temp.vercel.app",
     year: "2026",
     role: "Solo · End-to-end",
     stack: [
