@@ -7,10 +7,9 @@ import { PROJECTS, type Project } from "@/lib/projects";
 
 /** Source screenshots shot against beige backdrops get a gentle lift so
  *  every panel reads equally bright. */
-const SCREEN_FILTERS: Record<string, string> = {
-  vantage: "brightness(1.14) contrast(1.07) saturate(1.16)",
-  bellwether: "brightness(1.14) contrast(1.07) saturate(1.16)",
-};
+// Brightness is baked into the source JPEGs now (white-point matched to
+// Planmate) — no per-image CSS filters needed.
+const SCREEN_FILTERS: Record<string, string> = {};
 
 /**
  * Projects — full-screen stacking panels. Each project pins to the viewport

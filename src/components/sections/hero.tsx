@@ -152,10 +152,11 @@ const HERO_CARDS: {
   fast?: boolean;
   delay: number;
 }[] = [
-  { slug: "vantage", pos: { left: "4%", top: "16%" }, rot: -7, delay: 0 },
-  { slug: "planmate", pos: { left: "10%", bottom: "14%" }, rot: 5, fast: true, delay: 0.12 },
-  { slug: "bellwether", pos: { right: "4%", top: "15%" }, rot: 6, delay: 0.06 },
-  { slug: "kusum-farm", pos: { right: "9%", bottom: "13%" }, rot: -5, fast: true, delay: 0.18 },
+  // kept clear of the corner meta captions (top-24 band) and bottom bar
+  { slug: "vantage", pos: { left: "3%", top: "38%" }, rot: -7, delay: 0 },
+  { slug: "planmate", pos: { left: "12%", bottom: "16%" }, rot: 5, fast: true, delay: 0.12 },
+  { slug: "bellwether", pos: { right: "3%", top: "37%" }, rot: 6, delay: 0.06 },
+  { slug: "kusum-farm", pos: { right: "12%", bottom: "15%" }, rot: -5, fast: true, delay: 0.18 },
 ];
 
 /** Per-character rise-in for the giant name. */
