@@ -2,6 +2,11 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
+
+const EmberField = dynamic(() => import("@/components/ember-field"), {
+  ssr: false,
+});
 
 /**
  * Hero — Akina-style glass poster. The portrait runs full-bleed behind a
@@ -25,17 +30,28 @@ export default function Hero() {
       id="top"
       className="relative isolate h-[100svh] w-full overflow-hidden"
     >
-      {/* full-bleed portrait with alpine-dusk wash */}
-      <motion.div style={{ scale: scaleBg, y: yBg }} className="absolute inset-0 will-change-transform">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/rishi.png"
-          alt=""
-          className="h-full w-full object-cover object-[50%_22%] [filter:saturate(0.9)]"
-          draggable={false}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#8d7bb8]/55 via-[#6c63d6]/20 to-[#211a36]/70" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(33,26,54,0.35)_100%)]" />
+      {/* generative alpine-dusk scene — twilight sky, layered ridgelines, mist */}
+      <motion.div style={{ scale: scaleBg, y: yBg }} className="absolute inset-0 isolate will-change-transform">
+        {/* twilight sky */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,#cdbbed_0%,#9d8bd0_34%,#6c63d6_62%,#312a5e_100%)]" />
+        {/* sun-glow on the horizon */}
+        <div className="absolute inset-x-0 bottom-[24%] h-[40%] bg-[radial-gradient(60%_100%_at_50%_100%,rgba(244,226,255,0.55)_0%,transparent_70%)]" />
+        {/* ridgelines — three parallax silhouettes */}
+        <svg viewBox="0 0 1440 420" preserveAspectRatio="none" className="absolute bottom-[14%] left-0 h-[34%] w-full opacity-70">
+          <path d="M0,420 L0,250 L160,150 L300,230 L460,90 L620,210 L780,120 L940,240 L1100,140 L1260,220 L1440,160 L1440,420 Z" fill="#7a6cc4" />
+        </svg>
+        <svg viewBox="0 0 1440 420" preserveAspectRatio="none" className="absolute bottom-[6%] left-0 h-[36%] w-full opacity-85">
+          <path d="M0,420 L0,280 L120,190 L280,270 L430,140 L600,260 L760,170 L930,280 L1090,190 L1250,270 L1440,210 L1440,420 Z" fill="#4f4496" />
+        </svg>
+        <svg viewBox="0 0 1440 420" preserveAspectRatio="none" className="absolute bottom-0 left-0 h-[32%] w-full">
+          <path d="M0,420 L0,300 L180,210 L340,300 L520,180 L700,290 L880,210 L1060,310 L1240,230 L1440,290 L1440,420 Z" fill="#312a5e" />
+        </svg>
+        {/* valley mist + village lights */}
+        <div className="absolute inset-x-0 bottom-0 h-[26%] bg-gradient-to-t from-[#211a36] via-[#312a5e]/70 to-transparent" />
+        <div className="absolute inset-x-0 bottom-[4%] h-[10%] bg-[radial-gradient(12%_60%_at_22%_50%,rgba(255,224,178,0.4)_0%,transparent_100%),radial-gradient(10%_50%_at_48%_60%,rgba(255,224,178,0.3)_0%,transparent_100%),radial-gradient(14%_60%_at_76%_45%,rgba(255,224,178,0.35)_0%,transparent_100%)] blur-[2px]" />
+        {/* vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(33,26,54,0.4)_100%)]" />
+        <EmberField />
       </motion.div>
 
       {/* frosted glass frame */}

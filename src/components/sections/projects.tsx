@@ -18,7 +18,7 @@ const toneStyles: Record<
   { card: string; title: string; soft: string; chip: string; cta: string; ghost: string }
 > = {
   purple: {
-    card: "bg-terracotta text-white",
+    card: "bg-terracotta/75 text-white backdrop-blur-xl border border-white/25",
     title: "text-white",
     soft: "text-white/75",
     chip: "border-white/25 bg-white/10 text-white/85",
@@ -26,7 +26,7 @@ const toneStyles: Record<
     ghost: "border-white/35 text-white hover:bg-white/10",
   },
   plum: {
-    card: "bg-[#2a1430] text-white",
+    card: "bg-[#2a1430]/75 text-white backdrop-blur-xl border border-white/20",
     title: "text-white",
     soft: "text-white/70",
     chip: "border-white/20 bg-white/10 text-white/85",
@@ -34,7 +34,7 @@ const toneStyles: Record<
     ghost: "border-white/30 text-white hover:bg-white/10",
   },
   glass: {
-    card: "bg-paper text-ink border border-ink/10",
+    card: "bg-white/35 text-ink backdrop-blur-xl border border-white/50",
     title: "text-ink",
     soft: "text-ink-soft",
     chip: "border-ink/15 bg-cream text-ink-soft",
@@ -51,7 +51,7 @@ const SIDE_NOTES = [
 
 export default function Projects() {
   return (
-    <section id="work" className="relative w-full bg-cream py-28 md:py-36">
+    <section id="work" className="relative w-full py-28 md:py-36">
       <div className="mx-auto max-w-[1240px] px-5 md:px-8">
         <Reveal>
           <div className="text-center">
