@@ -47,32 +47,37 @@ export default function FluidTrail() {
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       if (points.length > 2) {
-        // draw newest-to-oldest as tapered segments: wide & dark at the
-        // cursor, thinning and fading toward the tail
+        // three layered tapered ribbons: a wide airy halo, a satin body in
+        // light sapphire, and a champagne-gold thread at the centre — wide
+        // and luminous at the cursor, melting away toward the tail
         for (let i = points.length - 1; i > 1; i--) {
           const p0 = points[i - 1];
           const p1 = points[i];
           const age = (now - p1.t) / LIFE; // 0 fresh → 1 dead
-          const fade = Math.pow(1 - age, 1.6);
-          const mx = (p0.x + p1.x) / 2;
-          const my = (p0.y + p1.y) / 2;
+          const fade = Math.pow(1 - age, 1.5);
+          const wave = 1 + 0.12 * Math.sin(i * 0.55 + now / 160);
 
-          // outer ink — deep sapphire
-          ctx.strokeStyle = `rgba(22, 37, 77, ${0.38 * fade})`;
-          ctx.lineWidth = 22 * fade + 1;
-          ctx.beginPath();
-          ctx.moveTo(p0.x, p0.y);
-          ctx.quadraticCurveTo(p0.x, p0.y, mx, my);
-          ctx.lineTo(p1.x, p1.y);
-          ctx.stroke();
+          const seg = () => {
+            ctx.beginPath();
+            ctx.moveTo(p0.x, p0.y);
+            ctx.lineTo(p1.x, p1.y);
+            ctx.stroke();
+          };
 
-          // fine gold core
-          ctx.strokeStyle = `rgba(176, 141, 68, ${0.5 * fade})`;
-          ctx.lineWidth = 2.5 * fade + 0.4;
-          ctx.beginPath();
-          ctx.moveTo(p0.x, p0.y);
-          ctx.lineTo(p1.x, p1.y);
-          ctx.stroke();
+          // airy halo
+          ctx.strokeStyle = `rgba(96, 122, 196, ${0.12 * fade})`;
+          ctx.lineWidth = (52 * fade + 2) * wave;
+          seg();
+
+          // satin body — light sapphire
+          ctx.strokeStyle = `rgba(64, 92, 168, ${0.26 * fade})`;
+          ctx.lineWidth = (26 * fade + 1.2) * wave;
+          seg();
+
+          // champagne thread
+          ctx.strokeStyle = `rgba(196, 164, 96, ${0.55 * fade})`;
+          ctx.lineWidth = 4.5 * fade + 0.6;
+          seg();
         }
       }
 

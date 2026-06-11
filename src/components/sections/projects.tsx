@@ -8,8 +8,8 @@ import { PROJECTS, type Project } from "@/lib/projects";
 /** Source screenshots shot against beige backdrops get a gentle lift so
  *  every panel reads equally bright. */
 const SCREEN_FILTERS: Record<string, string> = {
-  vantage: "brightness(1.18) contrast(1.03) saturate(1.1)",
-  bellwether: "brightness(1.18) contrast(1.03) saturate(1.1)",
+  vantage: "brightness(1.14) contrast(1.07) saturate(1.16)",
+  bellwether: "brightness(1.14) contrast(1.07) saturate(1.16)",
 };
 
 /**

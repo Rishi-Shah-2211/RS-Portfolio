@@ -23,6 +23,8 @@ export default function Hero() {
   const yFirst = useTransform(scrollYProgress, [0, 1], ["0%", "-45%"]);
   const yLast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
   const yPortrait = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
+  const yCardsSlow = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const yCardsFast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
   const scalePortrait = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
   const metaOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
@@ -37,6 +39,34 @@ export default function Hero() {
       <EmberField />
 
       <motion.div style={{ opacity }} className="relative z-10 h-full w-full">
+        {/* layered project cards flanking the portrait — lift on hover */}
+        <div className="pointer-events-none absolute inset-0 z-[5] hidden md:block">
+          {HERO_CARDS.map((c) => (
+            <motion.div
+              key={c.slug}
+              style={{ y: c.fast ? yCardsFast : yCardsSlow, ...c.pos }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2.7 + c.delay, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute w-[13vw] max-w-[230px] will-change-transform"
+            >
+              <a
+                href={`/work/${c.slug}`}
+                data-cursor="open"
+                className="pointer-events-auto block overflow-hidden rounded-md shadow-[0_30px_70px_-25px_rgba(14,14,17,0.4)] ring-1 ring-ink/10 transition-all duration-500 ease-out hover:-translate-y-3 hover:scale-[1.04] hover:shadow-[0_45px_90px_-25px_rgba(35,58,114,0.45)]"
+                style={{ rotate: `${c.rot}deg` }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/screens/${c.slug}.jpg`}
+                  alt={`${c.slug} preview`}
+                  className="block aspect-[16/11] w-full object-cover object-top"
+                  draggable={false}
+                />
+              </a>
+            </motion.div>
+          ))}
+        </div>
         {/* giant name — two lines hugging the viewport */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.h1
@@ -113,6 +143,20 @@ export default function Hero() {
     </section>
   );
 }
+
+/** Layered screenshot cards flanking the portrait, Lando-poster style. */
+const HERO_CARDS: {
+  slug: string;
+  pos: { left?: string; right?: string; top?: string; bottom?: string };
+  rot: number;
+  fast?: boolean;
+  delay: number;
+}[] = [
+  { slug: "vantage", pos: { left: "4%", top: "16%" }, rot: -7, delay: 0 },
+  { slug: "planmate", pos: { left: "10%", bottom: "14%" }, rot: 5, fast: true, delay: 0.12 },
+  { slug: "bellwether", pos: { right: "4%", top: "15%" }, rot: 6, delay: 0.06 },
+  { slug: "kusum-farm", pos: { right: "9%", bottom: "13%" }, rot: -5, fast: true, delay: 0.18 },
+];
 
 /** Per-character rise-in for the giant name. */
 function Kinetic({ text, delay = 0 }: { text: string; delay?: number }) {
