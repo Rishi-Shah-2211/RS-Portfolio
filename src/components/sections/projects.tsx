@@ -19,13 +19,17 @@ export default function Projects() {
   return (
     <section id="work" ref={containerRef} className="relative bg-cream">
       {PROJECTS.map((p, i) => (
-        <Panel
-          key={p.name}
-          project={p}
-          index={i}
-          total={PROJECTS.length}
-          progress={scrollYProgress}
-        />
+        <div key={p.name} className="contents">
+          <Panel
+            project={p}
+            index={i}
+            total={PROJECTS.length}
+            progress={scrollYProgress}
+          />
+          {/* rest zone — keeps the panel fully visible (and its Visit button
+              clickable) for a beat before the next panel slides over */}
+          {i < PROJECTS.length - 1 && <div className="h-[55svh]" aria-hidden />}
+        </div>
       ))}
     </section>
   );
@@ -42,11 +46,16 @@ function Panel({
   total: number;
   progress: MotionValue<number>;
 }) {
-  // While the NEXT panel slides over this one, scale back + dim.
+  // While the NEXT panel slides over this one, scale back + dim. The
+  // transition only spans the tail of each slot — the head is the rest zone
+  // where the panel sits fully visible and interactive.
   const start = index / total;
   const end = (index + 1) / total;
-  const scale = useTransform(progress, [start, end], [1, 0.92]);
-  const dim = useTransform(progress, [start, end], [0, 0.35]);
+  const overlapStart = start + (end - start) * 0.62;
+  const scale = useTransform(progress, [overlapStart, end], [1, 0.92]);
+  const dim = useTransform(progress, [overlapStart, end], [0, 0.35]);
+  // slow parallax drift for the screenshot inside its frame
+  const imgY = useTransform(progress, [start, end], ["-7%", "7%"]);
 
   const slug = project.name.toLowerCase().replace(/\s+/g, "-");
   const hasScreenshot = project.hasScreenshot !== false;
@@ -56,9 +65,7 @@ function Panel({
   const inner = (
     <motion.div
       style={{ scale }}
-      className={`relative flex h-full w-full flex-col justify-between overflow-hidden rounded-none px-6 pb-8 pt-24 md:px-12 md:pb-10 md:pt-28 ${
-        alt ? "bg-cream-dim" : "bg-paper"
-      }`}
+      className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-none bg-paper px-6 pb-8 pt-24 md:px-12 md:pb-10 md:pt-28"
     >
       {/* ghost index */}
       <span
