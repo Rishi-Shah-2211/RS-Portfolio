@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { PREP_APPS, type PrepApp } from "@/lib/test-prep";
+import VelocitySkew from "@/components/velocity-skew";
 
 /**
  * Test-Prep Suite — pinned horizontal gallery. The section pins to the
@@ -41,10 +42,12 @@ export default function TestPrep() {
               04 — Test-Prep Suite
             </span>
           </div>
-          <h2 className="mt-5 max-w-4xl font-display text-[clamp(2rem,5vw,4.25rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
-            One exam engine,{" "}
-            <span className="italic text-terracotta">four standardized tests.</span>
-          </h2>
+          <VelocitySkew>
+            <h2 className="mt-5 max-w-4xl font-display text-[clamp(2rem,5vw,4.25rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
+              One exam engine,{" "}
+              <span className="italic text-terracotta">four standardized tests.</span>
+            </h2>
+          </VelocitySkew>
         </div>
 
         {/* horizontal track */}

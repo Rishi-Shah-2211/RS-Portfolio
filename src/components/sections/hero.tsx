@@ -8,6 +8,9 @@ import MeshGradient from "@/components/mesh-gradient";
 const EmberField = dynamic(() => import("@/components/ember-field"), {
   ssr: false,
 });
+const ImageTrail = dynamic(() => import("@/components/image-trail"), {
+  ssr: false,
+});
 
 /**
  * Hero — full-viewport name poster. Giant editorial type fills the screen
@@ -36,6 +39,7 @@ export default function Hero() {
     >
       <MeshGradient />
       <EmberField />
+      <ImageTrail />
 
       <motion.div style={{ opacity }} className="relative z-10 h-full w-full">
         {/* giant name — two lines hugging the viewport */}

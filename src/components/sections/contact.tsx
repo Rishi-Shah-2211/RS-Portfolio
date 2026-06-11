@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { Reveal } from "@/components/reveal";
 import LocalTime from "@/components/local-time";
 import Magnetic from "@/components/magnetic";
+import VelocitySkew from "@/components/velocity-skew";
 
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
@@ -41,10 +42,12 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <h2 className="mt-10 font-display text-[clamp(3.25rem,12.5vw,12rem)] font-light leading-[0.85] tracking-[-0.045em] text-cream">
-          Let&rsquo;s build <br />
-          <span className="italic text-peach">something extraordinary.</span>
-        </h2>
+        <VelocitySkew>
+          <h2 className="mt-10 font-display text-[clamp(3.25rem,12.5vw,12rem)] font-light leading-[0.85] tracking-[-0.045em] text-cream">
+            Let&rsquo;s build <br />
+            <span className="italic text-peach">something extraordinary.</span>
+          </h2>
+        </VelocitySkew>
 
         <Reveal delay={0.2}>
           <p className="mt-10 max-w-2xl text-lg leading-relaxed text-cream/70 md:text-xl">

@@ -2,7 +2,9 @@
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useRef } from "react";
+import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
+import DistortImage from "@/components/distort-image";
 
 /**
  * Projects — full-screen stacking panels. Each project pins to the viewport
@@ -116,13 +118,9 @@ function Panel({
         <div className={`relative md:col-span-7 ${alt ? "md:order-1" : ""}`}>
           <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)]">
             {hasScreenshot ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={`/screens/${slug}.jpg`}
-                alt={`${project.name} preview`}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-[1.05]"
-                loading={index === 0 ? "eager" : "lazy"}
-              />
+              <div className="absolute inset-0">
+                <DistortImage src={`/screens/${slug}.jpg`} alt={`${project.name} preview`} />
+              </div>
             ) : (
               <div
                 className="absolute inset-0"
@@ -164,24 +162,36 @@ function Panel({
             </li>
           ))}
         </ul>
-        {!isPrivate && project.url ? (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursor="visit"
-            className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-cream md:text-xs"
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={`/work/${slug}`}
+            data-cursor="read"
+            className="group/cs inline-flex w-fit items-center gap-3 rounded-full border border-ink/25 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink transition-colors hover:bg-ink hover:text-cream md:text-xs"
           >
-            Visit {project.name}
-            <span className="inline-block transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-              ↗
+            Case study
+            <span className="inline-block transition-transform duration-500 group-hover/cs:translate-x-0.5">
+              →
             </span>
-          </a>
-        ) : (
-          <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/20 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft md:text-xs">
-            Private engagement
-          </span>
-        )}
+          </Link>
+          {!isPrivate && project.url ? (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="visit"
+              className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-cream md:text-xs"
+            >
+              Visit {project.name}
+              <span className="inline-block transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                ↗
+              </span>
+            </a>
+          ) : (
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/20 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft md:text-xs">
+              Private engagement
+            </span>
+          )}
+        </div>
       </div>
 
       {/* dimmer as next panel slides over */}

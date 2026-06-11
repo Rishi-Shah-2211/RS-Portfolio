@@ -6,11 +6,11 @@ import { useState } from "react";
 import Magnetic from "@/components/magnetic";
 
 const links = [
-  { href: "#work", label: "Work" },
-  { href: "#test-prep", label: "Test-Prep" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Stack" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#work", label: "Work" },
+  { href: "/#test-prep", label: "Test-Prep" },
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Stack" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Nav() {
@@ -37,7 +37,7 @@ export default function Nav() {
     >
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-5 md:px-10">
         <Link
-          href="#top"
+          href="/#top"
           data-cursor="home"
           className="font-display text-xl font-medium tracking-tight text-ink"
         >

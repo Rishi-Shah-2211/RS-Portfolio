@@ -26,7 +26,9 @@ export default function CommandPalette() {
   const commands = useMemo<Cmd[]>(() => {
     const go = (hash: string) => () => {
       close();
-      document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+      const el = document.querySelector(hash);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      else window.location.href = `/${hash}`;
     };
     const ext = (url: string) => () => {
       close();
