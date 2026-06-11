@@ -133,6 +133,10 @@ export default function DistortImage({
       }}
     >
       <Canvas
+        // `linear flat` skips color-space conversion + tone mapping so the
+        // sampled texture matches the source JPEG's brightness exactly
+        linear
+        flat
         dpr={[1, 1.5]}
         gl={{ antialias: false, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 1], fov: 50 }}

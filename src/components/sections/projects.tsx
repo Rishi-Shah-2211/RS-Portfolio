@@ -116,7 +116,7 @@ function Panel({
         </div>
 
         <div className={`relative md:col-span-7 ${alt ? "md:order-1" : ""}`}>
-          <div className="group relative aspect-[16/10] w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)]">
+          <PreviewFrame url={!isPrivate ? project.url : undefined} name={project.name}>
             {hasScreenshot ? (
               <div className="absolute inset-0">
                 <DistortImage src={`/screens/${slug}.jpg`} alt={`${project.name} preview`} />
@@ -148,7 +148,7 @@ function Panel({
               </div>
             )}
             <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
-          </div>
+          </PreviewFrame>
         </div>
       </div>
 
@@ -208,4 +208,36 @@ function Panel({
       {inner}
     </div>
   );
+}
+
+/**
+ * PreviewFrame — the screenshot frame, rendered as an external link to the
+ * live project when a public URL exists, otherwise a static panel.
+ */
+function PreviewFrame({
+  url,
+  name,
+  children,
+}: {
+  url?: string;
+  name: string;
+  children: React.ReactNode;
+}) {
+  const cls =
+    "group relative block aspect-[16/10] w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)]";
+  if (url) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cursor="visit"
+        aria-label={`Open ${name} live site`}
+        className={cls}
+      >
+        {children}
+      </a>
+    );
+  }
+  return <div className={cls}>{children}</div>;
 }
