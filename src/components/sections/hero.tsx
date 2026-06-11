@@ -2,17 +2,12 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import dynamic from "next/dynamic";
-import MeshGradient from "@/components/mesh-gradient";
 
-const EmberField = dynamic(() => import("@/components/ember-field"), {
-  ssr: false,
-});
 /**
- * Hero — full-viewport name poster. Giant editorial type fills the screen
- * with the portrait layered between the two lines (first name behind the
- * photo, surname in front). Everything is scroll-driven: the lines split
- * apart, the portrait sinks slower, the meta row fades first.
+ * Hero — Akina-style glass poster. The portrait runs full-bleed behind a
+ * dusky lavender wash; a frosted-glass frame floats inset over it with the
+ * name centred, a glass CTA pill, and glass info chips along the bottom
+ * rail. The photo zooms slowly as you scroll while the frame fades.
  */
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,164 +15,126 @@ export default function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const yFirst = useTransform(scrollYProgress, [0, 1], ["0%", "-45%"]);
-  const yLast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
-  const yPortrait = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const yCardsSlow = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const yCardsFast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
-  const scalePortrait = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-  const metaOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const scaleBg = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   return (
     <section
       ref={ref}
       id="top"
-      className="relative isolate flex h-[100svh] w-full flex-col justify-center overflow-hidden"
+      className="relative isolate h-[100svh] w-full overflow-hidden"
     >
-      <MeshGradient />
-      <EmberField />
+      {/* full-bleed portrait with alpine-dusk wash */}
+      <motion.div style={{ scale: scaleBg, y: yBg }} className="absolute inset-0 will-change-transform">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/rishi.png"
+          alt=""
+          className="h-full w-full object-cover object-[50%_22%] [filter:saturate(0.9)]"
+          draggable={false}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#8d7bb8]/55 via-[#6c63d6]/20 to-[#211a36]/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(33,26,54,0.35)_100%)]" />
+      </motion.div>
 
-      <motion.div style={{ opacity }} className="relative z-10 h-full w-full">
-        {/* layered project cards flanking the portrait — lift on hover */}
-        <div className="pointer-events-none absolute inset-0 z-[5] hidden md:block">
-          {HERO_CARDS.map((c) => (
-            <motion.div
-              key={c.slug}
-              style={{ y: c.fast ? yCardsFast : yCardsSlow, ...c.pos }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.7 + c.delay, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-[13vw] max-w-[230px] will-change-transform"
-            >
-              <a
-                href={`/work/${c.slug}`}
-                data-cursor="open"
-                className="pointer-events-auto block overflow-hidden rounded-md shadow-[0_30px_70px_-25px_rgba(14,14,17,0.4)] ring-1 ring-ink/10 transition-all duration-500 ease-out hover:-translate-y-3 hover:scale-[1.04] hover:shadow-[0_45px_90px_-25px_rgba(35,58,114,0.45)]"
-                style={{ rotate: `${c.rot}deg` }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/screens/${c.slug}.jpg`}
-                  alt={`${c.slug} preview`}
-                  className="block aspect-[16/11] w-full object-cover object-top"
-                  draggable={false}
-                />
-              </a>
-            </motion.div>
-          ))}
-        </div>
-        {/* giant name — two lines hugging the viewport */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <motion.h1
-            aria-label="Rishi Shah"
-            className="relative flex h-full w-full flex-col items-center justify-center font-display font-light leading-[0.78] tracking-[-0.04em] text-ink"
-          >
-            {/* portrait — framed card behind the type */}
-            <motion.div
-              style={{ y: yPortrait, scale: scalePortrait }}
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-[4/5] h-auto w-[72vw] max-w-[420px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md shadow-[0_60px_140px_-40px_rgba(22,19,15,0.45)] md:w-[30vw] md:max-w-[460px] will-change-transform"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/rishi.png"
-                alt=""
-                className="h-full w-full object-cover [filter:saturate(0.82)_contrast(1.05)]"
-                draggable={false}
-              />
-              {/* ivory veils where the type overlaps */}
-              <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-cream/70 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-cream/70 to-transparent" />
-              <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
-            </motion.div>
-
-            <motion.span
-              style={{ y: yFirst }}
-              className="relative z-20 -mb-[0.06em] block select-none text-[clamp(5.5rem,21.5vw,21rem)] [text-shadow:0_2px_30px_rgba(246,241,231,0.45)] will-change-transform"
-            >
-              <Kinetic text="Rishi" />
-            </motion.span>
-
-            <motion.span
-              style={{ y: yLast }}
-              className="relative z-20 block select-none text-[clamp(5.5rem,21.5vw,21rem)] italic text-terracotta [text-shadow:0_2px_30px_rgba(246,241,231,0.45)] will-change-transform"
-            >
-              <Kinetic text="Shah" delay={0.12} />
-            </motion.span>
-          </motion.h1>
-        </div>
-
-        {/* corner meta — editorial poster captions */}
+      {/* frosted glass frame */}
+      <motion.div
+        style={{ opacity }}
+        className="absolute inset-3 z-10 md:inset-6"
+      >
         <motion.div
-          style={{ opacity: metaOpacity }}
-          className="absolute inset-x-0 top-24 z-30 mx-auto flex max-w-[1400px] items-start justify-between px-6 md:top-28 md:px-10"
+          initial={{ opacity: 0, scale: 0.985 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 2.1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="relative h-full w-full rounded-[1.75rem] border border-white/35 bg-white/[0.07] backdrop-blur-[2px] md:rounded-[2.25rem]"
         >
-          <p className="max-w-[180px] font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-ink-soft md:max-w-[230px] md:text-[11px]">
-            Full-stack engineer — data-grounded products with magazine-spread
-            polish
-          </p>
-          <p className="hidden max-w-[200px] text-right font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-ink-soft md:block md:text-[11px]">
-            Petlad, Gujarat · India
-            <br />
-            Available for freelance
-          </p>
-        </motion.div>
+          {/* top rail */}
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 pt-5 md:px-8 md:pt-7">
+            <span className="glass flex h-9 w-9 items-center justify-center rounded-full text-cream/90">
+              ✦
+            </span>
+            <span className="font-display text-lg tracking-wide text-white/90 md:text-xl">
+              RISHI <span className="font-light italic text-white/60">shah</span>
+            </span>
+            <a
+              href="#contact"
+              data-cursor="hire"
+              className="glass rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/90 transition-colors hover:bg-white/25"
+            >
+              Hire me
+            </a>
+          </div>
 
-        <motion.div
-          style={{ opacity: metaOpacity }}
-          className="absolute inset-x-0 bottom-7 z-30 mx-auto flex max-w-[1400px] items-end justify-between px-6 md:px-10"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute">
-            07 products · all live
-          </span>
-          <a
-            href="#work"
-            data-cursor="explore"
-            className="group flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-ink md:text-xs"
+          {/* centre — title + CTA */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/75 md:text-[11px]"
+            >
+              Full-stack engineer · Petlad, Gujarat
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 26 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.55, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-4 font-display text-[clamp(2.75rem,8.5vw,7.5rem)] font-light leading-[0.95] tracking-[-0.03em] text-white [text-shadow:0_4px_40px_rgba(33,26,54,0.45)]"
+            >
+              Software, engineered
+              <br />
+              <span className="italic text-peach">with intent.</span>
+            </motion.h1>
+            <motion.a
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.8, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              href="#work"
+              data-cursor="explore"
+              className="glass mt-8 rounded-full px-7 py-3.5 font-mono text-[11px] uppercase tracking-[0.22em] text-white transition-all hover:bg-white/25"
+            >
+              View selected work
+            </motion.a>
+          </div>
+
+          {/* bottom rail — glass info chips */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-center gap-2 px-5 pb-5 md:justify-between md:gap-3 md:px-8 md:pb-7"
           >
-            Scroll
-            <span className="inline-block animate-bounce">↓</span>
-          </a>
+            <a
+              href="tel:+919023080466"
+              data-cursor="call"
+              className="glass hidden items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/90 transition-colors hover:bg-white/25 md:flex"
+            >
+              ☏ 90230 80466
+            </a>
+            <div className="glass flex items-center divide-x divide-white/25 rounded-full px-2 py-1">
+              {[
+                { label: "GitHub", href: "https://github.com/rishi-shah-2211" },
+                { label: "LinkedIn", href: "https://linkedin.com/in/rishishah2203" },
+                { label: "Email", href: "mailto:rishishah457@gmail.com" },
+              ].map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-white/85 transition-colors hover:text-white"
+                >
+                  {s.label}
+                </a>
+              ))}
+            </div>
+            <span className="glass hidden items-center gap-2 rounded-full px-4 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-white/90 md:flex">
+              07 products · all live
+            </span>
+          </motion.div>
         </motion.div>
       </motion.div>
     </section>
-  );
-}
-
-/** Layered screenshot cards flanking the portrait, Lando-poster style. */
-const HERO_CARDS: {
-  slug: string;
-  pos: { left?: string; right?: string; top?: string; bottom?: string };
-  rot: number;
-  fast?: boolean;
-  delay: number;
-}[] = [
-  // kept clear of the corner meta captions (top-24 band) and bottom bar
-  { slug: "vantage", pos: { left: "3%", top: "38%" }, rot: -7, delay: 0 },
-  { slug: "planmate", pos: { left: "12%", bottom: "16%" }, rot: 5, fast: true, delay: 0.12 },
-  { slug: "bellwether", pos: { right: "3%", top: "37%" }, rot: 6, delay: 0.06 },
-  { slug: "kusum-farm", pos: { right: "12%", bottom: "15%" }, rot: -5, fast: true, delay: 0.18 },
-];
-
-/** Per-character rise-in for the giant name. */
-function Kinetic({ text, delay = 0 }: { text: string; delay?: number }) {
-  return (
-    <span className="inline-block overflow-hidden align-bottom">
-      {text.split("").map((ch, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "115%", rotate: 4 }}
-          animate={{ y: "0%", rotate: 0 }}
-          transition={{
-            duration: 1.1,
-            delay: 2.1 + delay + i * 0.045,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="inline-block will-change-transform"
-        >
-          {ch}
-        </motion.span>
-      ))}
-    </span>
   );
 }
