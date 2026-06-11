@@ -1,78 +1,126 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /**
- * FluidTrail — translucent ink-in-water blobs bloom along the cursor's
- * path everywhere on the site and dissolve. Soft radial gradients in the
- * maison palette (sapphire / champagne gold), heavily blurred so adjacent
- * blobs visually merge into one flowing ribbon of fluid.
- * Desktop pointers only; sits above content but under the grain overlay,
- * fully pointer-transparent.
+ * FluidTrail — a dark ink ribbon that flows behind the cursor like a
+ * calligraphy stroke being pulled through water. Canvas-drawn: a tapered
+ * comet of deep sapphire ink with a fine champagne-gold core, fading as it
+ * ages so the eye naturally follows wherever the cursor travels.
+ * Desktop pointers only; pointer-transparent; rAF pauses when idle.
  */
 
-const TINTS = [
-  "radial-gradient(circle, rgba(35,58,114,0.20) 0%, rgba(35,58,114,0.07) 45%, transparent 70%)",
-  "radial-gradient(circle, rgba(176,141,68,0.16) 0%, rgba(176,141,68,0.05) 45%, transparent 70%)",
-  "radial-gradient(circle, rgba(22,37,77,0.16) 0%, rgba(22,37,77,0.05) 45%, transparent 70%)",
-];
+type Pt = { x: number; y: number; t: number };
 
-type Blob = { id: number; x: number; y: number; size: number; tint: string };
+const LIFE = 650; // ms a point stays alive
 
 export default function FluidTrail() {
-  const [blobs, setBlobs] = useState<Blob[]>([]);
-  const last = useRef({ x: -999, y: -999 });
-  const counter = useRef(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || !motionOk) return;
+    const canvas = canvasRef.current;
+    if (!fine || !motionOk || !canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const points: Pt[] = [];
+    let raf = 0;
+    let running = false;
+
+    const draw = () => {
+      const now = performance.now();
+      while (points.length && now - points[0].t > LIFE) points.shift();
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      if (points.length > 2) {
+        // draw newest-to-oldest as tapered segments: wide & dark at the
+        // cursor, thinning and fading toward the tail
+        for (let i = points.length - 1; i > 1; i--) {
+          const p0 = points[i - 1];
+          const p1 = points[i];
+          const age = (now - p1.t) / LIFE; // 0 fresh → 1 dead
+          const fade = Math.pow(1 - age, 1.6);
+          const mx = (p0.x + p1.x) / 2;
+          const my = (p0.y + p1.y) / 2;
+
+          // outer ink — deep sapphire
+          ctx.strokeStyle = `rgba(22, 37, 77, ${0.38 * fade})`;
+          ctx.lineWidth = 22 * fade + 1;
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.quadraticCurveTo(p0.x, p0.y, mx, my);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.stroke();
+
+          // fine gold core
+          ctx.strokeStyle = `rgba(176, 141, 68, ${0.5 * fade})`;
+          ctx.lineWidth = 2.5 * fade + 0.4;
+          ctx.beginPath();
+          ctx.moveTo(p0.x, p0.y);
+          ctx.lineTo(p1.x, p1.y);
+          ctx.stroke();
+        }
+      }
+
+      if (points.length) {
+        raf = requestAnimationFrame(draw);
+      } else {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        running = false;
+      }
+    };
 
     const onMove = (e: PointerEvent) => {
-      const dx = e.clientX - last.current.x;
-      const dy = e.clientY - last.current.y;
-      if (dx * dx + dy * dy < 70 * 70) return;
-      last.current = { x: e.clientX, y: e.clientY };
-      const id = counter.current++;
-      const blob: Blob = {
-        id,
-        x: e.clientX,
-        y: e.clientY,
-        size: 110 + Math.random() * 90,
-        tint: TINTS[id % TINTS.length],
-      };
-      setBlobs((b) => [...b.slice(-11), blob]);
-      setTimeout(() => setBlobs((b) => b.filter((it) => it.id !== id)), 950);
+      const lastPt = points[points.length - 1];
+      // interpolate fast moves so the ribbon stays continuous
+      if (lastPt) {
+        const dx = e.clientX - lastPt.x;
+        const dy = e.clientY - lastPt.y;
+        const dist = Math.hypot(dx, dy);
+        const steps = Math.min(Math.floor(dist / 14), 6);
+        for (let s = 1; s <= steps; s++) {
+          points.push({
+            x: lastPt.x + (dx * s) / (steps + 1),
+            y: lastPt.y + (dy * s) / (steps + 1),
+            t: performance.now(),
+          });
+        }
+      }
+      points.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+      if (points.length > 90) points.splice(0, points.length - 90);
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(draw);
+      }
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-[95]" aria-hidden>
-      <AnimatePresence>
-        {blobs.map((b) => (
-          <motion.div
-            key={b.id}
-            initial={{ opacity: 0, scale: 0.3 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.5 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full will-change-transform"
-            style={{
-              left: b.x,
-              top: b.y,
-              width: b.size,
-              height: b.size,
-              background: b.tint,
-              filter: "blur(14px)",
-            }}
-          />
-        ))}
-      </AnimatePresence>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none fixed inset-0 z-[95]"
+      aria-hidden
+    />
   );
 }
