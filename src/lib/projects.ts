@@ -30,7 +30,7 @@ export const PROJECTS: Project[] = [
       "Next.js 15", "TypeScript", "Tailwind v4", "Drizzle", "Neon Postgres",
       "Better Auth", "Groq llama-3.3-70b", "@react-pdf/renderer", "Recharts",
     ],
-    accent: "#e8702c",
+    accent: "#7d1f2e",
     highlights: [
       "500-company synthetic benchmarking cohort",
       "Strict numerical / linguistic boundary — every figure reproducible",
@@ -50,7 +50,7 @@ export const PROJECTS: Project[] = [
       "Python", "scikit-learn", "XGBoost", "ONNX", "skl2onnx",
       "Next.js 15", "Three.js", "react-three-fiber", "TypeScript",
     ],
-    accent: "#b87545",
+    accent: "#a07c3f",
     highlights: [
       "Linear regression beat both ensemble baselines — reported transparently",
       "Python → ONNX → browser inference, no API hop",
@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
       "Next.js 16", "TypeScript", "Prisma 7", "PostgreSQL",
       "Tailwind v4", "Framer Motion", "JWT (jose)", "bcryptjs",
     ],
-    accent: "#8c9a82",
+    accent: "#66744f",
     highlights: [
       "Quarterly trade-offs surfaced side-by-side via scenario simulator",
       "LLM copilot grounded in per-user live state",
@@ -91,7 +91,7 @@ export const PROJECTS: Project[] = [
       "Tailwind v4", "Radix UI", "shadcn/ui", "TanStack Query",
       "OpenAI SDK", "Turborepo", "pnpm",
     ],
-    accent: "#d8c9a6",
+    accent: "#c2a878",
     highlights: [
       "Multi-tenant — context scoped to each operator",
       "Turborepo + pnpm monorepo with shared TS / ESLint",
@@ -111,7 +111,7 @@ export const PROJECTS: Project[] = [
       "Next.js 15", "TypeScript", "Tailwind v4", "Framer Motion",
       "Vercel", "Custom domain",
     ],
-    accent: "#7a9a5e",
+    accent: "#66744f",
     highlights: [
       "Photography-led design, all imagery shot at the farm",
       "Custom .com domain, fully owned by the client",
@@ -131,7 +131,7 @@ export const PROJECTS: Project[] = [
       "Next.js 15", "TypeScript", "Tailwind v4", "Framer Motion",
       "Vercel",
     ],
-    accent: "#c2a44b",
+    accent: "#a07c3f",
     highlights: [
       "Categorised browse across nine collections",
       "Photo pipeline cleaned and colour-graded for a showroom feel",
@@ -151,7 +151,7 @@ export const PROJECTS: Project[] = [
       "Next.js 16", "React 19", "TypeScript", "Supabase", "Postgres RLS",
       "Capacitor", "Electron", "Tailwind v4", "Zustand",
     ],
-    accent: "#e8a73c",
+    accent: "#7a6c80",
     highlights: [
       "Five platforms from one codebase — web + Android + iOS + Windows + macOS",
       "Database-enforced role-based access (Postgres Row-Level Security)",

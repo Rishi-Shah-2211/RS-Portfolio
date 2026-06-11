@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { useRef, type MouseEvent } from "react";
 import { PREP_APPS, type PrepApp } from "@/lib/test-prep";
-import { Reveal, SplitWords } from "@/components/reveal";
+import { Reveal, Reveal3D, SplitWords } from "@/components/reveal";
 
 export default function TestPrep() {
   return (
@@ -138,7 +138,7 @@ function PrepCard({ app, delay }: { app: PrepApp; delay: number }) {
   );
 
   return (
-    <Reveal delay={delay} className="h-full">
+    <Reveal3D delay={delay} className="h-full">
       {live && app.url ? (
         <a
           href={app.url}
@@ -155,6 +155,6 @@ function PrepCard({ app, delay }: { app: PrepApp; delay: number }) {
           {inner}
         </div>
       )}
-    </Reveal>
+    </Reveal3D>
   );
 }

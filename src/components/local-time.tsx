@@ -22,11 +22,11 @@ export default function LocalTime() {
 
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <span className="flex items-center gap-2 rounded-full border border-ink/15 bg-cream-dim/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/80 backdrop-blur">
-        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-sage" />
+      <span className="flex items-center gap-2 rounded-full border border-cream/20 bg-cream/5 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-cream/80 backdrop-blur">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-peach" />
         Available for work
       </span>
-      <span className="rounded-full border border-ink/15 bg-cream-dim/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink/80 backdrop-blur tabular-nums">
+      <span className="rounded-full border border-cream/20 bg-cream/5 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-cream/80 backdrop-blur tabular-nums">
         {time ?? "--:--:--"} IST · Gujarat, India
       </span>
     </div>

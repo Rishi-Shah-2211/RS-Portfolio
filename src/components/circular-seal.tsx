@@ -18,9 +18,9 @@ export default function CircularSeal({
 
   return (
     <div className={`relative ${className}`} aria-hidden>
-      {/* Warm ember/copper halos — glow on dark base */}
-      <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(232,112,44,0.35)_0%,rgba(184,117,69,0.2)_45%,transparent_70%)] blur-2xl" />
-      <div className="absolute inset-[28%] rounded-full bg-[radial-gradient(circle,rgba(216,201,166,0.25)_0%,rgba(232,112,44,0.18)_55%,transparent_80%)] blur-xl" />
+      {/* Soft oxblood/gold halos — wash on ivory base */}
+      <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(125,31,46,0.14)_0%,rgba(160,124,63,0.1)_45%,transparent_70%)] blur-2xl" />
+      <div className="absolute inset-[28%] rounded-full bg-[radial-gradient(circle,rgba(194,168,120,0.22)_0%,rgba(125,31,46,0.1)_55%,transparent_80%)] blur-xl" />
 
       {/* Concentric hairlines */}
       <div className="absolute inset-0 rounded-full border border-ink/15" />
@@ -77,10 +77,10 @@ export default function CircularSeal({
         </svg>
       </motion.div>
 
-      {/* Center jewel — molten ember cabochon glowing on graphite */}
+      {/* Center jewel — oxblood cabochon on ivory */}
       <div className="absolute left-1/2 top-1/2 h-[14%] w-[14%] -translate-x-1/2 -translate-y-1/2 rounded-full">
-        <div className="absolute -inset-2 rounded-full bg-terracotta/40 blur-xl" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-peach via-terracotta to-terracotta-deep shadow-[inset_-6px_-8px_18px_rgba(58,36,24,0.55),inset_6px_8px_18px_rgba(255,220,170,0.55),0_25px_50px_-12px_rgba(232,112,44,0.55)]" />
+        <div className="absolute -inset-2 rounded-full bg-terracotta/25 blur-xl" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-peach via-terracotta to-terracotta-deep shadow-[inset_-6px_-8px_18px_rgba(40,10,16,0.5),inset_6px_8px_18px_rgba(255,235,200,0.5),0_25px_50px_-12px_rgba(125,31,46,0.45)]" />
         <div className="absolute inset-[18%] rounded-full bg-gradient-to-br from-white/55 to-transparent opacity-70" />
       </div>
 
@@ -90,7 +90,7 @@ export default function CircularSeal({
         transition={{ duration: 18, ease: "linear", repeat: Infinity }}
         className="absolute inset-[10%]"
       >
-        <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-terracotta shadow-[0_0_14px_rgba(232,112,44,0.9)]" />
+        <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-terracotta shadow-[0_0_14px_rgba(125,31,46,0.7)]" />
       </motion.div>
     </div>
   );

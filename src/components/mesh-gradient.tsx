@@ -4,12 +4,12 @@ import { motion } from "motion/react";
 
 /**
  * Soft, low-contrast animated mesh — sits behind editorial type
- * without competing for attention. Five drifting blobs on cream.
+ * without competing for attention. Five drifting blobs on ivory.
  */
 export default function MeshGradient({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
-      <div className="absolute inset-0 bg-[#1c1a17]" />
+      <div className="absolute inset-0 bg-[#f6f1e7]" />
       {BLOBS.map((b, i) => (
         <motion.div
           key={i}
@@ -31,52 +31,52 @@ export default function MeshGradient({ className = "" }: { className?: string })
           className="absolute rounded-full will-change-transform"
         />
       ))}
-      {/* readability wash — keeps text clean over the gradient (warm graphite) */}
-      <div className="absolute inset-0 bg-[#1c1a17]/64" />
-      {/* warm vignette — slight ember glow at edges */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(0,0,0,0.58)_100%)]" />
+      {/* readability wash — keeps text clean over the gradient (ivory) */}
+      <div className="absolute inset-0 bg-[#f6f1e7]/62" />
+      {/* gallery vignette — barely-there warm edge */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(125,31,46,0.07)_100%)]" />
     </div>
   );
 }
 
 const BLOBS = [
   {
-    color: "#e8702c", // ember orange (hero focal warmth)
-    size: "55vw",
-    blur: 120,
-    opacity: 0.34,
+    color: "#7d1f2e", // oxblood (hero focal warmth)
+    size: "50vw",
+    blur: 130,
+    opacity: 0.13,
     from: { x: "-10vw", y: "-15vh" },
     to: { x: "20vw", y: "10vh" },
   },
   {
-    color: "#b87545", // copper
+    color: "#a07c3f", // antique gold
     size: "42vw",
     blur: 125,
-    opacity: 0.28,
+    opacity: 0.14,
     from: { x: "65vw", y: "55vh" },
     to: { x: "50vw", y: "30vh" },
   },
   {
-    color: "#d8c9a6", // sand (cool light counterpoint)
-    size: "32vw",
+    color: "#c2a878", // champagne
+    size: "34vw",
     blur: 115,
-    opacity: 0.14,
+    opacity: 0.18,
     from: { x: "75vw", y: "5vh" },
     to: { x: "55vw", y: "20vh" },
   },
   {
-    color: "#3a2418", // burnt umber (depth)
-    size: "48vw",
-    blur: 100,
-    opacity: 0.46,
+    color: "#66744f", // olive sage (cool counterpoint)
+    size: "44vw",
+    blur: 110,
+    opacity: 0.1,
     from: { x: "5vw", y: "60vh" },
     to: { x: "30vw", y: "45vh" },
   },
   {
-    color: "#c25620", // ember-deep
+    color: "#5c1622", // oxblood-deep
     size: "26vw",
-    blur: 90,
-    opacity: 0.24,
+    blur: 100,
+    opacity: 0.09,
     from: { x: "82vw", y: "70vh" },
     to: { x: "65vw", y: "55vh" },
   },

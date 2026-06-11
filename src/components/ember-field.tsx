@@ -59,13 +59,13 @@ const fragment = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float disc = smoothstep(0.5, 0.08, d);
-    // palette: ember orange -> copper -> sand
-    vec3 ember = vec3(0.910, 0.439, 0.173);
-    vec3 copper = vec3(0.722, 0.459, 0.271);
-    vec3 sand  = vec3(0.847, 0.788, 0.651);
-    vec3 col = mix(ember, copper, vWarm);
-    col = mix(col, sand, smoothstep(0.7, 1.0, vWarm));
-    gl_FragColor = vec4(col, disc * vAlpha * 0.55);
+    // palette: oxblood -> antique gold -> ink (drawn dark on ivory)
+    vec3 oxblood = vec3(0.490, 0.122, 0.180);
+    vec3 gold = vec3(0.627, 0.486, 0.247);
+    vec3 ink  = vec3(0.086, 0.075, 0.059);
+    vec3 col = mix(oxblood, gold, vWarm);
+    col = mix(col, ink, smoothstep(0.7, 1.0, vWarm));
+    gl_FragColor = vec4(col, disc * vAlpha * 0.4);
   }
 `;
 
@@ -129,7 +129,7 @@ function Particles({ count }: { count: number }) {
         uniforms={uniforms}
         transparent
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
+        blending={THREE.NormalBlending}
       />
     </points>
   );

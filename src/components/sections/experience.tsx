@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Reveal, SplitWords } from "@/components/reveal";
 
@@ -87,7 +87,7 @@ export default function Experience() {
 
         {/* Publication */}
         <Reveal delay={0.2}>
-          <div className="mt-20 grid gap-6 rounded-md border border-ink/10 bg-cream-dim/55 p-8 shadow-[0_28px_80px_-48px_rgba(232,112,44,0.45)] backdrop-blur md:grid-cols-12 md:p-10">
+          <div className="mt-20 grid gap-6 rounded-md border border-ink/10 bg-cream-dim/55 p-8 shadow-[0_28px_80px_-48px_rgba(125,31,46,0.28)] backdrop-blur md:grid-cols-12 md:p-10">
             <div className="md:col-span-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-terracotta">
                 Publication

@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Forge — warm graphite charcoal + rich ember orange + copper + sand */
-  --color-cream: #1c1a17;       /* warm graphite — main base (was light, now dark) */
-  --color-cream-dim: #131210;   /* deepest graphite (used for cinematic contact) */
-  --color-paper: #232020;       /* slightly lifted graphite — alt section bg */
-  --color-ink: #f0e8d8;         /* bone — primary text on dark */
-  --color-ink-soft: #c8c0b0;    /* warm bone secondary text */
-  --color-ink-mute: #8a8275;    /* warm taupe tertiary text */
-  --color-terracotta: #e8702c;     /* rich ember orange */
-  --color-terracotta-deep: #c25620;
-  --color-brass: #b87545;          /* warm copper */
-  --color-sage: #8c9a82;           /* warm sage */
-  --color-peach: #d8c9a6;          /* warm sand */
-  --color-lavender: #948574;       /* warm taupe */
+  /* Ivory Editorial — gallery off-white + ink black + oxblood + antique gold */
+  --color-cream: #f6f1e7;       /* warm ivory — main base */
+  --color-cream-dim: #ebe3d2;   /* deeper ivory — alt surfaces */
+  --color-paper: #fcfaf4;       /* lifted gallery white — alt section bg */
+  --color-ink: #16130f;         /* near-black ink — primary text */
+  --color-ink-soft: #575147;    /* warm grey secondary text */
+  --color-ink-mute: #968e80;    /* warm taupe tertiary text */
+  --color-terracotta: #7d1f2e;     /* oxblood — primary accent */
+  --color-terracotta-deep: #5c1622;
+  --color-brass: #a07c3f;          /* antique gold */
+  --color-sage: #66744f;           /* deep olive sage */
+  --color-peach: #c2a878;          /* warm champagne (accent on dark) */
+  --color-lavender: #7a6c80;       /* dusty plum */
 
   --font-display: "Instrument Serif", "EB Garamond", ui-serif, Georgia, serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
@@ -65,8 +65,8 @@ html.lenis, html.lenis body { height: auto; }
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.075;
-  mix-blend-mode: screen;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   background-size: 200px 200px;
 }
@@ -74,7 +74,7 @@ html.lenis, html.lenis body { height: auto; }
 /* Paper texture */
 .paper-grain {
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(216,201,166,0.055) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, rgba(22,19,15,0.05) 1px, transparent 0);
   background-size: 24px 24px;
 }
 
@@ -129,7 +129,7 @@ html.lenis, html.lenis body { height: auto; }
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from 180deg, #e8702c, #b87545, #d8c9a6, #c25620, #8c9a82, #e8702c);
+  background: conic-gradient(from 180deg, #7d1f2e, #a07c3f, #c2a878, #5c1622, #66744f, #7d1f2e);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

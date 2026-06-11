@@ -31,6 +31,36 @@ export function Reveal({
   );
 }
 
+export function Reveal3D({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px" });
+  return (
+    <div ref={ref} style={{ perspective: "1400px" }} className={className}>
+      <motion.div
+        initial={{ opacity: 0, y: 80, rotateX: 18, scale: 0.96 }}
+        animate={
+          inView
+            ? { opacity: 1, y: 0, rotateX: 0, scale: 1 }
+            : { opacity: 0, y: 80, rotateX: 18, scale: 0.96 }
+        }
+        transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+        style={{ transformStyle: "preserve-3d", transformOrigin: "center 80%" }}
+        className="h-full will-change-transform"
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
 export function SplitWords({
   text,
   className = "",

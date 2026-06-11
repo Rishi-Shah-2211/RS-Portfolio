@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/smooth-scroll";
 import Cursor from "@/components/cursor";
 import Nav from "@/components/nav";
 import CommandPalette from "@/components/command-palette";
+import Preloader from "@/components/preloader";
 
 const display = Instrument_Serif({
   variable: "--font-display-loaded",
@@ -47,6 +48,7 @@ export default function RootLayout({
       }}
     >
       <body className="custom-cursor-on">
+        <Preloader />
         <Cursor />
         <CommandPalette />
         <SmoothScroll>

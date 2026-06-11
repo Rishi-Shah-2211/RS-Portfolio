@@ -6,6 +6,13 @@ import { PROJECTS, type Project } from "@/lib/projects";
 import { Reveal, SplitWords } from "@/components/reveal";
 
 export default function Projects() {
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const { scrollYProgress: headProgress } = useScroll({
+    target: headRef,
+    offset: ["start end", "end start"],
+  });
+  const headX = useTransform(headProgress, [0, 1], ["4%", "-4%"]);
+
   return (
     <section id="work" className="relative w-full bg-cream py-32 md:py-44">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
@@ -18,13 +25,17 @@ export default function Projects() {
           </div>
         </Reveal>
 
-        <h2 className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
+        <motion.h2
+          ref={headRef}
+          style={{ x: headX }}
+          className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink will-change-transform"
+        >
           <SplitWords text="Seven products," />{" "}
           <span className="italic text-terracotta">
             <SplitWords text="all live," delay={0.1} />
           </span>{" "}
           <SplitWords text="all shipped." delay={0.2} />
-        </h2>
+        </motion.h2>
 
         <div className="mt-20 space-y-32 md:space-y-44">
           {PROJECTS.map((p, i) => (
@@ -186,7 +197,7 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
             data-cursor="locked"
             onMouseMove={onMove}
             onMouseLeave={onLeave}
-            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(232,112,44,0.36)]"
+            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(125,31,46,0.22)]"
             style={{ perspective: "1200px" }}
           >
             {previewInner}
@@ -199,7 +210,7 @@ function ProjectCard({ project, flip }: { project: Project; flip: boolean }) {
             data-cursor="visit"
             onMouseMove={onMove}
             onMouseLeave={onLeave}
-            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(232,112,44,0.36)]"
+            className="group relative block aspect-[16/10] w-full overflow-hidden rounded-md bg-cream-dim shadow-[0_42px_120px_-46px_rgba(125,31,46,0.22)]"
             style={{ perspective: "1200px" }}
           >
             {previewInner}
