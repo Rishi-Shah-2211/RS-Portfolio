@@ -41,7 +41,7 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <h2 className="mt-10 font-display text-[clamp(3rem,10vw,9rem)] font-light leading-[0.9] tracking-[-0.045em] text-cream">
+        <h2 className="mt-10 font-display text-[clamp(3.25rem,12.5vw,12rem)] font-light leading-[0.85] tracking-[-0.045em] text-cream">
           Let&rsquo;s build <br />
           <span className="italic text-peach">something extraordinary.</span>
         </h2>
