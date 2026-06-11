@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
 import Cursor from "@/components/cursor";
 import Nav from "@/components/nav";
+import CommandPalette from "@/components/command-palette";
 
 const display = Instrument_Serif({
   variable: "--font-display-loaded",
@@ -28,7 +29,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Rishi Shah — Software Engineer",
   description:
-    "Full-stack engineer building cinematic, data-grounded products. Next.js, TypeScript, ML. Based in Gujarat, India.",
+    "Full-stack engineer building cinematic, data-grounded products — including a test-prep suite for IELTS, GRE, and SAT. Next.js, TypeScript, ML. Based in Gujarat, India.",
 };
 
 export default function RootLayout({
@@ -47,6 +48,7 @@ export default function RootLayout({
     >
       <body className="custom-cursor-on">
         <Cursor />
+        <CommandPalette />
         <SmoothScroll>
           <Nav />
           {children}

@@ -2,7 +2,12 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import MeshGradient from "@/components/mesh-gradient";
+
+const EmberField = dynamic(() => import("@/components/ember-field"), {
+  ssr: false,
+});
 import CircularSeal from "@/components/circular-seal";
 import { SplitWords } from "@/components/reveal";
 
@@ -24,6 +29,7 @@ export default function Hero() {
       className="relative isolate flex min-h-[105vh] w-full flex-col justify-end overflow-hidden pb-24 pt-40 md:pb-32"
     >
       <MeshGradient />
+      <EmberField />
 
       {/* Editorial maker's seal — premium, rich, smooth, doesn't compete */}
       <motion.div

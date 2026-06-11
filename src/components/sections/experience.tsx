@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Reveal, SplitWords } from "@/components/reveal";
 
@@ -39,7 +39,7 @@ export default function Experience() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-ink/40" />
             <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              04 — Experience
+              05 — Experience
             </span>
           </div>
         </Reveal>
@@ -123,3 +123,4 @@ export default function Experience() {
     </section>
   );
 }
+

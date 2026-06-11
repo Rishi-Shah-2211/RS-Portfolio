@@ -1,17 +1,19 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import Link from "next/link";
 
 const links = [
   { href: "#work", label: "Work" },
+  { href: "#test-prep", label: "Test-Prep" },
   { href: "#about", label: "About" },
   { href: "#skills", label: "Stack" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Nav() {
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
   const bg = useTransform(
     scrollY,
     [0, 80],
@@ -49,6 +51,10 @@ export default function Nav() {
             </a>
           ))}
         </nav>
+        <div className="flex items-center gap-3">
+        <span className="hidden items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-mute md:inline-flex">
+          ⌘K
+        </span>
         <a
           href="mailto:rishishah457@gmail.com"
           data-cursor="email"
@@ -57,7 +63,13 @@ export default function Nav() {
           <span className="relative z-10">Get in touch</span>
           <span className="relative z-10 inline-block h-1.5 w-1.5 rounded-full bg-terracotta" />
         </a>
+        </div>
       </div>
+      <motion.div
+        style={{ scaleX: progress }}
+        className="absolute bottom-0 left-0 h-[2px] w-full origin-left bg-terracotta"
+        aria-hidden
+      />
     </motion.header>
   );
 }

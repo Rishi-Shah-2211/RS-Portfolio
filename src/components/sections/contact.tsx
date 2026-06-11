@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { Reveal } from "@/components/reveal";
+import LocalTime from "@/components/local-time";
 
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,7 +35,7 @@ export default function Contact() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-ink/40" />
             <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink/70">
-              05 — Contact
+              06 — Contact
             </span>
           </div>
         </Reveal>
@@ -51,8 +52,14 @@ export default function Contact() {
           </p>
         </Reveal>
 
+        <Reveal delay={0.25}>
+          <div className="mt-10">
+            <LocalTime />
+          </div>
+        </Reveal>
+
         <Reveal delay={0.3}>
-          <div className="mt-14 flex flex-wrap gap-4">
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="mailto:rishishah457@gmail.com"
               data-cursor="email"
@@ -103,7 +110,7 @@ export default function Contact() {
             © {new Date().getFullYear()} Rishi Shah · Crafted in Petlad, Gujarat
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-ink/50">
-            Next.js 16 · r3f · Lenis · Framer Motion
+            Next.js 16 · r3f · Lenis · Motion
           </p>
         </footer>
       </div>
@@ -128,3 +135,4 @@ const SOCIALS = [
     href: "mailto:rishishah457@gmail.com",
   },
 ];
+
