@@ -48,16 +48,22 @@ function Panel({
   total: number;
   progress: MotionValue<number>;
 }) {
-  // While the NEXT panel slides over this one, scale back + dim. The
-  // transition only spans the tail of each slot — the head is the rest zone
-  // where the panel sits fully visible and interactive.
-  const start = index / total;
-  const end = (index + 1) / total;
-  const overlapStart = start + (end - start) * 0.62;
-  const scale = useTransform(progress, [overlapStart, end], [1, 0.92]);
-  const dim = useTransform(progress, [overlapStart, end], [0, 0.35]);
-  // slow parallax drift for the screenshot inside its frame
-  const imgY = useTransform(progress, [start, end], ["-7%", "7%"]);
+  // While the NEXT panel slides over this one, scale back + dim. Computed
+  // from the real layout — PANEL-height panels separated by GAP rest
+  // spacers — so the dim only spans the exact window where panel i+1 is
+  // actually sliding across the viewport. (The old equal-slot math ignored
+  // the spacers and dimmed panels while they were still fully visible.)
+  const PANEL = 100;
+  const GAP = 55;
+  const slot = PANEL + GAP;
+  const scrollable = total * PANEL + (total - 1) * GAP - PANEL;
+  // The last panel has no successor: pin its (unused) range inside [0,1] —
+  // out-of-range offsets make WAAPI throw and take the whole section down.
+  const isLast = index === total - 1;
+  const overlapStart = isLast ? 0.999 : (slot * (index + 1) - PANEL) / scrollable;
+  const overlapEnd = isLast ? 1 : (slot * (index + 1)) / scrollable;
+  const scale = useTransform(progress, [overlapStart, overlapEnd], isLast ? [1, 1] : [1, 0.92]);
+  const dim = useTransform(progress, [overlapStart, overlapEnd], isLast ? [0, 0] : [0, 0.3]);
 
   const slug = project.name.toLowerCase().replace(/\s+/g, "-");
   const hasScreenshot = project.hasScreenshot !== false;

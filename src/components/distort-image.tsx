@@ -103,14 +103,26 @@ export default function DistortImage({
   className?: string;
 }) {
   const [webgl, setWebgl] = useState(false);
+  const [inView, setInView] = useState(false);
   const hoverRef = useRef(0);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setWebgl(fine && motionOk);
   }, []);
+
+  // Pause the render loop while the panel is offscreen — with seven stacked
+  // panels this keeps only the visible canvases burning GPU time.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!webgl || !el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [webgl]);
 
   if (!webgl) {
     return (
@@ -121,6 +133,7 @@ export default function DistortImage({
 
   return (
     <div
+      ref={wrapRef}
       className={`h-full w-full ${className}`}
       onPointerEnter={() => (hoverRef.current = 1)}
       onPointerLeave={() => (hoverRef.current = 0)}
@@ -137,6 +150,7 @@ export default function DistortImage({
         // sampled texture matches the source JPEG's brightness exactly
         linear
         flat
+        frameloop={inView ? "always" : "never"}
         dpr={[1, 1.5]}
         gl={{ antialias: false, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 1], fov: 50 }}

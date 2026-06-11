@@ -12,7 +12,6 @@ import * as THREE from "three";
  */
 
 const COUNT_DESKTOP = 2600;
-const COUNT_MOBILE = 900;
 
 const vertex = /* glsl */ `
   uniform float uTime;
@@ -137,24 +136,37 @@ function Particles({ count }: { count: number }) {
 
 export default function EmberField() {
   const [ready, setReady] = useState(false);
-  const [count, setCount] = useState(COUNT_DESKTOP);
+  const [inView, setInView] = useState(true);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setCount(window.innerWidth < 768 ? COUNT_MOBILE : COUNT_DESKTOP);
+    // Phones get native-fast scrolling, not a particle field.
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!fine || window.innerWidth < 768) return;
     setReady(true);
   }, []);
+
+  // Stop rendering entirely once the hero scrolls out of view.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!ready || !el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ready]);
 
   if (!ready) return null;
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
+    <div ref={wrapRef} className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
       <Canvas
         camera={{ position: [0, 0, 9], fov: 55 }}
         dpr={[1, 2]}
+        frameloop={inView ? "always" : "never"}
         gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
       >
-        <Particles count={count} />
+        <Particles count={COUNT_DESKTOP} />
       </Canvas>
     </div>
   );
