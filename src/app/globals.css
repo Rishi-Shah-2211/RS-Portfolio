@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* Atelier Noir — porcelain + carbon ink + deep emerald + champagne gold.
-     Luxury-maison palette: cool porcelain base, jewel-tone accent. */
-  --color-cream: #f3f1ec;       /* porcelain — main base */
-  --color-cream-dim: #e8e5dd;   /* deeper porcelain — alt surfaces */
-  --color-paper: #fbfaf7;       /* lifted gallery white — alt section bg */
-  --color-ink: #121110;         /* carbon ink — primary text */
-  --color-ink-soft: #52504a;    /* graphite secondary text */
-  --color-ink-mute: #8f8c83;    /* stone tertiary text */
-  --color-terracotta: #145a43;     /* deep emerald — primary accent */
-  --color-terracotta-deep: #0c3d2e;
-  --color-brass: #a8853e;          /* champagne gold */
-  --color-sage: #5d6b54;           /* moss */
-  --color-peach: #d8c39a;          /* champagne (accent on dark) */
-  --color-lavender: #6e6678;       /* graphite plum */
+  /* Maison Sapphire — one uniformly bright porcelain white across every
+     section (matched to the project panels), carbon ink, royal sapphire
+     primary accent, champagne gold secondary. Ultra-premium maison feel. */
+  --color-cream: #fbfaf7;       /* Planmate-panel paper white — main base */
+  --color-cream-dim: #f1efe9;   /* soft porcelain — alt surfaces */
+  --color-paper: #fbfaf7;       /* identical to base — uniform brightness */
+  --color-ink: #0e0e11;         /* carbon ink — primary text */
+  --color-ink-soft: #50505a;    /* graphite secondary text */
+  --color-ink-mute: #8e8d94;    /* stone tertiary text */
+  --color-terracotta: #233a72;     /* royal sapphire — primary accent */
+  --color-terracotta-deep: #16254d;
+  --color-brass: #b08d44;          /* champagne gold */
+  --color-sage: #5a6678;           /* steel blue-grey */
+  --color-peach: #d9c79c;          /* champagne (accent on dark) */
+  --color-lavender: #6b647e;       /* graphite plum */
 
   --font-display: "Instrument Serif", "EB Garamond", ui-serif, Georgia, serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
@@ -130,7 +131,7 @@ html.lenis, html.lenis body { height: auto; }
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from 180deg, #145a43, #a8853e, #d8c39a, #0c3d2e, #5d6b54, #145a43);
+  background: conic-gradient(from 180deg, #233a72, #b08d44, #d9c79c, #16254d, #5a6678, #233a72);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

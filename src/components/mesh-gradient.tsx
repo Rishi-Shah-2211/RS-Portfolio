@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 export default function MeshGradient({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
-      <div className="absolute inset-0 bg-[#f3f1ec]" />
+      <div className="absolute inset-0 bg-[#fbfaf7]" />
       {BLOBS.map((b, i) => (
         <motion.div
           key={i}
@@ -32,51 +32,51 @@ export default function MeshGradient({ className = "" }: { className?: string })
         />
       ))}
       {/* readability wash — keeps text clean over the gradient (ivory) */}
-      <div className="absolute inset-0 bg-[#f3f1ec]/62" />
+      <div className="absolute inset-0 bg-[#fbfaf7]/62" />
       {/* gallery vignette — barely-there warm edge */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(20,90,67,0.06)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(35,58,114,0.035)_100%)]" />
     </div>
   );
 }
 
 const BLOBS = [
   {
-    color: "#145a43", // oxblood (hero focal warmth)
+    color: "#233a72", // oxblood (hero focal warmth)
     size: "50vw",
     blur: 130,
-    opacity: 0.13,
+    opacity: 0.07,
     from: { x: "-10vw", y: "-15vh" },
     to: { x: "20vw", y: "10vh" },
   },
   {
-    color: "#a8853e", // antique gold
+    color: "#b08d44", // antique gold
     size: "42vw",
     blur: 125,
-    opacity: 0.14,
+    opacity: 0.08,
     from: { x: "65vw", y: "55vh" },
     to: { x: "50vw", y: "30vh" },
   },
   {
-    color: "#d8c39a", // champagne
+    color: "#d9c79c", // champagne
     size: "34vw",
     blur: 115,
-    opacity: 0.18,
+    opacity: 0.06,
     from: { x: "75vw", y: "5vh" },
     to: { x: "55vw", y: "20vh" },
   },
   {
-    color: "#5d6b54", // olive sage (cool counterpoint)
+    color: "#5a6678", // olive sage (cool counterpoint)
     size: "44vw",
     blur: 110,
-    opacity: 0.1,
+    opacity: 0.06,
     from: { x: "5vw", y: "60vh" },
     to: { x: "30vw", y: "45vh" },
   },
   {
-    color: "#0c3d2e", // oxblood-deep
+    color: "#16254d", // oxblood-deep
     size: "26vw",
     blur: 100,
-    opacity: 0.09,
+    opacity: 0.05,
     from: { x: "82vw", y: "70vh" },
     to: { x: "65vw", y: "55vh" },
   },
