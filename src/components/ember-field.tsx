@@ -58,10 +58,10 @@ const fragment = /* glsl */ `
   void main() {
     float d = length(gl_PointCoord - 0.5);
     float disc = smoothstep(0.5, 0.08, d);
-    // palette: oxblood -> antique gold -> ink (drawn dark on ivory)
-    vec3 oxblood = vec3(0.490, 0.122, 0.180);
-    vec3 gold = vec3(0.627, 0.486, 0.247);
-    vec3 ink  = vec3(0.086, 0.075, 0.059);
+    // palette: deep emerald -> champagne gold -> carbon (drawn dark on porcelain)
+    vec3 oxblood = vec3(0.078, 0.353, 0.263);
+    vec3 gold = vec3(0.659, 0.522, 0.243);
+    vec3 ink  = vec3(0.071, 0.067, 0.063);
     vec3 col = mix(oxblood, gold, vWarm);
     col = mix(col, ink, smoothstep(0.7, 1.0, vWarm));
     gl_FragColor = vec4(col, disc * vAlpha * 0.4);

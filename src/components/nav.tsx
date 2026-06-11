@@ -20,7 +20,7 @@ export default function Nav() {
   const bg = useTransform(
     scrollY,
     [0, 80],
-    ["rgba(246,241,231,0)", "rgba(246,241,231,0.78)"],
+    ["rgba(243,241,236,0)", "rgba(243,241,236,0.78)"],
   );
   const blur = useTransform(scrollY, [0, 80], ["blur(0px)", "blur(14px)"]);
   const border = useTransform(

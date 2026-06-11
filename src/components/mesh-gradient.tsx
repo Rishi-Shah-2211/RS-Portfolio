@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 export default function MeshGradient({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
-      <div className="absolute inset-0 bg-[#f6f1e7]" />
+      <div className="absolute inset-0 bg-[#f3f1ec]" />
       {BLOBS.map((b, i) => (
         <motion.div
           key={i}
@@ -32,16 +32,16 @@ export default function MeshGradient({ className = "" }: { className?: string })
         />
       ))}
       {/* readability wash — keeps text clean over the gradient (ivory) */}
-      <div className="absolute inset-0 bg-[#f6f1e7]/62" />
+      <div className="absolute inset-0 bg-[#f3f1ec]/62" />
       {/* gallery vignette — barely-there warm edge */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(125,31,46,0.07)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(20,90,67,0.06)_100%)]" />
     </div>
   );
 }
 
 const BLOBS = [
   {
-    color: "#7d1f2e", // oxblood (hero focal warmth)
+    color: "#145a43", // oxblood (hero focal warmth)
     size: "50vw",
     blur: 130,
     opacity: 0.13,
@@ -49,7 +49,7 @@ const BLOBS = [
     to: { x: "20vw", y: "10vh" },
   },
   {
-    color: "#a07c3f", // antique gold
+    color: "#a8853e", // antique gold
     size: "42vw",
     blur: 125,
     opacity: 0.14,
@@ -57,7 +57,7 @@ const BLOBS = [
     to: { x: "50vw", y: "30vh" },
   },
   {
-    color: "#c2a878", // champagne
+    color: "#d8c39a", // champagne
     size: "34vw",
     blur: 115,
     opacity: 0.18,
@@ -65,7 +65,7 @@ const BLOBS = [
     to: { x: "55vw", y: "20vh" },
   },
   {
-    color: "#66744f", // olive sage (cool counterpoint)
+    color: "#5d6b54", // olive sage (cool counterpoint)
     size: "44vw",
     blur: 110,
     opacity: 0.1,
@@ -73,7 +73,7 @@ const BLOBS = [
     to: { x: "30vw", y: "45vh" },
   },
   {
-    color: "#5c1622", // oxblood-deep
+    color: "#0c3d2e", // oxblood-deep
     size: "26vw",
     blur: 100,
     opacity: 0.09,

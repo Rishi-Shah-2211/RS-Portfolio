@@ -4,7 +4,13 @@ import { motion, useScroll, useTransform, type MotionValue } from "motion/react"
 import { useRef } from "react";
 import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
-import DistortImage from "@/components/distort-image";
+
+/** Source screenshots shot against beige backdrops get a gentle lift so
+ *  every panel reads equally bright. */
+const SCREEN_FILTERS: Record<string, string> = {
+  vantage: "brightness(1.1) contrast(1.04) saturate(1.06)",
+  bellwether: "brightness(1.1) contrast(1.04) saturate(1.06)",
+};
 
 /**
  * Projects — full-screen stacking panels. Each project pins to the viewport
@@ -98,7 +104,7 @@ function Panel({
       </div>
 
       {/* core: name + image */}
-      <div className="relative z-10 grid flex-1 items-center gap-8 py-6 md:grid-cols-12 md:gap-12">
+      <div className="relative z-10 grid min-h-0 flex-1 items-center gap-8 py-4 md:grid-cols-12 md:gap-12">
         <div className={`md:col-span-5 ${alt ? "md:order-2" : ""}`}>
           <h3 className="font-display text-[clamp(2.75rem,7.5vw,7rem)] font-light leading-[0.92] tracking-[-0.04em] text-ink">
             {project.name}
@@ -124,9 +130,14 @@ function Panel({
         <div className={`relative md:col-span-7 ${alt ? "md:order-1" : ""}`}>
           <PreviewFrame url={!isPrivate ? project.url : undefined} name={project.name}>
             {hasScreenshot ? (
-              <div className="absolute inset-0">
-                <DistortImage src={`/screens/${slug}.jpg`} alt={`${project.name} preview`} />
-              </div>
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={`/screens/${slug}.jpg`}
+                alt={`${project.name} preview`}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
+                style={{ filter: SCREEN_FILTERS[slug] }}
+                loading={index === 0 ? "eager" : "lazy"}
+              />
             ) : (
               <div
                 className="absolute inset-0"
@@ -229,8 +240,10 @@ function PreviewFrame({
   name: string;
   children: React.ReactNode;
 }) {
+  // Height is capped on desktop so the bottom action row (Case study /
+  // Visit) always fits inside the 100svh panel instead of being clipped.
   const cls =
-    "group relative block aspect-[16/10] w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)]";
+    "group relative block w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)] aspect-[16/10] md:aspect-auto md:h-[min(46svh,34vw)]";
   if (url) {
     return (
       <a

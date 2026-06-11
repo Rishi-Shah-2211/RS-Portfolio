@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "motion/react";
+import { motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
 
 export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
@@ -14,6 +14,19 @@ export default function Cursor() {
   const dotX = useSpring(x, { stiffness: 1200, damping: 50, mass: 0.2 });
   const dotY = useSpring(y, { stiffness: 1200, damping: 50, mass: 0.2 });
   const ref = useRef<HTMLDivElement>(null);
+
+  // jelly: the ring stretches along its direction of travel and relaxes
+  const vx = useVelocity(sx);
+  const vy = useVelocity(sy);
+  const stretch = useTransform([vx, vy] as const, ([a, b]: number[]) =>
+    Math.min(Math.hypot(a, b) / 3200, 0.32),
+  );
+  const smoothStretch = useSpring(stretch, { stiffness: 300, damping: 28 });
+  const angle = useTransform([vx, vy] as const, ([a, b]: number[]) =>
+    Math.hypot(a, b) > 40 ? (Math.atan2(b, a) * 180) / Math.PI : 0,
+  );
+  const scaleX = useTransform(smoothStretch, (s) => 1 + s);
+  const scaleY = useTransform(smoothStretch, (s) => 1 - s * 0.55);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -45,14 +58,14 @@ export default function Cursor() {
     <>
       <motion.div
         ref={ref}
-        style={{ x: sx, y: sy }}
+        style={{ x: sx, y: sy, rotate: angle, scaleX, scaleY }}
         className="pointer-events-none fixed left-0 top-0 z-[200] -translate-x-1/2 -translate-y-1/2"
       >
         <motion.div
           animate={{
             scale: hovering ? 2.4 : 1,
-            backgroundColor: hovering ? "rgba(125,31,46,0.1)" : "rgba(22,19,15,0.04)",
-            borderColor: hovering ? "rgba(125,31,46,0.6)" : "rgba(22,19,15,0.3)",
+            backgroundColor: hovering ? "rgba(20,90,67,0.1)" : "rgba(22,19,15,0.04)",
+            borderColor: hovering ? "rgba(20,90,67,0.55)" : "rgba(22,19,15,0.3)",
           }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm"

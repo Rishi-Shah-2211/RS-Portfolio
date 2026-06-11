@@ -1,19 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  /* Ivory Editorial — gallery off-white + ink black + oxblood + antique gold */
-  --color-cream: #f6f1e7;       /* warm ivory — main base */
-  --color-cream-dim: #ebe3d2;   /* deeper ivory — alt surfaces */
-  --color-paper: #fcfaf4;       /* lifted gallery white — alt section bg */
-  --color-ink: #16130f;         /* near-black ink — primary text */
-  --color-ink-soft: #575147;    /* warm grey secondary text */
-  --color-ink-mute: #968e80;    /* warm taupe tertiary text */
-  --color-terracotta: #7d1f2e;     /* oxblood — primary accent */
-  --color-terracotta-deep: #5c1622;
-  --color-brass: #a07c3f;          /* antique gold */
-  --color-sage: #66744f;           /* deep olive sage */
-  --color-peach: #c2a878;          /* warm champagne (accent on dark) */
-  --color-lavender: #7a6c80;       /* dusty plum */
+  /* Atelier Noir — porcelain + carbon ink + deep emerald + champagne gold.
+     Luxury-maison palette: cool porcelain base, jewel-tone accent. */
+  --color-cream: #f3f1ec;       /* porcelain — main base */
+  --color-cream-dim: #e8e5dd;   /* deeper porcelain — alt surfaces */
+  --color-paper: #fbfaf7;       /* lifted gallery white — alt section bg */
+  --color-ink: #121110;         /* carbon ink — primary text */
+  --color-ink-soft: #52504a;    /* graphite secondary text */
+  --color-ink-mute: #8f8c83;    /* stone tertiary text */
+  --color-terracotta: #145a43;     /* deep emerald — primary accent */
+  --color-terracotta-deep: #0c3d2e;
+  --color-brass: #a8853e;          /* champagne gold */
+  --color-sage: #5d6b54;           /* moss */
+  --color-peach: #d8c39a;          /* champagne (accent on dark) */
+  --color-lavender: #6e6678;       /* graphite plum */
 
   --font-display: "Instrument Serif", "EB Garamond", ui-serif, Georgia, serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
@@ -129,7 +130,7 @@ html.lenis, html.lenis body { height: auto; }
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from 180deg, #7d1f2e, #a07c3f, #c2a878, #5c1622, #66744f, #7d1f2e);
+  background: conic-gradient(from 180deg, #145a43, #a8853e, #d8c39a, #0c3d2e, #5d6b54, #145a43);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
