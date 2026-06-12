@@ -31,7 +31,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative w-full bg-paper py-32 md:py-44"
+      className="relative w-full py-32 md:py-44"
     >
       <div className="paper-grain absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">

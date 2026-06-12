@@ -26,7 +26,14 @@
 }
 
 html, body {
-  background: var(--color-cream);
+  /* soft porcelain gradient — warm light falling from the top-left, a
+     whisper of sapphire cool in the lower corners */
+  background:
+    radial-gradient(120% 80% at 18% 0%, #fffefb 0%, transparent 55%),
+    radial-gradient(110% 70% at 85% 100%, rgba(35,58,114,0.06) 0%, transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, rgba(176,141,68,0.05) 0%, transparent 55%),
+    linear-gradient(180deg, #fcfbf8 0%, #f8f6f0 55%, #f3f0e8 100%);
+  background-attachment: fixed;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

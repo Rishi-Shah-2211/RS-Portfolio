@@ -15,7 +15,7 @@ import { Reveal, SplitWords } from "@/components/reveal";
  */
 export default function Projects() {
   return (
-    <section id="work" className="relative w-full bg-cream py-28 md:py-40">
+    <section id="work" className="relative w-full py-28 md:py-40">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <Reveal>
           <div className="flex items-center gap-3">

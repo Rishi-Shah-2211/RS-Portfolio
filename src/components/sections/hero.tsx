@@ -55,13 +55,13 @@ export default function Hero() {
 
           <h1 className="font-display font-light leading-[0.92] tracking-[-0.045em] text-ink">
             <Line x={xLine1} from="-60vw" delay={2.25} className="text-[clamp(3.25rem,10.5vw,9.5rem)]">
-              Software with
+              Software,
             </Line>
             <Line x={xLine2} from="60vw" delay={2.4} className="text-[clamp(3.25rem,10.5vw,9.5rem)] italic text-terracotta">
-              cinematic polish,
+              engineered
             </Line>
             <Line x={xLine3} from="-60vw" delay={2.55} className="text-[clamp(3.25rem,10.5vw,9.5rem)]">
-              grounded in data.
+              with intent.
             </Line>
           </h1>
 

@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 export default function MeshGradient({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
-      <div className="absolute inset-0 bg-[#fbfaf7]" />
+      
       {BLOBS.map((b, i) => (
         <motion.div
           key={i}

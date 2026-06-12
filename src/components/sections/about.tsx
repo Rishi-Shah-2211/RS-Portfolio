@@ -19,7 +19,7 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative w-full bg-paper py-32 md:py-44"
+      className="relative w-full py-32 md:py-44"
     >
       <div className="paper-grain absolute inset-0 opacity-60" />
       <div className="relative mx-auto grid max-w-[1400px] gap-12 px-6 md:grid-cols-12 md:gap-16 md:px-10">

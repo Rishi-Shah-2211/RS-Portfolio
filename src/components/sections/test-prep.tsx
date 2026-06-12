@@ -21,7 +21,7 @@ export default function TestPrep() {
   const barW = useTransform(scrollYProgress, [0.08, 0.95], ["0%", "100%"]);
 
   return (
-    <section id="test-prep" ref={ref} className="relative h-[420svh] bg-cream">
+    <section id="test-prep" ref={ref} className="relative h-[420svh]">
       <div className="sticky top-0 flex h-[100svh] w-full flex-col justify-center overflow-hidden">
         <div className="paper-grain pointer-events-none absolute inset-0" aria-hidden />
 

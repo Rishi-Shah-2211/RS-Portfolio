@@ -3,26 +3,20 @@
 import { useEffect, useRef } from "react";
 
 /**
- * StarDust trail — a comet of self-shining particles pours out of the
- * cursor: deep-sapphire orbs with soft glowing halos and champagne-gold
- * four-point star flares that twinkle as they drift, shrink, and die.
- * Depth illusion: near particles are large and soft, far ones small and
- * sharp, all easing apart in 3D-ish drift. Canvas 2D, desktop only,
- * pointer-transparent; the rAF loop sleeps when the dust settles.
+ * WaterRipple trail — the cursor drags through the page like a hand
+ * through still water. Each movement sheds concentric rings that expand,
+ * thin out, and dissolve; faster strokes shed bigger, stronger rings.
+ * Subtle ink/sapphire strokes on the porcelain base. Canvas 2D, desktop
+ * only, pointer-transparent; rAF sleeps once the surface settles.
  */
 
-type P = {
+type Ripple = {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
   born: number;
   life: number;
-  size: number;
-  depth: number; // 0 far → 1 near
-  gold: boolean;
-  phase: number;
-  spin: number;
+  maxR: number;
+  strength: number; // 0..1, from cursor speed
 };
 
 export default function FluidTrail() {
@@ -45,91 +39,52 @@ export default function FluidTrail() {
     resize();
     window.addEventListener("resize", resize);
 
-    const parts: P[] = [];
+    const ripples: Ripple[] = [];
     let raf = 0;
     let running = false;
-    let lastSpawn = { x: -999, y: -999 };
-
-    const spawn = (x: number, y: number, speed: number) => {
-      const n = Math.min(2 + Math.floor(speed / 18), 4);
-      for (let i = 0; i < n; i++) {
-        const depth = Math.random();
-        parts.push({
-          x: x + (Math.random() - 0.5) * 10,
-          y: y + (Math.random() - 0.5) * 10,
-          vx: (Math.random() - 0.5) * 1.4,
-          vy: (Math.random() - 0.5) * 1.4 - 0.25,
-          born: performance.now(),
-          life: 600 + Math.random() * 500,
-          size: 2.5 + depth * 7,
-          depth,
-          gold: Math.random() < 0.4,
-          phase: Math.random() * Math.PI * 2,
-          spin: (Math.random() - 0.5) * 0.006,
-        });
-      }
-      if (parts.length > 140) parts.splice(0, parts.length - 140);
-    };
-
-    const star = (x: number, y: number, r: number, rot: number) => {
-      ctx.beginPath();
-      for (let a = 0; a < 4; a++) {
-        const ang = rot + (a * Math.PI) / 2;
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + Math.cos(ang) * r, y + Math.sin(ang) * r);
-      }
-      ctx.stroke();
-    };
+    let last = { x: -999, y: -999, t: 0 };
 
     const draw = () => {
       const now = performance.now();
       ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-      for (let i = parts.length - 1; i >= 0; i--) {
-        const p = parts[i];
-        const t = (now - p.born) / p.life;
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i];
+        const t = (now - rp.born) / rp.life;
         if (t >= 1) {
-          parts.splice(i, 1);
+          ripples.splice(i, 1);
           continue;
         }
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy -= 0.004; // gentle float upward
+        // radius eases out like a real wave-front; alpha dies with the wave
+        const ease = 1 - Math.pow(1 - t, 2.2);
+        const r = rp.maxR * ease;
+        const fade = Math.pow(1 - t, 1.7) * rp.strength;
 
-        const fade = Math.pow(1 - t, 1.4);
-        // self-shine: each particle twinkles on its own rhythm
-        const twinkle = 0.55 + 0.45 * Math.sin(p.phase + now / (90 + p.depth * 110));
-        const a = fade * twinkle;
-        const r = p.size * (1 - t * 0.5);
+        // wave-front ring (ink-sapphire)
+        ctx.strokeStyle = `rgba(35, 58, 114, ${0.34 * fade})`;
+        ctx.lineWidth = 2.2 * (1 - t) + 0.4;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
+        ctx.stroke();
 
-        if (p.gold) {
-          // champagne star flare
-          ctx.strokeStyle = `rgba(178, 140, 60, ${0.75 * a})`;
-          ctx.lineWidth = 1 + p.depth;
-          star(p.x, p.y, r * 2.6, now * p.spin + p.phase);
-          ctx.fillStyle = `rgba(214, 178, 100, ${0.9 * a})`;
+        // trailing inner ring — softer, slightly behind the front
+        if (r > 14) {
+          ctx.strokeStyle = `rgba(35, 58, 114, ${0.16 * fade})`;
+          ctx.lineWidth = 1.1 * (1 - t) + 0.3;
           ctx.beginPath();
-          ctx.arc(p.x, p.y, r * 0.55, 0, Math.PI * 2);
-          ctx.fill();
-        } else {
-          // sapphire orb with glowing halo
-          const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 2.4);
-          grad.addColorStop(0, `rgba(35, 58, 114, ${0.85 * a})`);
-          grad.addColorStop(0.45, `rgba(54, 80, 150, ${0.35 * a})`);
-          grad.addColorStop(1, "rgba(54, 80, 150, 0)");
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, r * 2.4, 0, Math.PI * 2);
-          ctx.fill();
-          // bright core
-          ctx.fillStyle = `rgba(22, 37, 77, ${0.9 * a})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, r * 0.5, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.arc(rp.x, rp.y, r * 0.62, 0, Math.PI * 2);
+          ctx.stroke();
         }
+
+        // faint highlight crescent — light catching the wave
+        ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * fade})`;
+        ctx.lineWidth = 1.4 * (1 - t) + 0.3;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, r + 1.5, -0.9, 0.6);
+        ctx.stroke();
       }
 
-      if (parts.length) {
+      if (ripples.length) {
         raf = requestAnimationFrame(draw);
       } else {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -138,12 +93,41 @@ export default function FluidTrail() {
     };
 
     const onMove = (e: PointerEvent) => {
-      const dx = e.clientX - lastSpawn.x;
-      const dy = e.clientY - lastSpawn.y;
+      const now = performance.now();
+      const dx = e.clientX - last.x;
+      const dy = e.clientY - last.y;
       const dist = Math.hypot(dx, dy);
-      if (dist < 22) return;
-      lastSpawn = { x: e.clientX, y: e.clientY };
-      spawn(e.clientX, e.clientY, dist);
+      if (dist < 34) return;
+      const dt = Math.max(now - last.t, 1);
+      const speed = Math.min(dist / dt, 3); // px per ms
+      last = { x: e.clientX, y: e.clientY, t: now };
+
+      ripples.push({
+        x: e.clientX,
+        y: e.clientY,
+        born: now,
+        life: 850 + speed * 250,
+        maxR: 36 + speed * 46 + Math.random() * 12,
+        strength: 0.55 + Math.min(speed / 2.4, 1) * 0.45,
+      });
+      if (ripples.length > 28) ripples.splice(0, ripples.length - 28);
+
+      if (!running) {
+        running = true;
+        raf = requestAnimationFrame(draw);
+      }
+    };
+
+    // a gentle "plonk" on click — a bigger, slower ring
+    const onDown = (e: PointerEvent) => {
+      ripples.push({
+        x: e.clientX,
+        y: e.clientY,
+        born: performance.now(),
+        life: 1300,
+        maxR: 120,
+        strength: 1,
+      });
       if (!running) {
         running = true;
         raf = requestAnimationFrame(draw);
@@ -151,8 +135,10 @@ export default function FluidTrail() {
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("pointerdown", onDown, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(raf);
     };
