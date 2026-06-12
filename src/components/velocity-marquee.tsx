@@ -19,9 +19,15 @@ import { useRef } from "react";
 export default function VelocityMarquee({
   items,
   baseSpeed = 60,
+  reverse = false,
+  accent = false,
 }: {
   items: string[];
   baseSpeed?: number;
+  /** Run the strip right-to-left mirrored — pair two for crossing ribbons. */
+  reverse?: boolean;
+  /** Tint the type in the accent colour instead of muted ink. */
+  accent?: boolean;
 }) {
   const x = useMotionValue(0);
   const { scrollY } = useScroll();
@@ -29,12 +35,13 @@ export default function VelocityMarquee({
   const smooth = useSpring(velocity, { stiffness: 60, damping: 18 });
   const skew = useTransform(smooth, [-2000, 0, 2000], [-6, 0, 6]);
   const trackRef = useRef<HTMLDivElement>(null);
-  const dir = useRef(1);
+  const sign = reverse ? -1 : 1;
+  const dir = useRef(sign);
 
   useAnimationFrame((_, delta) => {
     const v = smooth.get();
-    if (v < -50) dir.current = -1;
-    else if (v > 50) dir.current = 1;
+    if (v < -50) dir.current = -sign;
+    else if (v > 50) dir.current = sign;
     const boost = 1 + Math.min(Math.abs(v) / 800, 4);
     let next = x.get() - dir.current * baseSpeed * boost * (delta / 1000);
     const half = (trackRef.current?.scrollWidth ?? 0) / 2;
@@ -58,7 +65,9 @@ export default function VelocityMarquee({
         {[0, 1].map((i) => (
           <span
             key={i}
-            className="font-display text-[clamp(2.5rem,7vw,6rem)] font-light italic leading-none tracking-[-0.04em] text-ink/15"
+            className={`font-display text-[clamp(2.5rem,7vw,6rem)] font-light italic leading-none tracking-[-0.04em] ${
+              accent ? "text-terracotta/25" : "text-ink/15"
+            }`}
           >
             {line}
           </span>

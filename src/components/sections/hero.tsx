@@ -4,15 +4,17 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import dynamic from "next/dynamic";
 import MeshGradient from "@/components/mesh-gradient";
+import Magnetic from "@/components/magnetic";
 
 const EmberField = dynamic(() => import("@/components/ember-field"), {
   ssr: false,
 });
+
 /**
- * Hero — full-viewport name poster. Giant editorial type fills the screen
- * with the portrait layered between the two lines (first name behind the
- * photo, surname in front). Everything is scroll-driven: the lines split
- * apart, the portrait sinks slower, the meta row fades first.
+ * Hero — cinematic editorial opening. Three display lines enter from
+ * alternating sides and, on scroll, slide back out in opposite directions
+ * at different speeds. A sticky chapter index sits on the right rail;
+ * meta strip and CTA anchor the bottom. Mesh + particles behind.
  */
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,14 +22,11 @@ export default function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const yFirst = useTransform(scrollYProgress, [0, 1], ["0%", "-45%"]);
-  const yLast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
-  const yPortrait = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
-  const yCardsSlow = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const yCardsFast = useTransform(scrollYProgress, [0, 1], ["0%", "55%"]);
-  const scalePortrait = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const opacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-  const metaOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+  const xLine1 = useTransform(scrollYProgress, [0, 1], ["0%", "-18%"]);
+  const xLine2 = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
+  const xLine3 = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+  const yIndex = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section
@@ -38,146 +37,139 @@ export default function Hero() {
       <MeshGradient />
       <EmberField />
 
-      <motion.div style={{ opacity }} className="relative z-10 h-full w-full">
-        {/* layered project cards flanking the portrait — lift on hover */}
-        <div className="pointer-events-none absolute inset-0 z-[5] hidden md:block">
-          {HERO_CARDS.map((c) => (
-            <motion.div
-              key={c.slug}
-              style={{ y: c.fast ? yCardsFast : yCardsSlow, ...c.pos }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.7 + c.delay, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute w-[13vw] max-w-[230px] will-change-transform"
-            >
+      <motion.div
+        style={{ opacity }}
+        className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-10 px-6 md:grid-cols-12 md:px-10"
+      >
+        {/* headline — three lines, three directions */}
+        <div className="md:col-span-9">
+          <motion.p
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.15, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-7 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.28em] text-ink-soft md:text-[11px]"
+          >
+            <span className="h-px w-12 bg-terracotta" />
+            Rishi Shah · Full-stack engineer · India
+          </motion.p>
+
+          <h1 className="font-display font-light leading-[0.92] tracking-[-0.045em] text-ink">
+            <Line x={xLine1} from="-60vw" delay={2.25} className="text-[clamp(3.25rem,10.5vw,9.5rem)]">
+              Software with
+            </Line>
+            <Line x={xLine2} from="60vw" delay={2.4} className="text-[clamp(3.25rem,10.5vw,9.5rem)] italic text-terracotta">
+              cinematic polish,
+            </Line>
+            <Line x={xLine3} from="-60vw" delay={2.55} className="text-[clamp(3.25rem,10.5vw,9.5rem)]">
+              grounded in data.
+            </Line>
+          </h1>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.85, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-10 flex flex-wrap items-center gap-5"
+          >
+            <Magnetic>
               <a
-                href={`/work/${c.slug}`}
-                data-cursor="open"
-                className="pointer-events-auto block overflow-hidden rounded-md shadow-[0_30px_70px_-25px_rgba(14,14,17,0.4)] ring-1 ring-ink/10 transition-all duration-500 ease-out hover:-translate-y-3 hover:scale-[1.04] hover:shadow-[0_45px_90px_-25px_rgba(35,58,114,0.45)]"
-                style={{ rotate: `${c.rot}deg` }}
+                href="#work"
+                data-cursor="explore"
+                className="shimmer group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-mono text-xs uppercase tracking-[0.2em] text-cream"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/screens/${c.slug}.jpg`}
-                  alt={`${c.slug} preview`}
-                  className="block aspect-[16/11] w-full object-cover object-top"
-                  draggable={false}
-                />
+                <span className="relative z-10">Explore the work</span>
+                <span className="relative z-10 inline-block transition-transform duration-500 group-hover:translate-y-0.5">
+                  ↓
+                </span>
               </a>
-            </motion.div>
+            </Magnetic>
+            <p className="max-w-xs text-sm leading-relaxed text-ink-soft">
+              07 products in production — analytics, ML, LLM copilots, and a
+              four-exam test-prep suite.
+            </p>
+          </motion.div>
+        </div>
+
+        {/* sticky chapter index — right rail */}
+        <motion.nav
+          style={{ y: yIndex }}
+          className="hidden md:col-span-3 md:flex md:flex-col md:items-end md:justify-center md:gap-1 will-change-transform"
+          aria-label="Sections"
+        >
+          {INDEX.map((it, i) => (
+            <motion.a
+              key={it.href}
+              href={it.href}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 2.6 + i * 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="group flex items-baseline gap-3 py-1.5 text-right"
+            >
+              <span className="font-mono text-[10px] tracking-[0.2em] text-ink-mute transition-colors group-hover:text-terracotta">
+                0{i + 1}
+              </span>
+              <span className="relative font-display text-xl font-light text-ink-soft transition-all duration-500 group-hover:-translate-x-1.5 group-hover:text-ink md:text-2xl">
+                {it.label}
+                <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-terracotta transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100" />
+              </span>
+            </motion.a>
           ))}
-        </div>
-        {/* giant name — two lines hugging the viewport */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <motion.h1
-            aria-label="Rishi Shah"
-            className="relative flex h-full w-full flex-col items-center justify-center font-display font-light leading-[0.78] tracking-[-0.04em] text-ink"
-          >
-            {/* portrait — framed card behind the type */}
-            <motion.div
-              style={{ y: yPortrait, scale: scalePortrait }}
-              className="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-[4/5] h-auto w-[72vw] max-w-[420px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md shadow-[0_60px_140px_-40px_rgba(22,19,15,0.45)] md:w-[30vw] md:max-w-[460px] will-change-transform"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/rishi.png"
-                alt=""
-                className="h-full w-full object-cover [filter:saturate(0.82)_contrast(1.05)]"
-                draggable={false}
-              />
-              {/* ivory veils where the type overlaps */}
-              <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-cream/70 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-cream/70 to-transparent" />
-              <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
-            </motion.div>
+        </motion.nav>
+      </motion.div>
 
-            <motion.span
-              style={{ y: yFirst }}
-              className="relative z-20 -mb-[0.06em] block select-none text-[clamp(5.5rem,21.5vw,21rem)] [text-shadow:0_2px_30px_rgba(246,241,231,0.45)] will-change-transform"
-            >
-              <Kinetic text="Rishi" />
-            </motion.span>
-
-            <motion.span
-              style={{ y: yLast }}
-              className="relative z-20 block select-none text-[clamp(5.5rem,21.5vw,21rem)] italic text-terracotta [text-shadow:0_2px_30px_rgba(246,241,231,0.45)] will-change-transform"
-            >
-              <Kinetic text="Shah" delay={0.12} />
-            </motion.span>
-          </motion.h1>
-        </div>
-
-        {/* corner meta — editorial poster captions */}
-        <motion.div
-          style={{ opacity: metaOpacity }}
-          className="absolute inset-x-0 top-24 z-30 mx-auto flex max-w-[1400px] items-start justify-between px-6 md:top-28 md:px-10"
-        >
-          <p className="max-w-[180px] font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-ink-soft md:max-w-[230px] md:text-[11px]">
-            Full-stack engineer — data-grounded products with magazine-spread
-            polish
-          </p>
-          <p className="hidden max-w-[200px] text-right font-mono text-[10px] uppercase leading-relaxed tracking-[0.22em] text-ink-soft md:block md:text-[11px]">
-            Petlad, Gujarat · India
-            <br />
-            Available for freelance
-          </p>
-        </motion.div>
-
-        <motion.div
-          style={{ opacity: metaOpacity }}
-          className="absolute inset-x-0 bottom-7 z-30 mx-auto flex max-w-[1400px] items-end justify-between px-6 md:px-10"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute">
-            07 products · all live
-          </span>
-          <a
-            href="#work"
-            data-cursor="explore"
-            className="group flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.24em] text-ink md:text-xs"
-          >
-            Scroll
-            <span className="inline-block animate-bounce">↓</span>
-          </a>
-        </motion.div>
+      {/* bottom strip */}
+      <motion.div
+        style={{ opacity }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 3.1, duration: 1 }}
+        className="absolute inset-x-0 bottom-6 z-10 mx-auto flex max-w-[1400px] items-center justify-between px-6 md:px-10"
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute">
+          Scroll to begin ↓
+        </span>
+        <span className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute md:block">
+          Petlad, Gujarat · Available for freelance
+        </span>
       </motion.div>
     </section>
   );
 }
 
-/** Layered screenshot cards flanking the portrait, Lando-poster style. */
-const HERO_CARDS: {
-  slug: string;
-  pos: { left?: string; right?: string; top?: string; bottom?: string };
-  rot: number;
-  fast?: boolean;
-  delay: number;
-}[] = [
-  // kept clear of the corner meta captions (top-24 band) and bottom bar
-  { slug: "vantage", pos: { left: "3%", top: "38%" }, rot: -7, delay: 0 },
-  { slug: "planmate", pos: { left: "12%", bottom: "16%" }, rot: 5, fast: true, delay: 0.12 },
-  { slug: "bellwether", pos: { right: "3%", top: "37%" }, rot: 6, delay: 0.06 },
-  { slug: "kusum-farm", pos: { right: "12%", bottom: "15%" }, rot: -5, fast: true, delay: 0.18 },
+const INDEX = [
+  { label: "Work", href: "#work" },
+  { label: "Test-Prep", href: "#test-prep" },
+  { label: "About", href: "#about" },
+  { label: "Stack", href: "#skills" },
+  { label: "Contact", href: "#contact" },
 ];
 
-/** Per-character rise-in for the giant name. */
-function Kinetic({ text, delay = 0 }: { text: string; delay?: number }) {
+/** A headline line that flies in from one side, then drifts with scroll. */
+function Line({
+  children,
+  x,
+  from,
+  delay,
+  className = "",
+}: {
+  children: React.ReactNode;
+  x: ReturnType<typeof useTransform<number, string>>;
+  from: string;
+  delay: number;
+  className?: string;
+}) {
   return (
-    <span className="inline-block overflow-hidden align-bottom">
-      {text.split("").map((ch, i) => (
-        <motion.span
-          key={i}
-          initial={{ y: "115%", rotate: 4 }}
-          animate={{ y: "0%", rotate: 0 }}
-          transition={{
-            duration: 1.1,
-            delay: 2.1 + delay + i * 0.045,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="inline-block will-change-transform"
-        >
-          {ch}
+    <span className="block overflow-visible">
+      <motion.span
+        initial={{ x: from, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        className="block will-change-transform"
+      >
+        <motion.span style={{ x }} className={`block ${className}`}>
+          {children}
         </motion.span>
-      ))}
+      </motion.span>
     </span>
   );
 }

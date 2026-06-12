@@ -11,12 +11,25 @@ export default function Home() {
   return (
     <main className="relative">
       <Hero />
+      <VelocityMarquee
+        items={["Analytics", "ML in the browser", "LLM copilots", "Cross-platform", "Cinematic frontends"]}
+        accent
+      />
       <About />
       <Skills />
       <Projects />
-      <VelocityMarquee
-        items={["IELTS Academic", "IELTS General", "GRE", "SAT", "One engine"]}
-      />
+      {/* crossing ribbons — opposite directions */}
+      <div className="relative">
+        <VelocityMarquee
+          items={["IELTS Academic", "IELTS General", "GRE", "SAT"]}
+        />
+        <VelocityMarquee
+          items={["One engine", "Four exams", "Three live", "Built for Kanan students"]}
+          reverse
+          accent
+          baseSpeed={45}
+        />
+      </div>
       <TestPrep />
       <Experience />
       <Contact />

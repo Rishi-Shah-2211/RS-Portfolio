@@ -1,145 +1,112 @@
 "use client";
 
-import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
-
-/** Source screenshots shot against beige backdrops get a gentle lift so
- *  every panel reads equally bright. */
-// Brightness is baked into the source JPEGs now (white-point matched to
-// Planmate) — no per-image CSS filters needed.
-const SCREEN_FILTERS: Record<string, string> = {};
+import { Reveal, SplitWords } from "@/components/reveal";
 
 /**
- * Projects — full-screen stacking panels. Each project pins to the viewport
- * and the next slides over it while the pinned one scales back and dims,
- * like a deck of posters being laid down one over another.
+ * Projects — cinematic alternating rows. Each project's screenshot glides
+ * in from one side while its copy counter-drifts from the other, with a
+ * giant ghost numeral parallaxing at a third speed behind the row. Odd and
+ * even rows move in opposite directions, so the whole section scrolls
+ * like an editing-table sequence.
  */
 export default function Projects() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
   return (
-    <section id="work" ref={containerRef} className="relative bg-cream">
-      {PROJECTS.map((p, i) => (
-        <div key={p.name} className="contents">
-          <Panel
-            project={p}
-            index={i}
-            total={PROJECTS.length}
-            progress={scrollYProgress}
-          />
-          {/* rest zone — keeps the panel fully visible (and its Visit button
-              clickable) for a beat before the next panel slides over */}
-          {i < PROJECTS.length - 1 && <div className="h-[55svh]" aria-hidden />}
+    <section id="work" className="relative w-full bg-cream py-28 md:py-40">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-10 bg-ink/40" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
+              03 — Selected Work
+            </span>
+          </div>
+        </Reveal>
+        <h2 className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
+          <SplitWords text="Seven products," />{" "}
+          <span className="italic text-terracotta">
+            <SplitWords text="all live," delay={0.1} />
+          </span>{" "}
+          <SplitWords text="all shipped." delay={0.2} />
+        </h2>
+
+        <div className="mt-24 space-y-28 md:space-y-40">
+          {PROJECTS.map((p, i) => (
+            <Row key={p.name} project={p} index={i} flip={i % 2 === 1} />
+          ))}
         </div>
-      ))}
+      </div>
     </section>
   );
 }
 
-function Panel({
+function Row({
   project,
   index,
-  total,
-  progress,
+  flip,
 }: {
   project: Project;
   index: number;
-  total: number;
-  progress: MotionValue<number>;
+  flip: boolean;
 }) {
-  // While the NEXT panel slides over this one, scale back + dim. Computed
-  // from the real layout — PANEL-height panels separated by GAP rest
-  // spacers — so the dim only spans the exact window where panel i+1 is
-  // actually sliding across the viewport. (The old equal-slot math ignored
-  // the spacers and dimmed panels while they were still fully visible.)
-  const PANEL = 100;
-  const GAP = 55;
-  const slot = PANEL + GAP;
-  const scrollable = total * PANEL + (total - 1) * GAP - PANEL;
-  // The last panel has no successor: pin its (unused) range inside [0,1] —
-  // out-of-range offsets make WAAPI throw and take the whole section down.
-  const isLast = index === total - 1;
-  const overlapStart = isLast ? 0.999 : (slot * (index + 1) - PANEL) / scrollable;
-  const overlapEnd = isLast ? 1 : (slot * (index + 1)) / scrollable;
-  const scale = useTransform(progress, [overlapStart, overlapEnd], isLast ? [1, 1] : [1, 0.92]);
-  const dim = useTransform(progress, [overlapStart, overlapEnd], isLast ? [0, 0] : [0, 0.3]);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // image and copy drift toward each other from opposite sides; odd rows
+  // run the directions mirrored so consecutive rows cross
+  const dir = flip ? -1 : 1;
+  const xImg = useTransform(scrollYProgress, [0, 0.45, 1], [`${14 * dir}%`, "0%", `${-7 * dir}%`]);
+  const xCopy = useTransform(scrollYProgress, [0, 0.45, 1], [`${-10 * dir}%`, "0%", `${5 * dir}%`]);
+  const yGhost = useTransform(scrollYProgress, [0, 1], ["18%", "-18%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5], [1.08, 1]);
 
   const slug = project.name.toLowerCase().replace(/\s+/g, "-");
   const hasScreenshot = project.hasScreenshot !== false;
   const isPrivate = project.privateProject === true;
-  const alt = index % 2 === 1;
 
-  const inner = (
-    <motion.div
-      style={{ scale }}
-      className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-none bg-paper px-6 pb-8 pt-24 md:px-12 md:pb-10 md:pt-28"
-    >
-      {/* ghost index */}
-      <span
+  return (
+    <div ref={ref} className="relative">
+      {/* ghost numeral — third parallax layer */}
+      <motion.span
+        style={{ y: yGhost }}
         aria-hidden
-        className="pointer-events-none absolute -right-4 -top-10 select-none font-display text-[clamp(10rem,30vw,26rem)] font-light leading-none tracking-[-0.05em] text-ink/[0.045]"
+        className={`pointer-events-none absolute -top-20 select-none font-display text-[clamp(9rem,24vw,22rem)] font-light leading-none tracking-[-0.05em] text-ink/[0.05] will-change-transform ${
+          flip ? "left-0 md:-left-6" : "right-0 md:-right-6"
+        }`}
       >
         {project.index}
-      </span>
+      </motion.span>
 
-      {/* top meta row */}
-      <div className="relative z-10 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-10 bg-ink/40" />
-          <span className="font-mono text-[10px] uppercase tracking-[0.26em] text-ink-soft md:text-[11px]">
-            {project.index} / 0{total} — {project.role}
-          </span>
-        </div>
-        <span className="flex items-center gap-2 rounded-full border border-ink/10 bg-cream/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ink backdrop-blur">
-          <span className="h-1.5 w-1.5 rounded-full" style={{ background: project.accent }} />
-          {isPrivate ? "Under NDA" : "Live"} · {project.year}
-        </span>
-      </div>
-
-      {/* core: name + image */}
-      <div className="relative z-10 grid min-h-0 flex-1 items-center gap-8 py-4 md:grid-cols-12 md:gap-12">
-        <div className={`md:col-span-5 ${alt ? "md:order-2" : ""}`}>
-          <h3 className="font-display text-[clamp(2.75rem,7.5vw,7rem)] font-light leading-[0.92] tracking-[-0.04em] text-ink">
-            {project.name}
-          </h3>
-          <p className="mt-4 font-display text-lg italic leading-snug text-terracotta md:text-2xl">
-            {project.tagline}
-          </p>
-          <p className="mt-5 max-w-md text-sm leading-[1.7] text-ink-soft md:text-[15px]">
-            {project.description}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-1.5">
-            {project.stack.slice(0, 6).map((s) => (
-              <span
-                key={s}
-                className="rounded-full border border-ink/15 bg-cream px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink-soft md:text-[10px]"
-              >
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className={`relative md:col-span-7 ${alt ? "md:order-1" : ""}`}>
-          <PreviewFrame url={!isPrivate ? project.url : undefined} name={project.name}>
+      <div className="relative grid items-center gap-8 md:grid-cols-12 md:gap-12">
+        {/* image — slides in from its side */}
+        <motion.div
+          style={{ x: xImg }}
+          className={`md:col-span-7 will-change-transform ${flip ? "md:order-2" : ""}`}
+        >
+          <a
+            href={!isPrivate && project.url ? project.url : `/work/${slug}`}
+            target={!isPrivate && project.url ? "_blank" : undefined}
+            rel={!isPrivate && project.url ? "noopener noreferrer" : undefined}
+            data-cursor="visit"
+            className="group relative block overflow-hidden rounded-md shadow-[0_50px_120px_-46px_rgba(35,58,114,0.4)]"
+          >
             {hasScreenshot ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <motion.img
+                style={{ scale: imgScale }}
                 src={`/screens/${slug}.jpg`}
                 alt={`${project.name} preview`}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
-                style={{ filter: SCREEN_FILTERS[slug] }}
+                className="aspect-[16/10] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]"
                 loading={index === 0 ? "eager" : "lazy"}
               />
             ) : (
               <div
-                className="absolute inset-0"
+                className="grid aspect-[16/10] w-full place-items-center"
                 style={{
                   background: `
                     radial-gradient(120% 90% at 15% 10%, ${project.accent}55 0%, transparent 60%),
@@ -148,114 +115,76 @@ function Panel({
                   `,
                 }}
               >
-                <div className="absolute inset-0 grid place-items-center px-8 text-center">
-                  <div>
-                    <div
-                      className="font-mono text-[10px] uppercase tracking-[0.28em]"
-                      style={{ color: project.accent }}
-                    >
-                      {isPrivate ? "Under NDA" : "Live"} · {project.year}
-                    </div>
-                    <div className="mt-4 font-display text-3xl font-light leading-[1.05] tracking-[-0.03em] text-cream md:text-5xl">
-                      {project.name}
-                    </div>
-                  </div>
-                </div>
+                <span className="font-display text-4xl font-light text-cream md:text-6xl">
+                  {project.name}
+                </span>
               </div>
             )}
             <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
-          </PreviewFrame>
-        </div>
-      </div>
-
-      {/* bottom row: highlights + visit */}
-      <div className="relative z-10 flex flex-col gap-4 border-t border-ink/10 pt-5 md:flex-row md:items-center md:justify-between">
-        <ul className="hidden flex-wrap gap-x-8 gap-y-1 text-xs text-ink-soft md:flex">
-          {project.highlights.slice(0, 2).map((h) => (
-            <li key={h} className="flex items-center gap-2">
-              <span style={{ color: project.accent }}>●</span>
-              {h}
-            </li>
-          ))}
-        </ul>
-        <div className="flex flex-wrap items-center gap-3">
-          <Link
-            href={`/work/${slug}`}
-            data-cursor="read"
-            className="group/cs inline-flex w-fit items-center gap-3 rounded-full border border-ink/25 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink transition-colors hover:bg-ink hover:text-cream md:text-xs"
-          >
-            Case study
-            <span className="inline-block transition-transform duration-500 group-hover/cs:translate-x-0.5">
-              →
-            </span>
-          </Link>
-          {!isPrivate && project.url ? (
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cursor="visit"
-              className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-cream md:text-xs"
-            >
-              Visit {project.name}
-              <span className="inline-block transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-                ↗
+            {/* hover veil with label */}
+            <div className="absolute inset-0 flex items-end justify-end bg-gradient-to-t from-ink/35 to-transparent p-5 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+              <span className="rounded-full bg-cream px-4 py-2 font-mono text-[10px] uppercase tracking-[0.2em] text-ink">
+                {isPrivate ? "Open case study" : "Open live site ↗"}
               </span>
-            </a>
-          ) : (
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-ink/20 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.22em] text-ink-soft md:text-xs">
-              Private engagement
+            </div>
+          </a>
+        </motion.div>
+
+        {/* copy — counter-drifts */}
+        <motion.div
+          style={{ x: xCopy }}
+          className={`md:col-span-5 will-change-transform ${flip ? "md:order-1 md:text-right" : ""}`}
+        >
+          <div className={`flex items-center gap-3 ${flip ? "md:justify-end" : ""}`}>
+            <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute">
+              {project.index} / 07 — {project.role}
             </span>
-          )}
-        </div>
+            <span className="flex items-center gap-2 rounded-full border border-ink/10 bg-paper px-3 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-ink">
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: project.accent }} />
+              {isPrivate ? "NDA" : "Live"} · {project.year}
+            </span>
+          </div>
+          <h3 className="mt-4 font-display text-4xl font-light leading-[0.98] tracking-[-0.035em] text-ink md:text-6xl">
+            {project.name}
+          </h3>
+          <p className="mt-3 font-display text-lg italic leading-snug text-terracotta md:text-xl">
+            {project.tagline}
+          </p>
+          <p className="mt-4 text-sm leading-[1.75] text-ink-soft md:text-[15px]">
+            {project.description}
+          </p>
+          <div className={`mt-5 flex flex-wrap gap-1.5 ${flip ? "md:justify-end" : ""}`}>
+            {project.stack.slice(0, 6).map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-ink/15 bg-paper px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-soft"
+              >
+                {s}
+              </span>
+            ))}
+          </div>
+          <div className={`mt-7 flex flex-wrap gap-3 ${flip ? "md:justify-end" : ""}`}>
+            <Link
+              href={`/work/${slug}`}
+              data-cursor="open"
+              className="rounded-full bg-ink px-6 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-cream transition-colors hover:bg-terracotta"
+            >
+              Case study
+            </Link>
+            {!isPrivate && project.url && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor="visit"
+                className="rounded-full border border-ink/25 px-6 py-3 font-mono text-[10px] uppercase tracking-[0.2em] text-ink transition-colors hover:bg-ink/5"
+              >
+                Visit ↗
+              </a>
+            )}
+          </div>
+        </motion.div>
       </div>
-
-      {/* dimmer as next panel slides over */}
-      <motion.div
-        style={{ opacity: dim }}
-        className="pointer-events-none absolute inset-0 z-20 bg-ink"
-        aria-hidden
-      />
-    </motion.div>
-  );
-
-  return (
-    <div className="sticky top-0 h-[100svh] w-full" style={{ zIndex: index + 1 }}>
-      {inner}
     </div>
   );
-}
-
-/**
- * PreviewFrame — the screenshot frame, rendered as an external link to the
- * live project when a public URL exists, otherwise a static panel.
- */
-function PreviewFrame({
-  url,
-  name,
-  children,
-}: {
-  url?: string;
-  name: string;
-  children: React.ReactNode;
-}) {
-  // Height is capped on desktop so the bottom action row (Case study /
-  // Visit) always fits inside the 100svh panel instead of being clipped.
-  const cls =
-    "group relative block w-full overflow-hidden rounded-md shadow-[0_50px_120px_-40px_rgba(22,19,15,0.35)] aspect-[16/10] md:aspect-auto md:h-[min(46svh,34vw)]";
-  if (url) {
-    return (
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        data-cursor="visit"
-        aria-label={`Open ${name} live site`}
-        className={cls}
-      >
-        {children}
-      </a>
-    );
-  }
-  return <div className={cls}>{children}</div>;
 }
