@@ -59,13 +59,12 @@ const fragment = /* glsl */ `
     float d = length(gl_PointCoord - 0.5);
     float disc = smoothstep(0.5, 0.08, d);
     // palette: deep emerald -> champagne gold -> carbon (drawn dark on porcelain)
-    // starlight on the dusk sky: pale lavender -> warm champagne -> white
-    vec3 oxblood = vec3(0.85, 0.80, 0.97);
-    vec3 gold = vec3(0.96, 0.88, 0.70);
-    vec3 ink  = vec3(1.0, 1.0, 1.0);
+    vec3 oxblood = vec3(0.137, 0.227, 0.447);
+    vec3 gold = vec3(0.690, 0.553, 0.267);
+    vec3 ink  = vec3(0.071, 0.067, 0.063);
     vec3 col = mix(oxblood, gold, vWarm);
     col = mix(col, ink, smoothstep(0.7, 1.0, vWarm));
-    gl_FragColor = vec4(col, disc * vAlpha * 0.55);
+    gl_FragColor = vec4(col, disc * vAlpha * 0.4);
   }
 `;
 
@@ -160,7 +159,7 @@ export default function EmberField() {
   if (!ready) return null;
 
   return (
-    <div ref={wrapRef} className="pointer-events-none absolute inset-0" aria-hidden>
+    <div ref={wrapRef} className="pointer-events-none absolute inset-0 -z-10" aria-hidden>
       <Canvas
         camera={{ position: [0, 0, 9], fov: 55 }}
         dpr={[1, 2]}

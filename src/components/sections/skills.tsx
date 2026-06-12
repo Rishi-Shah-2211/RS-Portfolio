@@ -44,7 +44,7 @@ const GROUPS = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative w-full overflow-hidden py-32 md:py-44">
+    <section id="skills" className="relative w-full overflow-hidden bg-cream py-32 md:py-44">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <Reveal>
           <div className="flex items-center gap-3">

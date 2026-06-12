@@ -104,25 +104,25 @@ export default function FluidTrail() {
 
         if (p.gold) {
           // champagne star flare
-          ctx.strokeStyle = `rgba(168, 146, 224, ${0.75 * a})`;
+          ctx.strokeStyle = `rgba(178, 140, 60, ${0.75 * a})`;
           ctx.lineWidth = 1 + p.depth;
           star(p.x, p.y, r * 2.6, now * p.spin + p.phase);
-          ctx.fillStyle = `rgba(220, 204, 245, ${0.9 * a})`;
+          ctx.fillStyle = `rgba(214, 178, 100, ${0.9 * a})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, r * 0.55, 0, Math.PI * 2);
           ctx.fill();
         } else {
           // sapphire orb with glowing halo
           const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 2.4);
-          grad.addColorStop(0, `rgba(108, 99, 214, ${0.85 * a})`);
-          grad.addColorStop(0.45, `rgba(122, 108, 220, ${0.35 * a})`);
-          grad.addColorStop(1, "rgba(122, 108, 220, 0)");
+          grad.addColorStop(0, `rgba(35, 58, 114, ${0.85 * a})`);
+          grad.addColorStop(0.45, `rgba(54, 80, 150, ${0.35 * a})`);
+          grad.addColorStop(1, "rgba(54, 80, 150, 0)");
           ctx.fillStyle = grad;
           ctx.beginPath();
           ctx.arc(p.x, p.y, r * 2.4, 0, Math.PI * 2);
           ctx.fill();
           // bright core
-          ctx.fillStyle = `rgba(74, 63, 174, ${0.9 * a})`;
+          ctx.fillStyle = `rgba(22, 37, 77, ${0.9 * a})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, r * 0.5, 0, Math.PI * 2);
           ctx.fill();

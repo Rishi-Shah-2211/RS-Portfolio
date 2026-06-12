@@ -113,7 +113,7 @@ export default function CommandPalette() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.98 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/50 bg-white/40 shadow-[0_42px_120px_-30px_rgba(33,26,54,0.6)] backdrop-blur-2xl"
+            className="w-full max-w-xl overflow-hidden rounded-lg border border-ink/15 bg-paper shadow-[0_42px_120px_-30px_rgba(0,0,0,0.7)]"
             onClick={(e) => e.stopPropagation()}
             onKeyDown={onListKey}
           >

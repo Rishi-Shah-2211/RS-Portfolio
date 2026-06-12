@@ -8,7 +8,6 @@ import CommandPalette from "@/components/command-palette";
 import Preloader from "@/components/preloader";
 import JellyHover from "@/components/jelly-hover";
 import FluidTrail from "@/components/fluid-trail";
-import AuroraBg from "@/components/aurora-bg";
 
 const display = Instrument_Serif({
   variable: "--font-display-loaded",
@@ -51,7 +50,6 @@ export default function RootLayout({
       }}
     >
       <body className="custom-cursor-on">
-        <AuroraBg />
         <Preloader />
         <Cursor />
         <JellyHover />

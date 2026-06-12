@@ -21,7 +21,7 @@ export default function TestPrep() {
   const barW = useTransform(scrollYProgress, [0.08, 0.95], ["0%", "100%"]);
 
   return (
-    <section id="test-prep" ref={ref} className="relative h-[420svh]">
+    <section id="test-prep" ref={ref} className="relative h-[420svh] bg-cream">
       <div className="sticky top-0 flex h-[100svh] w-full flex-col justify-center overflow-hidden">
         <div className="paper-grain pointer-events-none absolute inset-0" aria-hidden />
 
@@ -88,7 +88,7 @@ function PrepCard({ app }: { app: PrepApp }) {
   const live = app.status === "live";
 
   const inner = (
-    <div className="group relative flex h-[52svh] w-[78vw] shrink-0 flex-col justify-between overflow-hidden rounded-2xl border border-white/50 bg-white/35 p-7 backdrop-blur-xl transition-colors duration-500 hover:border-ink/25 sm:w-[58vw] md:h-[56svh] md:w-[38vw] md:p-9">
+    <div className="group relative flex h-[52svh] w-[78vw] shrink-0 flex-col justify-between overflow-hidden rounded-md border border-ink/10 bg-paper p-7 transition-colors duration-500 hover:border-ink/25 sm:w-[58vw] md:h-[56svh] md:w-[38vw] md:p-9">
       <div
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
         style={{

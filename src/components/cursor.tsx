@@ -64,8 +64,8 @@ export default function Cursor() {
         <motion.div
           animate={{
             scale: hovering ? 2.4 : 1,
-            backgroundColor: hovering ? "rgba(108,99,214,0.1)" : "rgba(22,19,15,0.04)",
-            borderColor: hovering ? "rgba(108,99,214,0.55)" : "rgba(22,19,15,0.3)",
+            backgroundColor: hovering ? "rgba(35,58,114,0.1)" : "rgba(22,19,15,0.04)",
+            borderColor: hovering ? "rgba(35,58,114,0.55)" : "rgba(22,19,15,0.3)",
           }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
           className="flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm"

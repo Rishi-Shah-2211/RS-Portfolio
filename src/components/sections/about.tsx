@@ -19,13 +19,13 @@ export default function About() {
     <section
       id="about"
       ref={ref}
-      className="relative w-full py-32 md:py-44"
+      className="relative w-full bg-paper py-32 md:py-44"
     >
       <div className="paper-grain absolute inset-0 opacity-60" />
       <div className="relative mx-auto grid max-w-[1400px] gap-12 px-6 md:grid-cols-12 md:gap-16 md:px-10">
         {/* photo */}
         <div className="md:col-span-5 md:col-start-1">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(108,99,214,0.2)]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(35,58,114,0.2)]">
             <motion.div
               style={{ y: imgY, scale: imgScale }}
               className="absolute inset-[-8%]"

@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* Alpine Dusk — glassmorphism palette after the Akina reference: lilac
-     white base, deep indigo ink, periwinkle-purple primary, soft mauve
-     secondary, plum dark rooms. Frosted-glass surfaces throughout. */
-  --color-cream: #f1edf9;       /* lilac white — main base */
-  --color-cream-dim: #e4ddf2;   /* deeper lilac — alt surfaces */
-  --color-paper: #f9f7fd;       /* lifted white — card bg */
-  --color-ink: #211a36;         /* deep indigo ink — primary text */
-  --color-ink-soft: #564f72;    /* dusk grey secondary text */
-  --color-ink-mute: #948dab;    /* lavender grey tertiary text */
-  --color-terracotta: #6c63d6;     /* periwinkle purple — primary accent */
-  --color-terracotta-deep: #4a3fae;
-  --color-brass: #8d7bb8;          /* soft violet */
-  --color-sage: #74719a;           /* slate lavender */
-  --color-peach: #cdbbed;          /* pale mauve (accent on dark) */
-  --color-lavender: #8d7bb8;       /* violet */
+  /* Maison Sapphire — one uniformly bright porcelain white across every
+     section (matched to the project panels), carbon ink, royal sapphire
+     primary accent, champagne gold secondary. Ultra-premium maison feel. */
+  --color-cream: #fbfaf7;       /* Planmate-panel paper white — main base */
+  --color-cream-dim: #f1efe9;   /* soft porcelain — alt surfaces */
+  --color-paper: #fbfaf7;       /* identical to base — uniform brightness */
+  --color-ink: #0e0e11;         /* carbon ink — primary text */
+  --color-ink-soft: #50505a;    /* graphite secondary text */
+  --color-ink-mute: #8e8d94;    /* stone tertiary text */
+  --color-terracotta: #233a72;     /* royal sapphire — primary accent */
+  --color-terracotta-deep: #16254d;
+  --color-brass: #b08d44;          /* champagne gold */
+  --color-sage: #5a6678;           /* steel blue-grey */
+  --color-peach: #d9c79c;          /* champagne (accent on dark) */
+  --color-lavender: #6b647e;       /* graphite plum */
 
   --font-display: "Instrument Serif", "EB Garamond", ui-serif, Georgia, serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
@@ -137,20 +137,6 @@ html.lenis, html.lenis body { height: auto; }
   mask-composite: exclude;
   opacity: 0.6;
   pointer-events: none;
-}
-
-/* Frosted glass surfaces (Akina-style) */
-.glass {
-  background: rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.38);
-}
-.glass-dark {
-  background: rgba(33, 26, 54, 0.35);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 /* Hide scrollbar */

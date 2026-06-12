@@ -31,7 +31,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative w-full py-32 md:py-44"
+      className="relative w-full bg-paper py-32 md:py-44"
     >
       <div className="paper-grain absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">
@@ -87,7 +87,7 @@ export default function Experience() {
 
         {/* Publication */}
         <Reveal delay={0.2}>
-          <div className="mt-20 grid gap-6 rounded-2xl border border-white/50 bg-white/35 p-8 shadow-[0_28px_80px_-48px_rgba(108,99,214,0.24)] backdrop-blur md:grid-cols-12 md:p-10">
+          <div className="mt-20 grid gap-6 rounded-md border border-ink/10 bg-cream-dim/55 p-8 shadow-[0_28px_80px_-48px_rgba(35,58,114,0.24)] backdrop-blur md:grid-cols-12 md:p-10">
             <div className="md:col-span-3">
               <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-terracotta">
                 Publication

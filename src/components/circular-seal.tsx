@@ -19,8 +19,8 @@ export default function CircularSeal({
   return (
     <div className={`relative ${className}`} aria-hidden>
       {/* Soft oxblood/gold halos — wash on ivory base */}
-      <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(108,99,214,0.12)_0%,rgba(141,123,184,0.1)_45%,transparent_70%)] blur-2xl" />
-      <div className="absolute inset-[28%] rounded-full bg-[radial-gradient(circle,rgba(217,199,156,0.22)_0%,rgba(108,99,214,0.1)_55%,transparent_80%)] blur-xl" />
+      <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(35,58,114,0.12)_0%,rgba(176,141,68,0.1)_45%,transparent_70%)] blur-2xl" />
+      <div className="absolute inset-[28%] rounded-full bg-[radial-gradient(circle,rgba(217,199,156,0.22)_0%,rgba(35,58,114,0.1)_55%,transparent_80%)] blur-xl" />
 
       {/* Concentric hairlines */}
       <div className="absolute inset-0 rounded-full border border-ink/15" />
@@ -80,7 +80,7 @@ export default function CircularSeal({
       {/* Center jewel — oxblood cabochon on ivory */}
       <div className="absolute left-1/2 top-1/2 h-[14%] w-[14%] -translate-x-1/2 -translate-y-1/2 rounded-full">
         <div className="absolute -inset-2 rounded-full bg-terracotta/25 blur-xl" />
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-peach via-terracotta to-terracotta-deep shadow-[inset_-6px_-8px_18px_rgba(20,14,40,0.5),inset_6px_8px_18px_rgba(240,236,250,0.5),0_25px_50px_-12px_rgba(108,99,214,0.4)]" />
+        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-peach via-terracotta to-terracotta-deep shadow-[inset_-6px_-8px_18px_rgba(10,16,35,0.5),inset_6px_8px_18px_rgba(235,238,248,0.5),0_25px_50px_-12px_rgba(35,58,114,0.4)]" />
         <div className="absolute inset-[18%] rounded-full bg-gradient-to-br from-white/55 to-transparent opacity-70" />
       </div>
 
@@ -90,7 +90,7 @@ export default function CircularSeal({
         transition={{ duration: 18, ease: "linear", repeat: Infinity }}
         className="absolute inset-[10%]"
       >
-        <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-terracotta shadow-[0_0_14px_rgba(108,99,214,0.6)]" />
+        <div className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-terracotta shadow-[0_0_14px_rgba(35,58,114,0.6)]" />
       </motion.div>
     </div>
   );

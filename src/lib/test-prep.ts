@@ -20,7 +20,7 @@ export const PREP_APPS: PrepApp[] = [
     modules: ["Reading", "Listening", "Writing", "Speaking"],
     url: "https://kanan-ielts-academic.vercel.app",
     status: "live",
-    accent: "#6c63d6",
+    accent: "#233a72",
   },
   {
     index: "02",
@@ -31,7 +31,7 @@ export const PREP_APPS: PrepApp[] = [
     modules: ["Reading", "Listening", "Writing", "Speaking"],
     url: "https://kanan-ielts-general.vercel.app",
     status: "live",
-    accent: "#8d7bb8",
+    accent: "#b08d44",
   },
   {
     index: "03",
@@ -41,7 +41,7 @@ export const PREP_APPS: PrepApp[] = [
     modules: ["Verbal", "Quant", "Analytical Writing"],
     url: "https://kanan-gre.vercel.app",
     status: "live",
-    accent: "#74719a",
+    accent: "#5a6678",
   },
   {
     index: "04",
@@ -50,6 +50,6 @@ export const PREP_APPS: PrepApp[] = [
       "Digital-SAT-style adaptive modules in progress — Reading & Writing and Math stages with the two-module adaptive flow, on the same shared exam engine powering the rest of the suite.",
     modules: ["Reading & Writing", "Math"],
     status: "in-development",
-    accent: "#cdbbed",
+    accent: "#d9c79c",
   },
 ];

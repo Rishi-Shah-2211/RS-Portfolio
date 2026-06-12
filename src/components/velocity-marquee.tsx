@@ -48,7 +48,7 @@ export default function VelocityMarquee({
   const line = items.join("  ·  ") + "  ·  ";
 
   return (
-    <div className="relative z-20 w-full overflow-hidden border-y border-white/40 bg-white/20 py-6 backdrop-blur-md md:py-8">
+    <div className="relative z-20 w-full overflow-hidden border-y border-ink/10 bg-cream py-6 md:py-8">
       <motion.div
         ref={trackRef}
         style={{ x, skewX: skew }}
