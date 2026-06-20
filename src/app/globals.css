@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  /* Maison Sapphire — one uniformly bright porcelain white across every
-     section (matched to the project panels), carbon ink, royal sapphire
-     primary accent, champagne gold secondary. Ultra-premium maison feel. */
-  --color-cream: #fbfaf7;       /* Planmate-panel paper white — main base */
-  --color-cream-dim: #f1efe9;   /* soft porcelain — alt surfaces */
-  --color-paper: #fbfaf7;       /* identical to base — uniform brightness */
-  --color-ink: #0e0e11;         /* carbon ink — primary text */
-  --color-ink-soft: #50505a;    /* graphite secondary text */
-  --color-ink-mute: #8e8d94;    /* stone tertiary text */
-  --color-terracotta: #233a72;     /* royal sapphire — primary accent */
-  --color-terracotta-deep: #16254d;
-  --color-brass: #b08d44;          /* champagne gold */
-  --color-sage: #5a6678;           /* steel blue-grey */
-  --color-peach: #d9c79c;          /* champagne (accent on dark) */
-  --color-lavender: #6b647e;       /* graphite plum */
+  /* Plum Noir — soft greige paper, deep ink text, rich plum/burgundy
+     primary accent with an antique-gold secondary. Fashion-editorial,
+     bold yet elegant. */
+  --color-cream: #f3f0ee;       /* soft greige — main base */
+  --color-cream-dim: #e7e1dd;   /* deeper greige — alt surfaces */
+  --color-paper: #faf8f6;       /* lifted warm white — card bg */
+  --color-ink: #161214;         /* deep ink — primary text */
+  --color-ink-soft: #585056;    /* warm graphite secondary text */
+  --color-ink-mute: #978f95;    /* mauve-grey tertiary text */
+  --color-terracotta: #6e2746;     /* plum / burgundy — primary accent */
+  --color-terracotta-deep: #4e1a31;
+  --color-brass: #ad8754;          /* antique gold — secondary */
+  --color-sage: #6d6675;           /* muted slate-plum */
+  --color-peach: #d8bccb;          /* pale rose (accent on dark) */
+  --color-lavender: #8a6f86;       /* mauve */
 
   --font-display: "Instrument Serif", "EB Garamond", ui-serif, Georgia, serif;
   --font-sans: "Geist", system-ui, -apple-system, sans-serif;
@@ -31,8 +31,8 @@ html, body {
      whisper of sapphire cool in the lower corners */
   background:
     radial-gradient(120% 80% at 18% 0%, #fffefb 0%, transparent 55%),
-    radial-gradient(110% 70% at 85% 100%, rgba(35,58,114,0.06) 0%, transparent 60%),
-    radial-gradient(90% 60% at 0% 100%, rgba(176,141,68,0.05) 0%, transparent 55%),
+    radial-gradient(110% 70% at 85% 100%, rgba(110,39,70,0.06) 0%, transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, rgba(173,135,84,0.05) 0%, transparent 55%),
     linear-gradient(180deg, #fcfbf8 0%, #f8f6f0 55%, #f3f0e8 100%);
   background-attachment: fixed;
   color: var(--color-ink);
@@ -139,7 +139,7 @@ html.lenis, html.lenis body { height: auto; }
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from 180deg, #233a72, #b08d44, #d9c79c, #16254d, #5a6678, #233a72);
+  background: conic-gradient(from 180deg, #6e2746, #ad8754, #d8bccb, #4e1a31, #6d6675, #6e2746);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;

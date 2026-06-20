@@ -16,7 +16,7 @@ import TiltCard from "@/components/tilt-card";
  */
 export default function Projects() {
   return (
-    <section id="work" className="relative w-full py-28 md:py-40">
+    <section id="work" className="relative w-full pb-28 pt-28 md:pb-40 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <Reveal>
           <div className="flex items-center gap-3">
@@ -96,7 +96,7 @@ function Row({
             target={!isPrivate && project.url ? "_blank" : undefined}
             rel={!isPrivate && project.url ? "noopener noreferrer" : undefined}
             data-cursor="visit"
-            className="group relative block overflow-hidden rounded-md shadow-[0_50px_120px_-46px_rgba(35,58,114,0.4)]"
+            className="group relative block overflow-hidden rounded-md shadow-[0_50px_120px_-46px_rgba(110,39,70,0.4)]"
           >
             {hasScreenshot ? (
               <motion.img

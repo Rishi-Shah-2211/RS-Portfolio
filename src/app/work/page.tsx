@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <main className="relative pt-16">
+    <main className="relative">
       <Projects />
       {SHOW_TEST_PREP && (
         <>

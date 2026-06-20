@@ -16,7 +16,7 @@ const CARDS = [
     label: "About",
     line: "The engineer behind the work — background, stack, and the way I think.",
     items: ["Background & education", "Tools & stack", "Experience · publication"],
-    accent: "#6c63d6",
+    accent: "#6e2746",
   },
   {
     href: "/work",
@@ -25,7 +25,7 @@ const CARDS = [
     label: "Work",
     line: "Seven products in production — analytics, ML, LLM copilots, and more.",
     items: ["07 live products", "5 platforms shipped", "Full case studies"],
-    accent: "#b08d44",
+    accent: "#ad8754",
   },
   {
     href: "/contact",
@@ -34,7 +34,7 @@ const CARDS = [
     label: "Contact",
     line: "Open to freelance and full-time. Let's build something worth shipping.",
     items: ["Email · direct", "LinkedIn · GitHub", "Available now"],
-    accent: "#3f8f7a",
+    accent: "#8a6f86",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function HomeDirectory() {
             <Reveal key={c.href} delay={i * 0.1}>
               <Link href={c.href} data-cursor="open" className="block h-full">
                 <article
-                  className="group relative flex h-full min-h-[24rem] flex-col justify-between overflow-hidden rounded-2xl border border-ink/10 bg-paper p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-ink/20 hover:shadow-[0_50px_100px_-50px_rgba(35,58,114,0.5)] md:min-h-[26rem] md:p-9"
+                  className="group relative flex h-full min-h-[24rem] flex-col justify-between overflow-hidden rounded-2xl border border-ink/10 bg-paper p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-ink/20 hover:shadow-[0_50px_100px_-50px_rgba(110,39,70,0.5)] md:min-h-[26rem] md:p-9"
                 >
                   {/* accent glow top corner */}
                   <div

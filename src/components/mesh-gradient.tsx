@@ -34,14 +34,14 @@ export default function MeshGradient({ className = "" }: { className?: string })
       {/* readability wash — keeps text clean over the gradient (ivory) */}
       <div className="absolute inset-0 bg-[#fbfaf7]/62" />
       {/* gallery vignette — barely-there warm edge */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(35,58,114,0.035)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,rgba(110,39,70,0.035)_100%)]" />
     </div>
   );
 }
 
 const BLOBS = [
   {
-    color: "#233a72", // oxblood (hero focal warmth)
+    color: "#6e2746", // oxblood (hero focal warmth)
     size: "50vw",
     blur: 130,
     opacity: 0.07,
@@ -49,7 +49,7 @@ const BLOBS = [
     to: { x: "20vw", y: "10vh" },
   },
   {
-    color: "#b08d44", // antique gold
+    color: "#ad8754", // antique gold
     size: "42vw",
     blur: 125,
     opacity: 0.08,
@@ -57,7 +57,7 @@ const BLOBS = [
     to: { x: "50vw", y: "30vh" },
   },
   {
-    color: "#d9c79c", // champagne
+    color: "#d8bccb", // champagne
     size: "34vw",
     blur: 115,
     opacity: 0.06,
@@ -65,7 +65,7 @@ const BLOBS = [
     to: { x: "55vw", y: "20vh" },
   },
   {
-    color: "#5a6678", // olive sage (cool counterpoint)
+    color: "#6d6675", // olive sage (cool counterpoint)
     size: "44vw",
     blur: 110,
     opacity: 0.06,
@@ -73,7 +73,7 @@ const BLOBS = [
     to: { x: "30vw", y: "45vh" },
   },
   {
-    color: "#16254d", // oxblood-deep
+    color: "#4e1a31", // oxblood-deep
     size: "26vw",
     blur: 100,
     opacity: 0.05,

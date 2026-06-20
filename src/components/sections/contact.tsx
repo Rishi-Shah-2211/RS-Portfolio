@@ -20,7 +20,7 @@ export default function Contact() {
     <section
       id="contact"
       ref={ref}
-      className="relative isolate w-full overflow-hidden bg-ink py-32 text-cream md:py-44"
+      className="relative isolate w-full overflow-hidden bg-ink pb-32 pt-28 text-cream md:pb-44 md:pt-32"
     >
       {/* atmospheric background */}
       <motion.div

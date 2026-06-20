@@ -18,7 +18,7 @@ function Orb() {
       <mesh ref={ref}>
         <icosahedronGeometry args={[1.6, 12]} />
         <MeshDistortMaterial
-          color="#233a72"
+          color="#6e2746"
           roughness={0.28}
           metalness={0.42}
           distort={0.42}
@@ -41,8 +41,8 @@ export default function Sculpture({ className = "" }: { className?: string }) {
         <Suspense fallback={null}>
           <ambientLight intensity={0.6} />
           <directionalLight position={[3, 4, 2]} intensity={1.4} color="#fcf8ee" />
-          <directionalLight position={[-3, -2, -1]} intensity={0.65} color="#b08d44" />
-          <pointLight position={[0, 2, 3]} intensity={1.05} color="#233a72" />
+          <directionalLight position={[-3, -2, -1]} intensity={0.65} color="#ad8754" />
+          <pointLight position={[0, 2, 3]} intensity={1.05} color="#6e2746" />
           <Orb />
         </Suspense>
       </Canvas>

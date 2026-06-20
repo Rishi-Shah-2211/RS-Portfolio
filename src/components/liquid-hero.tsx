@@ -102,8 +102,8 @@ function Plane() {
       uMouseStr: { value: 0 },
       uRes: { value: new THREE.Vector2(1, 1) },
       uBase: { value: new THREE.Color("#fbfaf7") },
-      uMid: { value: new THREE.Color("#e7ecf6") },
-      uAccent: { value: new THREE.Color("#233a72") },
+      uMid: { value: new THREE.Color("#e7e1dd") },
+      uAccent: { value: new THREE.Color("#6e2746") },
     }),
     [],
   );
@@ -112,8 +112,8 @@ function Plane() {
   useEffect(() => {
     const sync = () => {
       uniforms.uBase.value.set(readVar("--color-cream", "#fbfaf7"));
-      uniforms.uMid.value.set(readVar("--color-cream-dim", "#e7ecf6"));
-      uniforms.uAccent.value.set(readVar("--color-terracotta", "#233a72"));
+      uniforms.uMid.value.set(readVar("--color-cream-dim", "#e7e1dd"));
+      uniforms.uAccent.value.set(readVar("--color-terracotta", "#6e2746"));
     };
     sync();
     const obs = new MutationObserver(sync);

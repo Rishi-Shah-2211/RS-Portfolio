@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="relative pt-16">
+    <main className="relative">
       <About />
       <Skills />
       <Experience />

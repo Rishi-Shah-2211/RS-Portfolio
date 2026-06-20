@@ -3,152 +3,97 @@
 import { useEffect, useRef } from "react";
 
 /**
- * WaterRipple trail — the cursor drags through the page like a hand
- * through still water. Each movement sheds concentric rings that expand,
- * thin out, and dissolve; faster strokes shed bigger, stronger rings.
- * Subtle ink/sapphire strokes on the porcelain base. Canvas 2D, desktop
- * only, pointer-transparent; rAF sleeps once the surface settles.
+ * GooeyTrail — a liquid plum blob that lags behind the cursor and merges
+ * like mercury. A short chain of circles each chase the one ahead; an SVG
+ * goo filter fuses them into one shape, so fast moves stretch it into a
+ * teardrop and stillness lets it snap back round. Desktop only,
+ * pointer-transparent, sleeps when the pointer rests.
  */
 
-type Ripple = {
-  x: number;
-  y: number;
-  born: number;
-  life: number;
-  maxR: number;
-  strength: number; // 0..1, from cursor speed
-};
+const N = 6; // chain length
 
 export default function FluidTrail() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const circlesRef = useRef<(SVGCircleElement | null)[]>([]);
 
   useEffect(() => {
     const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const canvas = canvasRef.current;
-    if (!fine || !motionOk || !canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!fine || !motionOk) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const resize = () => {
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const ripples: Ripple[] = [];
+    const pts = Array.from({ length: N }, () => ({ x: -100, y: -100 }));
+    const target = { x: -100, y: -100 };
     let raf = 0;
-    let running = false;
-    let last = { x: -999, y: -999, t: 0 };
-
-    const draw = () => {
-      const now = performance.now();
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const rp = ripples[i];
-        const t = (now - rp.born) / rp.life;
-        if (t >= 1) {
-          ripples.splice(i, 1);
-          continue;
-        }
-        // radius eases out like a real wave-front; alpha dies with the wave
-        const ease = 1 - Math.pow(1 - t, 2.2);
-        const r = rp.maxR * ease;
-        const fade = Math.pow(1 - t, 1.7) * rp.strength;
-
-        // wave-front ring (ink-sapphire)
-        ctx.strokeStyle = `rgba(35, 58, 114, ${0.34 * fade})`;
-        ctx.lineWidth = 2.2 * (1 - t) + 0.4;
-        ctx.beginPath();
-        ctx.arc(rp.x, rp.y, r, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // trailing inner ring — softer, slightly behind the front
-        if (r > 14) {
-          ctx.strokeStyle = `rgba(35, 58, 114, ${0.16 * fade})`;
-          ctx.lineWidth = 1.1 * (1 - t) + 0.3;
-          ctx.beginPath();
-          ctx.arc(rp.x, rp.y, r * 0.62, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
-        // faint highlight crescent — light catching the wave
-        ctx.strokeStyle = `rgba(255, 255, 255, ${0.5 * fade})`;
-        ctx.lineWidth = 1.4 * (1 - t) + 0.3;
-        ctx.beginPath();
-        ctx.arc(rp.x, rp.y, r + 1.5, -0.9, 0.6);
-        ctx.stroke();
-      }
-
-      if (ripples.length) {
-        raf = requestAnimationFrame(draw);
-      } else {
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        running = false;
-      }
-    };
+    let idle = 0;
 
     const onMove = (e: PointerEvent) => {
-      const now = performance.now();
-      const dx = e.clientX - last.x;
-      const dy = e.clientY - last.y;
-      const dist = Math.hypot(dx, dy);
-      if (dist < 34) return;
-      const dt = Math.max(now - last.t, 1);
-      const speed = Math.min(dist / dt, 3); // px per ms
-      last = { x: e.clientX, y: e.clientY, t: now };
-
-      ripples.push({
-        x: e.clientX,
-        y: e.clientY,
-        born: now,
-        life: 850 + speed * 250,
-        maxR: 36 + speed * 46 + Math.random() * 12,
-        strength: 0.55 + Math.min(speed / 2.4, 1) * 0.45,
-      });
-      if (ripples.length > 28) ripples.splice(0, ripples.length - 28);
-
-      if (!running) {
-        running = true;
-        raf = requestAnimationFrame(draw);
-      }
+      target.x = e.clientX;
+      target.y = e.clientY;
+      idle = 0;
+      if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    // a gentle "plonk" on click — a bigger, slower ring
-    const onDown = (e: PointerEvent) => {
-      ripples.push({
-        x: e.clientX,
-        y: e.clientY,
-        born: performance.now(),
-        life: 1300,
-        maxR: 120,
-        strength: 1,
-      });
-      if (!running) {
-        running = true;
-        raf = requestAnimationFrame(draw);
+    const tick = () => {
+      // head chases the cursor fast; each link eases toward the one ahead
+      pts[0].x += (target.x - pts[0].x) * 0.35;
+      pts[0].y += (target.y - pts[0].y) * 0.35;
+      for (let i = 1; i < N; i++) {
+        pts[i].x += (pts[i - 1].x - pts[i].x) * 0.4;
+        pts[i].y += (pts[i - 1].y - pts[i].y) * 0.4;
       }
+      let moving = 0;
+      for (let i = 0; i < N; i++) {
+        const c = circlesRef.current[i];
+        if (c) {
+          c.setAttribute("cx", String(pts[i].x));
+          c.setAttribute("cy", String(pts[i].y));
+        }
+      }
+      moving = Math.hypot(target.x - pts[N - 1].x, target.y - pts[N - 1].y);
+      if (moving < 0.6) idle++;
+      if (idle > 30) {
+        raf = 0;
+        return;
+      }
+      raf = requestAnimationFrame(tick);
     };
 
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerdown", onDown, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[95]"
+    <svg
+      className="pointer-events-none fixed inset-0 z-[95] h-full w-full"
       aria-hidden
-    />
+    >
+      <defs>
+        <filter id="goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+      </defs>
+      <g filter="url(#goo)" fill="#6e2746" opacity="0.5">
+        {Array.from({ length: N }).map((_, i) => (
+          <circle
+            key={i}
+            ref={(el) => {
+              circlesRef.current[i] = el;
+            }}
+            cx={-100}
+            cy={-100}
+            r={16 - i * 2}
+          />
+        ))}
+      </g>
+    </svg>
   );
 }
