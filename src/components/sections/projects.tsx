@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
 import { Reveal, SplitWords } from "@/components/reveal";
+import TiltCard from "@/components/tilt-card";
 
 /**
  * Projects — cinematic alternating rows. Each project's screenshot glides
@@ -21,7 +22,7 @@ export default function Projects() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-ink/40" />
             <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              03 — Selected Work
+              Selected Work
             </span>
           </div>
         </Reveal>
@@ -87,8 +88,9 @@ function Row({
         {/* image — slides in from its side */}
         <motion.div
           style={{ x: xImg }}
-          className={`md:col-span-7 will-change-transform ${flip ? "md:order-2" : ""}`}
+          className={`md:col-span-7 [perspective:1200px] will-change-transform ${flip ? "md:order-2" : ""}`}
         >
+          <TiltCard max={7}>
           <a
             href={!isPrivate && project.url ? project.url : `/work/${slug}`}
             target={!isPrivate && project.url ? "_blank" : undefined}
@@ -128,6 +130,7 @@ function Row({
               </span>
             </div>
           </a>
+          </TiltCard>
         </motion.div>
 
         {/* copy — counter-drifts */}

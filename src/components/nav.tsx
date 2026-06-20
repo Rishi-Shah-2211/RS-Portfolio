@@ -4,14 +4,12 @@ import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "mot
 import Link from "next/link";
 import { useState } from "react";
 import Magnetic from "@/components/magnetic";
-import { SHOW_TEST_PREP } from "@/lib/site-config";
+import ThemeToggle from "@/components/theme-toggle";
 
 const links = [
-  { href: "/#work", label: "Work" },
-  ...(SHOW_TEST_PREP ? [{ href: "/#test-prep", label: "Test-Prep" }] : []),
-  { href: "/#about", label: "About" },
-  { href: "/#skills", label: "Stack" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/about", label: "About" },
+  { href: "/work", label: "Work" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Nav() {
@@ -46,17 +44,19 @@ export default function Nav() {
         </Link>
         <nav className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
+              data-cursor="open"
               className="group relative rounded-full px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] text-ink-soft transition-colors hover:text-ink"
             >
               <span className="relative z-10">{l.label}</span>
               <span className="absolute inset-0 -z-0 scale-90 rounded-full bg-cream-dim opacity-0 transition-all duration-500 group-hover:scale-100 group-hover:opacity-100" />
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <span className="hidden items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-mute md:inline-flex">
             ⌘K
           </span>
@@ -109,22 +109,25 @@ export default function Nav() {
         >
           <nav className="flex flex-col">
             {links.map((l, i) => (
-              <motion.a
+              <motion.div
                 key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.25 + i * 0.07, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="flex items-baseline gap-4 border-b border-cream/10 py-5"
               >
-                <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-cream/40">
-                  0{i + 1}
-                </span>
-                <span className="font-display text-4xl font-light tracking-[-0.03em] text-cream">
-                  {l.label}
-                </span>
-              </motion.a>
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-baseline gap-4 border-b border-cream/10 py-5"
+                >
+                  <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-cream/40">
+                    0{i + 1}
+                  </span>
+                  <span className="font-display text-4xl font-light tracking-[-0.03em] text-cream">
+                    {l.label}
+                  </span>
+                </Link>
+              </motion.div>
             ))}
           </nav>
           <motion.div

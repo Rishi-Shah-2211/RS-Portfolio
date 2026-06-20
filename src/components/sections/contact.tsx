@@ -37,7 +37,7 @@ export default function Contact() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-cream/40" />
             <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-cream/60">
-              06 — Contact
+              Get in touch
             </span>
           </div>
         </Reveal>

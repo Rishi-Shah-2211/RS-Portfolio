@@ -25,11 +25,9 @@ export default function CommandPalette() {
   }, []);
 
   const commands = useMemo<Cmd[]>(() => {
-    const go = (hash: string) => () => {
+    const go = (path: string) => () => {
       close();
-      const el = document.querySelector(hash);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
-      else window.location.href = `/${hash}`;
+      window.location.href = path;
     };
     const ext = (url: string) => () => {
       close();
@@ -37,18 +35,18 @@ export default function CommandPalette() {
     };
     const prepCommands: Cmd[] = SHOW_TEST_PREP
       ? [
-          { id: "prep", label: "Go to Test-Prep Suite", hint: "Section", keywords: "ielts gre sat kanan exam", run: go("#test-prep") },
+          { id: "prep", label: "Go to Test-Prep Suite", hint: "Page", keywords: "ielts gre sat kanan exam", run: go("/work#test-prep") },
           { id: "ielts-a", label: "Open IELTS Academic simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-academic.vercel.app") },
           { id: "ielts-g", label: "Open IELTS General simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-general.vercel.app") },
           { id: "gre", label: "Open GRE simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-gre.vercel.app") },
         ]
       : [];
     return [
-      { id: "work", label: "Go to Work", hint: "Section", run: go("#work") },
+      { id: "home", label: "Go to Home", hint: "Page", run: go("/") },
+      { id: "about", label: "Go to About", hint: "Page", run: go("/about") },
+      { id: "work", label: "Go to Work", hint: "Page", run: go("/work") },
       ...prepCommands,
-      { id: "about", label: "Go to About", hint: "Section", run: go("#about") },
-      { id: "skills", label: "Go to Stack", hint: "Section", run: go("#skills") },
-      { id: "contact", label: "Go to Contact", hint: "Section", run: go("#contact") },
+      { id: "contact", label: "Go to Contact", hint: "Page", run: go("/contact") },
       {
         id: "email",
         label: "Copy email address",

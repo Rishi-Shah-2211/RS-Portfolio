@@ -3,11 +3,10 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import dynamic from "next/dynamic";
-import MeshGradient from "@/components/mesh-gradient";
+import Link from "next/link";
 import Magnetic from "@/components/magnetic";
-import { SHOW_TEST_PREP } from "@/lib/site-config";
 
-const EmberField = dynamic(() => import("@/components/ember-field"), {
+const LiquidHero = dynamic(() => import("@/components/liquid-hero"), {
   ssr: false,
 });
 
@@ -35,8 +34,7 @@ export default function Hero() {
       id="top"
       className="relative isolate flex h-[100svh] w-full flex-col justify-center overflow-hidden"
     >
-      <MeshGradient />
-      <EmberField />
+      <LiquidHero />
 
       <motion.div
         style={{ opacity }}
@@ -73,21 +71,20 @@ export default function Hero() {
             className="mt-10 flex flex-wrap items-center gap-5"
           >
             <Magnetic>
-              <a
-                href="#work"
+              <Link
+                href="/work"
                 data-cursor="explore"
                 className="shimmer group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 font-mono text-xs uppercase tracking-[0.2em] text-cream"
               >
                 <span className="relative z-10">Explore the work</span>
-                <span className="relative z-10 inline-block transition-transform duration-500 group-hover:translate-y-0.5">
-                  ↓
+                <span className="relative z-10 inline-block transition-transform duration-500 group-hover:translate-x-0.5">
+                  →
                 </span>
-              </a>
+              </Link>
             </Magnetic>
             <p className="max-w-xs text-sm leading-relaxed text-ink-soft">
-              {SHOW_TEST_PREP
-                ? "07 products in production — analytics, ML, LLM copilots, and a four-exam test-prep suite."
-                : "07 products in production — analytics, ML, LLM copilots, and cross-platform tooling."}
+              07 products in production — analytics, ML, LLM copilots, and
+              cross-platform tooling.
             </p>
           </motion.div>
         </div>
@@ -99,22 +96,26 @@ export default function Hero() {
           aria-label="Sections"
         >
           {INDEX.map((it, i) => (
-            <motion.a
+            <motion.div
               key={it.href}
-              href={it.href}
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 2.6 + i * 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="group flex items-baseline gap-3 py-1.5 text-right"
             >
-              <span className="font-mono text-[10px] tracking-[0.2em] text-ink-mute transition-colors group-hover:text-terracotta">
-                0{i + 1}
-              </span>
-              <span className="relative font-display text-xl font-light text-ink-soft transition-all duration-500 group-hover:-translate-x-1.5 group-hover:text-ink md:text-2xl">
-                {it.label}
-                <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-terracotta transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100" />
-              </span>
-            </motion.a>
+              <Link
+                href={it.href}
+                data-cursor="open"
+                className="group flex items-baseline justify-end gap-3 py-1.5 text-right"
+              >
+                <span className="font-mono text-[10px] tracking-[0.2em] text-ink-mute transition-colors group-hover:text-terracotta">
+                  0{i + 1}
+                </span>
+                <span className="relative font-display text-xl font-light text-ink-soft transition-all duration-500 group-hover:-translate-x-1.5 group-hover:text-ink md:text-2xl">
+                  {it.label}
+                  <span className="absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-terracotta transition-transform duration-500 group-hover:origin-left group-hover:scale-x-100" />
+                </span>
+              </Link>
+            </motion.div>
           ))}
         </motion.nav>
       </motion.div>
@@ -139,11 +140,9 @@ export default function Hero() {
 }
 
 const INDEX = [
-  { label: "Work", href: "#work" },
-  ...(SHOW_TEST_PREP ? [{ label: "Test-Prep", href: "#test-prep" }] : []),
-  { label: "About", href: "#about" },
-  { label: "Stack", href: "#skills" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /** A headline line that flies in from one side, then drifts with scroll. */
