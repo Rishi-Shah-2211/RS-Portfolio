@@ -6,6 +6,7 @@ import TestPrep from "@/components/sections/test-prep";
 import VelocityMarquee from "@/components/velocity-marquee";
 import Experience from "@/components/sections/experience";
 import Contact from "@/components/sections/contact";
+import { SHOW_TEST_PREP } from "@/lib/site-config";
 
 export default function Home() {
   return (
@@ -18,19 +19,23 @@ export default function Home() {
       <About />
       <Skills />
       <Projects />
-      {/* crossing ribbons — opposite directions */}
-      <div className="relative">
-        <VelocityMarquee
-          items={["IELTS Academic", "IELTS General", "GRE", "SAT"]}
-        />
-        <VelocityMarquee
-          items={["One engine", "Four exams", "Three live", "Built for Kanan students"]}
-          reverse
-          accent
-          baseSpeed={45}
-        />
-      </div>
-      <TestPrep />
+      {SHOW_TEST_PREP && (
+        <>
+          {/* crossing ribbons — opposite directions */}
+          <div className="relative">
+            <VelocityMarquee
+              items={["IELTS Academic", "IELTS General", "GRE", "SAT"]}
+            />
+            <VelocityMarquee
+              items={["One engine", "Four exams", "Three live", "Built for Kanan students"]}
+              reverse
+              accent
+              baseSpeed={45}
+            />
+          </div>
+          <TestPrep />
+        </>
+      )}
       <Experience />
       <Contact />
     </main>

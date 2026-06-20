@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { SHOW_TEST_PREP } from "@/lib/site-config";
 
 type Cmd = {
   id: string;
@@ -34,15 +35,20 @@ export default function CommandPalette() {
       close();
       window.open(url, "_blank", "noopener,noreferrer");
     };
+    const prepCommands: Cmd[] = SHOW_TEST_PREP
+      ? [
+          { id: "prep", label: "Go to Test-Prep Suite", hint: "Section", keywords: "ielts gre sat kanan exam", run: go("#test-prep") },
+          { id: "ielts-a", label: "Open IELTS Academic simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-academic.vercel.app") },
+          { id: "ielts-g", label: "Open IELTS General simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-general.vercel.app") },
+          { id: "gre", label: "Open GRE simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-gre.vercel.app") },
+        ]
+      : [];
     return [
       { id: "work", label: "Go to Work", hint: "Section", run: go("#work") },
-      { id: "prep", label: "Go to Test-Prep Suite", hint: "Section", keywords: "ielts gre sat kanan exam", run: go("#test-prep") },
+      ...prepCommands,
       { id: "about", label: "Go to About", hint: "Section", run: go("#about") },
       { id: "skills", label: "Go to Stack", hint: "Section", run: go("#skills") },
       { id: "contact", label: "Go to Contact", hint: "Section", run: go("#contact") },
-      { id: "ielts-a", label: "Open IELTS Academic simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-academic.vercel.app") },
-      { id: "ielts-g", label: "Open IELTS General simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-general.vercel.app") },
-      { id: "gre", label: "Open GRE simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-gre.vercel.app") },
       {
         id: "email",
         label: "Copy email address",
@@ -55,6 +61,7 @@ export default function CommandPalette() {
       },
       { id: "mailto", label: "Start an email", hint: "Get in touch", keywords: "hire contact", run: ext("mailto:rishishah457@gmail.com") },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [close]);
 
   const filtered = useMemo(() => {

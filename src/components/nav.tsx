@@ -4,10 +4,11 @@ import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "mot
 import Link from "next/link";
 import { useState } from "react";
 import Magnetic from "@/components/magnetic";
+import { SHOW_TEST_PREP } from "@/lib/site-config";
 
 const links = [
   { href: "/#work", label: "Work" },
-  { href: "/#test-prep", label: "Test-Prep" },
+  ...(SHOW_TEST_PREP ? [{ href: "/#test-prep", label: "Test-Prep" }] : []),
   { href: "/#about", label: "About" },
   { href: "/#skills", label: "Stack" },
   { href: "/#contact", label: "Contact" },

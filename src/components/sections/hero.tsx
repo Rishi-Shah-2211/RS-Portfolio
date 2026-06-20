@@ -5,6 +5,7 @@ import { useRef } from "react";
 import dynamic from "next/dynamic";
 import MeshGradient from "@/components/mesh-gradient";
 import Magnetic from "@/components/magnetic";
+import { SHOW_TEST_PREP } from "@/lib/site-config";
 
 const EmberField = dynamic(() => import("@/components/ember-field"), {
   ssr: false,
@@ -84,8 +85,9 @@ export default function Hero() {
               </a>
             </Magnetic>
             <p className="max-w-xs text-sm leading-relaxed text-ink-soft">
-              07 products in production — analytics, ML, LLM copilots, and a
-              four-exam test-prep suite.
+              {SHOW_TEST_PREP
+                ? "07 products in production — analytics, ML, LLM copilots, and a four-exam test-prep suite."
+                : "07 products in production — analytics, ML, LLM copilots, and cross-platform tooling."}
             </p>
           </motion.div>
         </div>
@@ -138,7 +140,7 @@ export default function Hero() {
 
 const INDEX = [
   { label: "Work", href: "#work" },
-  { label: "Test-Prep", href: "#test-prep" },
+  ...(SHOW_TEST_PREP ? [{ label: "Test-Prep", href: "#test-prep" }] : []),
   { label: "About", href: "#about" },
   { label: "Stack", href: "#skills" },
   { label: "Contact", href: "#contact" },
