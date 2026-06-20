@@ -28,7 +28,7 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
       root
       options={{
         autoRaf: true,
-        lerp: 0.09,
+        lerp: 0.12,
         smoothWheel: true,
         // Never drive touch scrolling through JS — phones keep their fast
         // native scroll; Lenis only smooths desktop wheel input.

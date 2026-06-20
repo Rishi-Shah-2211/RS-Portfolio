@@ -1,32 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "motion/react";
 
+/**
+ * Cursor — a clean two-part pointer: a soft trailing ring and a crisp dot.
+ * Subtle scale-up over interactive elements, no labels. Desktop only.
+ */
 export default function Cursor() {
   const [enabled, setEnabled] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [label, setLabel] = useState<string | null>(null);
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 500, damping: 40, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 500, damping: 40, mass: 0.4 });
-  const dotX = useSpring(x, { stiffness: 1200, damping: 50, mass: 0.2 });
-  const dotY = useSpring(y, { stiffness: 1200, damping: 50, mass: 0.2 });
-  const ref = useRef<HTMLDivElement>(null);
-
-  // jelly: the ring stretches along its direction of travel and relaxes
-  const vx = useVelocity(sx);
-  const vy = useVelocity(sy);
-  const stretch = useTransform([vx, vy] as const, ([a, b]: number[]) =>
-    Math.min(Math.hypot(a, b) / 3200, 0.32),
-  );
-  const smoothStretch = useSpring(stretch, { stiffness: 300, damping: 28 });
-  const angle = useTransform([vx, vy] as const, ([a, b]: number[]) =>
-    Math.hypot(a, b) > 40 ? (Math.atan2(b, a) * 180) / Math.PI : 0,
-  );
-  const scaleX = useTransform(smoothStretch, (s) => 1 + s);
-  const scaleY = useTransform(smoothStretch, (s) => 1 - s * 0.55);
+  const sx = useSpring(x, { stiffness: 600, damping: 45, mass: 0.3 });
+  const sy = useSpring(y, { stiffness: 600, damping: 45, mass: 0.3 });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -40,15 +27,10 @@ export default function Cursor() {
     const move = (e: MouseEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-      const interactive = target.closest(
-        "a, button, [role=button], [data-cursor]",
-      ) as HTMLElement | null;
-      setHovering(!!interactive);
-      setLabel(interactive?.getAttribute("data-cursor") ?? null);
+      const t = e.target as HTMLElement | null;
+      setHovering(!!t?.closest("a, button, [role=button], input, [data-cursor]"));
     };
-    window.addEventListener("mousemove", move);
+    window.addEventListener("mousemove", move, { passive: true });
     return () => window.removeEventListener("mousemove", move);
   }, [x, y]);
 
@@ -57,29 +39,18 @@ export default function Cursor() {
   return (
     <>
       <motion.div
-        ref={ref}
-        style={{ x: sx, y: sy, rotate: angle, scaleX, scaleY }}
+        style={{ x: sx, y: sy }}
         className="pointer-events-none fixed left-0 top-0 z-[200] -translate-x-1/2 -translate-y-1/2"
       >
         <motion.div
-          animate={{
-            scale: hovering ? 2.4 : 1,
-            backgroundColor: hovering ? "rgba(35,58,114,0.1)" : "rgba(22,19,15,0.04)",
-            borderColor: hovering ? "rgba(35,58,114,0.55)" : "rgba(22,19,15,0.3)",
-          }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur-sm"
-        >
-          {label && (
-            <span className="font-mono text-[10px] uppercase tracking-wider text-ink">
-              {label}
-            </span>
-          )}
-        </motion.div>
+          animate={{ scale: hovering ? 1.9 : 1, opacity: hovering ? 0.9 : 0.55 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="h-8 w-8 rounded-full border border-ink/40"
+        />
       </motion.div>
       <motion.div
-        style={{ x: dotX, y: dotY }}
-        className="pointer-events-none fixed left-0 top-0 z-[201] h-1 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-terracotta"
+        style={{ x, y }}
+        className="pointer-events-none fixed left-0 top-0 z-[201] h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-terracotta"
       />
     </>
   );

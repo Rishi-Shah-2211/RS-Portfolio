@@ -151,19 +151,35 @@ function Plane() {
 
 export default function LiquidHero() {
   const [ready, setReady] = useState(false);
+  const [inView, setInView] = useState(true);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     setReady(true);
   }, []);
+
+  // stop the shader from rendering once the hero scrolls away — saves the
+  // GPU from drawing a fullscreen pass behind every other section
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!ready || !el) return;
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), {
+      rootMargin: "100px",
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ready]);
 
   if (!ready) {
     return <div className="absolute inset-0 -z-10 bg-cream" aria-hidden />;
   }
 
   return (
-    <div className="absolute inset-0 -z-10" aria-hidden>
+    <div ref={wrapRef} className="absolute inset-0 -z-10" aria-hidden>
       <Canvas
-        dpr={[1, 1.75]}
+        dpr={[1, 1.4]}
+        frameloop={inView ? "always" : "never"}
         gl={{ antialias: false, powerPreference: "high-performance" }}
         camera={{ position: [0, 0, 1] }}
       >

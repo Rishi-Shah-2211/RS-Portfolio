@@ -4,7 +4,6 @@ import { AnimatePresence, motion, useScroll, useSpring, useTransform } from "mot
 import Link from "next/link";
 import { useState } from "react";
 import Magnetic from "@/components/magnetic";
-import ThemeToggle from "@/components/theme-toggle";
 
 const links = [
   { href: "/about", label: "About" },
@@ -56,7 +55,6 @@ export default function Nav() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           <span className="hidden items-center gap-1.5 rounded-full border border-ink/15 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-mute md:inline-flex">
             ⌘K
           </span>

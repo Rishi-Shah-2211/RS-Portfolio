@@ -25,32 +25,6 @@
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-/* Night mode — deep navy room, brightened sapphire accent, warm light type.
-   Plain overrides after @theme so every var(--color-*) utility recolours. */
-.dark {
-  --color-cream: #0d1018;
-  --color-cream-dim: #161c28;
-  --color-paper: #131822;
-  --color-ink: #f3f1ea;
-  --color-ink-soft: #b7bccb;
-  --color-ink-mute: #7c8398;
-  --color-terracotta: #8aa0ff;
-  --color-terracotta-deep: #6c83e8;
-  --color-brass: #d6b46a;
-  --color-sage: #8893ad;
-  --color-peach: #d9c79c;
-  --color-lavender: #a99bd0;
-}
-
-/* View-transition circular wipe for the theme toggle — kill the default
-   cross-fade so our expanding clip-circle is the only motion. */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) { z-index: 1; }
-::view-transition-new(root) { z-index: 9999; }
 
 html, body {
   /* soft porcelain gradient — warm light falling from the top-left, a

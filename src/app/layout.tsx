@@ -49,14 +49,6 @@ export default function RootLayout({
         ["--font-mono" as string]: `var(--font-geist-mono), ui-monospace, monospace`,
       }}
     >
-      <head>
-        {/* set theme before first paint to avoid a flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
-          }}
-        />
-      </head>
       <body className="custom-cursor-on">
         <Preloader />
         <Cursor />
@@ -67,7 +59,6 @@ export default function RootLayout({
           <Nav />
           {children}
         </SmoothScroll>
-        <div className="grain-overlay" aria-hidden />
       </body>
     </html>
   );
