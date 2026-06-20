@@ -2,13 +2,8 @@
 
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Magnetic from "@/components/magnetic";
-
-const LiquidHero = dynamic(() => import("@/components/liquid-hero"), {
-  ssr: false,
-});
 
 /**
  * Hero — cinematic editorial opening. Three display lines enter from
@@ -34,8 +29,6 @@ export default function Hero() {
       id="top"
       className="relative isolate flex h-[100svh] w-full flex-col justify-center overflow-hidden"
     >
-      <LiquidHero />
-
       <motion.div
         style={{ opacity }}
         className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-10 px-6 md:grid-cols-12 md:px-10"
