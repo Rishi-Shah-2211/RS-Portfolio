@@ -31,21 +31,30 @@ const fragmentShader = /* glsl */ `
   uniform vec2 uRes;
   uniform vec4 uRipples[${MAX}]; // xy = centre uv, z = startTime, w = amp
   uniform int uCount;
+  uniform vec2 uMouse;     // live cursor (uv), smoothed
+  uniform float uMouseStr; // 0..1, present while the pointer is over the page
   uniform vec3 uHi;
   uniform vec3 uLo;
 
   float hgt(vec2 p){
+    float aspect = uRes.x / uRes.y;
     float h = 0.0;
+
+    // continuous source — the whole surface is water and waves radiate
+    // outward from wherever the cursor currently is, travelling with it
+    vec2 m = vec2(uMouse.x * aspect, uMouse.y);
+    float dm = distance(p, m);
+    h += sin(dm * 20.0 - uTime * 1.4) * exp(-dm * 3.0) * uMouseStr * 0.9;
+
+    // transient stones from clicks
     for (int i = 0; i < ${MAX}; i++){
       if (i >= uCount) break;
       vec4 r = uRipples[i];
       float age = uTime - r.z;
       if (age < 0.0) continue;
-      float aspect = uRes.x / uRes.y;
       vec2 c = vec2(r.x * aspect, r.y);
       float d = distance(p, c);
       float radius = age * 0.42;
-      // wide envelope + long wavelength + slow temporal = gentle, glassy swells
       float env = exp(-pow((d - radius) / 0.11, 2.0)) * exp(-age * 0.9);
       h += sin((d - radius) * 20.0 - age * 1.4) * env * r.w;
     }
@@ -77,6 +86,10 @@ function RipplePlane() {
   const matRef = useRef<THREE.ShaderMaterial>(null);
   const { size } = useThree();
   const ripples = useRef<{ x: number; y: number; t: number; amp: number }[]>([]);
+  const mouse = useRef({ x: 0.5, y: 0.5 });
+  const mouseTarget = useRef({ x: 0.5, y: 0.5 });
+  const strTarget = useRef(0);
+  const str = useRef(0);
   const uRipples = useMemo(
     () => Array.from({ length: MAX }, () => new THREE.Vector4(0, 0, -999, 0)),
     [],
@@ -88,6 +101,8 @@ function RipplePlane() {
       uRes: { value: new THREE.Vector2(1, 1) },
       uCount: { value: 0 },
       uRipples: { value: uRipples },
+      uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+      uMouseStr: { value: 0 },
       uHi: { value: new THREE.Color("#ffffff") },
       uLo: { value: new THREE.Color("#1c1518") },
     }),
@@ -104,19 +119,26 @@ function RipplePlane() {
       });
       if (ripples.current.length > MAX) ripples.current.shift();
     };
-    let last = 0;
     const onMove = (e: PointerEvent) => {
-      const n = performance.now();
-      if (n - last < 80) return;
-      last = n;
-      drop(e.clientX, e.clientY, 0.6);
+      mouseTarget.current = {
+        x: e.clientX / window.innerWidth,
+        y: 1 - e.clientY / window.innerHeight,
+      };
+      strTarget.current = 1; // pointer present → the surface is "live"
     };
     const onDown = (e: PointerEvent) => drop(e.clientX, e.clientY, 1.0);
+    const onLeave = () => {
+      strTarget.current = 0; // pointer left the page → let the water settle
+    };
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("pointerout", onLeave, { passive: true });
+    window.addEventListener("blur", onLeave);
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointerout", onLeave);
+      window.removeEventListener("blur", onLeave);
     };
   }, []);
 
@@ -128,10 +150,18 @@ function RipplePlane() {
       if (r) uRipples[i].set(r.x, r.y, r.t, r.amp);
       else uRipples[i].set(0, 0, -999, 0);
     }
+    // ease the live cursor + its strength so the wave source glides
+    mouse.current.x += (mouseTarget.current.x - mouse.current.x) * 0.1;
+    mouse.current.y += (mouseTarget.current.y - mouse.current.y) * 0.1;
+    str.current += (strTarget.current - str.current) * 0.06;
+
     if (matRef.current) {
-      matRef.current.uniforms.uTime.value = now;
-      matRef.current.uniforms.uCount.value = ripples.current.length;
-      (matRef.current.uniforms.uRes.value as THREE.Vector2).set(size.width, size.height);
+      const u = matRef.current.uniforms;
+      u.uTime.value = now;
+      u.uCount.value = ripples.current.length;
+      (u.uRes.value as THREE.Vector2).set(size.width, size.height);
+      (u.uMouse.value as THREE.Vector2).set(mouse.current.x, mouse.current.y);
+      u.uMouseStr.value = str.current;
     }
   });
 
