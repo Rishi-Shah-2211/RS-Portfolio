@@ -7,6 +7,7 @@ import Nav from "@/components/nav";
 import CommandPalette from "@/components/command-palette";
 import Preloader from "@/components/preloader";
 import JellyHover from "@/components/jelly-hover";
+import FluidTrail from "@/components/fluid-trail";
 
 const display = Instrument_Serif({
   variable: "--font-display-loaded",
@@ -52,6 +53,7 @@ export default function RootLayout({
         <Preloader />
         <Cursor />
         <JellyHover />
+        <FluidTrail />
         <CommandPalette />
         <SmoothScroll>
           <Nav />
