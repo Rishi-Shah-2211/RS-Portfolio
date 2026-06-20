@@ -44,9 +44,10 @@ const fragmentShader = /* glsl */ `
       float aspect = uRes.x / uRes.y;
       vec2 c = vec2(r.x * aspect, r.y);
       float d = distance(p, c);
-      float radius = age * 0.5;
-      float env = exp(-pow((d - radius) / 0.05, 2.0)) * exp(-age * 1.25);
-      h += sin((d - radius) * 70.0 - age * 6.0) * env * r.w;
+      float radius = age * 0.42;
+      // wide envelope + long wavelength + slow temporal = gentle, glassy swells
+      float env = exp(-pow((d - radius) / 0.11, 2.0)) * exp(-age * 0.9);
+      h += sin((d - radius) * 20.0 - age * 1.4) * env * r.w;
     }
     return h;
   }
@@ -60,13 +61,14 @@ const fragmentShader = /* glsl */ `
     float hy = hgt(p + vec2(0.0, e)) - hgt(p - vec2(0.0, e));
     vec3 N = normalize(vec3(-hx, -hy, e * 6.0));
     vec3 L = normalize(vec3(0.6, 0.7, 0.55));
-    float spec = pow(max(dot(N, L), 0.0), 26.0);
+    float spec = pow(max(dot(N, L), 0.0), 22.0);
 
-    vec3 col = mix(uLo, uHi, clamp(0.5 + h * 4.0, 0.0, 1.0));
-    col += spec * 0.9;
+    // near-colourless: a faint light/dark refraction, no hue
+    vec3 col = mix(uLo, uHi, clamp(0.5 + h * 2.2, 0.0, 1.0));
+    col += spec * 0.6;
 
-    // transparent everywhere except on the wave crests
-    float alpha = clamp(abs(h) * 3.2 + spec * 0.7, 0.0, 0.5);
+    // very transparent — only the crest glint reads, the page shows through
+    float alpha = clamp(abs(h) * 1.1 + spec * 0.4, 0.0, 0.22);
     gl_FragColor = vec4(col, alpha);
   }
 `;
@@ -86,8 +88,8 @@ function RipplePlane() {
       uRes: { value: new THREE.Vector2(1, 1) },
       uCount: { value: 0 },
       uRipples: { value: uRipples },
-      uHi: { value: new THREE.Color("#fdf9f6") },
-      uLo: { value: new THREE.Color("#6e2746") },
+      uHi: { value: new THREE.Color("#ffffff") },
+      uLo: { value: new THREE.Color("#1c1518") },
     }),
     [uRipples],
   );
