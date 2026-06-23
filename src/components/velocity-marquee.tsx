@@ -1,20 +1,11 @@
 "use client";
 
-import {
-  motion,
-  useAnimationFrame,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-  useVelocity,
-} from "motion/react";
-import { useRef } from "react";
-
 /**
  * VelocityMarquee — an oversized strip of display type that drifts sideways
- * on its own and speeds up / reverses with scroll velocity, with a slight
- * skew while the page is moving. Classic award-site move, zero layout cost.
+ * forever. Driven by a pure CSS transform animation so it runs on the
+ * compositor thread (off the main thread) — no per-frame JS, which keeps
+ * scrolling smooth on phones. Pass `reverse` to run it right-to-left and
+ * `accent` to tint it.
  */
 export default function VelocityMarquee({
   items,
@@ -24,42 +15,21 @@ export default function VelocityMarquee({
 }: {
   items: string[];
   baseSpeed?: number;
-  /** Run the strip right-to-left mirrored — pair two for crossing ribbons. */
   reverse?: boolean;
-  /** Tint the type in the accent colour instead of muted ink. */
   accent?: boolean;
 }) {
-  const x = useMotionValue(0);
-  const { scrollY } = useScroll();
-  const velocity = useVelocity(scrollY);
-  const smooth = useSpring(velocity, { stiffness: 60, damping: 18 });
-  const skew = useTransform(smooth, [-2000, 0, 2000], [-6, 0, 6]);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const sign = reverse ? -1 : 1;
-  const dir = useRef(sign);
-
-  useAnimationFrame((_, delta) => {
-    const v = smooth.get();
-    if (v < -50) dir.current = -sign;
-    else if (v > 50) dir.current = sign;
-    const boost = 1 + Math.min(Math.abs(v) / 800, 4);
-    let next = x.get() - dir.current * baseSpeed * boost * (delta / 1000);
-    const half = (trackRef.current?.scrollWidth ?? 0) / 2;
-    if (half > 0) {
-      if (next <= -half) next += half;
-      if (next > 0) next -= half;
-    }
-    x.set(next);
-  });
-
   const line = items.join("  ·  ") + "  ·  ";
+  // higher baseSpeed → shorter duration (faster drift)
+  const duration = Math.max(18, Math.round(2600 / baseSpeed));
 
   return (
-    <div className="relative z-20 w-full overflow-hidden border-y border-ink/10 py-6 md:py-8">
-      <motion.div
-        ref={trackRef}
-        style={{ x, skewX: skew }}
-        className="flex w-max whitespace-nowrap will-change-transform"
+    <div className="relative z-20 w-full overflow-hidden border-y border-ink/10 bg-cream py-6 md:py-8">
+      <div
+        className="marquee-track flex w-max whitespace-nowrap"
+        style={{
+          animationDuration: `${duration}s`,
+          animationDirection: reverse ? "reverse" : "normal",
+        }}
         aria-hidden
       >
         {[0, 1].map((i) => (
@@ -72,7 +42,7 @@ export default function VelocityMarquee({
             {line}
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
