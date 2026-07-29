@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal, SplitWords } from "@/components/reveal";
+import SectionLabel from "@/components/section-label";
 
 const ITEMS = [
   {
@@ -35,14 +36,7 @@ export default function Experience() {
     >
       <div className="paper-grain absolute inset-0 opacity-50" />
       <div className="relative mx-auto max-w-[1400px] px-6 md:px-10">
-        <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-ink/40" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              03 — Experience
-            </span>
-          </div>
-        </Reveal>
+        <SectionLabel>03 — Experience</SectionLabel>
 
         <h2 className="mt-8 max-w-4xl font-display text-[clamp(2rem,5vw,4rem)] font-light leading-[1.02] tracking-[-0.035em] text-ink">
           <SplitWords text="Where I've" />{" "}

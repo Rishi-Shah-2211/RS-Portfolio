@@ -10,6 +10,12 @@ export type Project = {
   stack: string[];
   accent: string;
   highlights: string[];
+  /** Case-study narrative — rendered on /work/[slug]. */
+  problem: string;
+  approach: string;
+  outcome: string;
+  /** Extra screenshots for the case-study gallery. */
+  gallery?: string[];
   /** Set to false to render a typographic gradient card instead of a screenshot. */
   hasScreenshot?: boolean;
   /** NDA / private — no public link, "under NDA" badge replaces the Visit button. */
@@ -36,6 +42,13 @@ export const PROJECTS: Project[] = [
       "Strict numerical / linguistic boundary — every figure reproducible",
       "Single-pass investor-memo PDF generation",
     ],
+    problem:
+      "Early-stage founders benchmark themselves on anecdotes — a number from a podcast, a friend's round. There is no cheap way to see where you actually sit against a comparable cohort, and general-purpose AI tools will happily invent the figures instead of computing them.",
+    approach:
+      "The maths and the prose are built as two strictly separate layers. Percentiles and growth rates are computed deterministically in TypeScript against a 500-company synthetic cohort; the LLM only ever receives those already-computed figures and is scoped to narrative wording. Auth, a normalised Drizzle schema, and PDF export complete a single-pass investor memo.",
+    outcome:
+      "Every figure in a generated memo is reproducible from the underlying data — the model shapes the story but cannot invent a number. A founder gets a percentile read and an export-ready memo in one pass.",
+    gallery: ["/screens/vantage-hero.jpg", "/screens/vantage-2.jpg", "/screens/vantage-3.jpg"],
   },
   {
     index: "02",
@@ -56,6 +69,13 @@ export const PROJECTS: Project[] = [
       "Python → ONNX → browser inference, no API hop",
       "Four interactive 3D r3f visualizations of decision boundaries",
     ],
+    problem:
+      "Model-comparison demos usually hide the model behind an API, so the visitor is trusting a black box and paying a network round-trip for every prediction — and the tidy narrative rarely survives contact with the actual numbers.",
+    approach:
+      "Three models were trained in Python on a 500-row SaaS dataset, exported through skl2onnx to ONNX, and run client-side in the browser. Decision boundaries are made legible through four interactive react-three-fiber scenes rather than static charts.",
+    outcome:
+      "Predictions run with zero backend in the request path. The honest result — linear regression outperforming both ensemble baselines on this dataset — is reported rather than buried under a more impressive-sounding model.",
+    gallery: ["/screens/bellwether-hero.jpg", "/screens/bellwether-2.jpg", "/screens/bellwether-3.jpg"],
   },
   {
     index: "03",
@@ -76,6 +96,13 @@ export const PROJECTS: Project[] = [
       "LLM copilot grounded in per-user live state",
       "End-to-end auth: jose JWT + bcrypt + normalized Prisma 7 schema",
     ],
+    problem:
+      "Roadmap tools tend to either score features or track capacity, rarely both. The result is that quarterly trade-offs get argued from memory in a meeting instead of read off the plan.",
+    approach:
+      "A weighted-scoring engine feeds dependency-aware capacity packing, with a scenario simulator that places two quarters side by side. The LLM copilot answers natural-language questions against the authenticated user's live roadmap rows rather than a stale export.",
+    outcome:
+      "Trade-offs become visible before the commitment is made, and the copilot's answers move as the data moves. Auth is handled end-to-end with jose JWTs, bcrypt, and a normalised Prisma 7 schema.",
+    gallery: ["/screens/planmate-hero.jpg", "/screens/planmate-2.jpg", "/screens/planmate-3.jpg"],
   },
   {
     index: "04",
@@ -97,6 +124,13 @@ export const PROJECTS: Project[] = [
       "Turborepo + pnpm monorepo with shared TS / ESLint",
       "Live inventory simulation alongside copilot queries",
     ],
+    problem:
+      "Supply-chain copilots answer in generalities because they never see the operator's own data. Wiring that data in is easy to do badly — in a multi-tenant system, a sloppy fix leaks one operator's rows into another's answers.",
+    approach:
+      "Tenant-scoped context is pulled from PostgreSQL at query time, so each operator's questions resolve against only their own rows — the boundary sits in the data layer, not in the prompt. Inventory simulation runs beside the copilot in one dashboard, built in a Turborepo + pnpm monorepo with shared TypeScript and ESLint config.",
+    outcome:
+      "Responses reflect operator-specific state instead of generic advice, and the tenancy boundary is enforced where the data is fetched rather than trusted to instructions.",
+    gallery: ["/screens/optivise-hero.jpg", "/screens/optivise-2.jpg", "/screens/optivise-3.jpg"],
   },
   {
     index: "05",
@@ -117,6 +151,12 @@ export const PROJECTS: Project[] = [
       "Custom .com domain, fully owned by the client",
       "Mobile-first, share-friendly product detail pages",
     ],
+    problem:
+      "A multi-generation farm had a real story and real produce, but no presence online — buyers found them by word of mouth or not at all, and there was nowhere to point someone who asked what the farm actually grows.",
+    approach:
+      "The design was built around photography shot at the farm itself rather than stock imagery. Brand story, produce catalogue, and typographic rhythm were hand-tuned mobile-first, then shipped on a custom .com the family owns outright.",
+    outcome:
+      "The farm's heritage and catalogue now live at an address the client controls, with product pages built to be shared directly with a buyer.",
   },
   {
     index: "06",
@@ -136,6 +176,17 @@ export const PROJECTS: Project[] = [
       "Categorised browse across nine collections",
       "Photo pipeline cleaned and colour-graded for a showroom feel",
       "Mobile-first product pages tuned for sharing on WhatsApp",
+    ],
+    problem:
+      "A family showroom carrying nine distinct collections had nowhere to send customers between visits, and quick phone photos did not do the pieces justice.",
+    approach:
+      "A categorised catalogue spans bridal couture, daily wear, designer collections, gents' lines, watches, and mangalsutras. The photo pipeline was cleaned and colour-graded so the pieces read the way they do under showroom light.",
+    outcome:
+      "Customers can browse the collections before walking in, and product pages are tuned for sharing over WhatsApp — the channel the showroom actually sells through.",
+    gallery: [
+      "/screens/gurukrupa-jewellers-hero.jpg",
+      "/screens/gurukrupa-jewellers-2.jpg",
+      "/screens/gurukrupa-jewellers-3.jpg",
     ],
   },
   {
@@ -157,6 +208,12 @@ export const PROJECTS: Project[] = [
       "Database-enforced role-based access (Postgres Row-Level Security)",
       "Realtime cross-device sync + English / Gujarati UI",
     ],
-    hasScreenshot: false,
+    problem:
+      "Small businesses track sales, credit, and daily cash in notebooks and WhatsApp threads. Most software built for them assumes one device, one language, and an accountant on hand.",
+    approach:
+      "One Next.js codebase is wrapped for Android, iOS, Windows, and macOS through Capacitor and Electron. Roles are enforced in the database with Postgres Row-Level Security rather than in the UI, with realtime sync across devices and English/Gujarati throughout.",
+    outcome:
+      "Five platforms ship from a single codebase, access rules hold even if a client is tampered with, and a Day-close audit trail keeps the day's books defensible.",
+    gallery: ["/screens/bizmate-2.jpg", "/screens/bizmate-3.jpg"],
   },
 ];

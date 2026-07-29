@@ -81,6 +81,18 @@ export default function Contact() {
             >
               +91 90230 80466
             </a>
+            <a
+              href="/rishi-shah-resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="resume"
+              className="group inline-flex items-center gap-3 rounded-full border border-cream/30 px-7 py-4 font-mono text-xs uppercase tracking-[0.2em] text-cream/90 transition-colors hover:bg-cream/10"
+            >
+              Résumé
+              <span className="inline-block transition-transform duration-500 group-hover:translate-y-0.5">
+                ↓
+              </span>
+            </a>
           </div>
         </Reveal>
 

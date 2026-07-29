@@ -30,9 +30,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://portfolio-rhs.vercel.app"),
   title: "Rishi Shah — Software Engineer",
   description:
-    "Full-stack engineer building cinematic, data-grounded products — including a test-prep suite for IELTS, GRE, and SAT. Next.js, TypeScript, ML. Based in Gujarat, India.",
+    "Full-stack engineer building cinematic, data-grounded products — founder analytics, in-browser ML, LLM copilots, and cross-platform tooling. Next.js, TypeScript, ML. Based in Gujarat, India.",
+  openGraph: {
+    type: "website",
+    siteName: "Rishi Shah",
+    locale: "en_IN",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({

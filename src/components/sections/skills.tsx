@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "@/components/reveal";
+import SectionLabel from "@/components/section-label";
 
 const ROW_1 = [
   "TypeScript", "Next.js", "React", "Tailwind CSS", "Framer Motion",
@@ -46,14 +47,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative w-full overflow-hidden py-32 md:py-44">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-ink/40" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              02 — Stack
-            </span>
-          </div>
-        </Reveal>
+        <SectionLabel>02 — Stack</SectionLabel>
 
         <Reveal delay={0.1}>
           <h2 className="mt-8 max-w-4xl font-display text-[clamp(2rem,5vw,4rem)] font-light leading-[1.02] tracking-[-0.035em] text-ink">

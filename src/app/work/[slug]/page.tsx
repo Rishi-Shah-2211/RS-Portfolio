@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PROJECTS } from "@/lib/projects";
 import { Reveal, Reveal3D, SplitWords } from "@/components/reveal";
+import RevealImage from "@/components/reveal-image";
 
 const slugOf = (name: string) => name.toLowerCase().replace(/\s+/g, "-");
 
@@ -121,13 +122,32 @@ export default async function CaseStudy({
         <div className="mt-16 grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-7">
             <Reveal>
-              <h2 className="font-display text-3xl font-light tracking-[-0.03em] text-ink md:text-4xl">
-                About the <span className="italic text-terracotta">build</span>
-              </h2>
-              <p className="mt-6 text-base leading-[1.85] text-ink-soft md:text-lg">
+              <p className="text-base leading-[1.85] text-ink-soft md:text-lg">
                 {project.description}
               </p>
             </Reveal>
+
+            {[
+              { k: "01", t: "The problem", body: project.problem },
+              { k: "02", t: "The approach", body: project.approach },
+              { k: "03", t: "The outcome", body: project.outcome },
+            ].map((sec, i) => (
+              <Reveal key={sec.k} delay={0.08 + i * 0.06}>
+                <div className="mt-12 border-t border-ink/10 pt-8">
+                  <div className="flex items-baseline gap-3">
+                    <span className="font-mono text-[10px] tracking-[0.24em] text-ink-mute">
+                      {sec.k}
+                    </span>
+                    <h2 className="font-display text-2xl font-light tracking-[-0.03em] text-ink md:text-3xl">
+                      {sec.t}
+                    </h2>
+                  </div>
+                  <p className="mt-4 text-[15px] leading-[1.85] text-ink-soft md:text-base">
+                    {sec.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
 
             <Reveal delay={0.1}>
               <h3 className="mt-12 font-mono text-[11px] uppercase tracking-[0.26em] text-ink-mute">
@@ -177,6 +197,30 @@ export default async function CaseStudy({
             </Reveal>
           </aside>
         </div>
+
+        {/* gallery */}
+        {project.gallery && project.gallery.length > 0 && (
+          <div className="mt-20">
+            <Reveal>
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.26em] text-ink-mute">
+                Inside the build
+              </h3>
+            </Reveal>
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              {project.gallery.map((src, i) => (
+                <RevealImage
+                  key={src}
+                  src={src}
+                  alt={`${project.name} interface ${i + 1}`}
+                  delay={i * 0.06}
+                  className={`aspect-[16/10] w-full rounded-md shadow-[0_36px_90px_-50px_rgba(110,39,70,0.5)] ring-1 ring-inset ring-ink/10 ${
+                    project.gallery!.length % 2 === 1 && i === 0 ? "md:col-span-2" : ""
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* next project */}
         <Link

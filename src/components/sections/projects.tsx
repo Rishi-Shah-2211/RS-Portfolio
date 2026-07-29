@@ -1,11 +1,12 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import Link from "next/link";
 import { PROJECTS, type Project } from "@/lib/projects";
 import { Reveal, SplitWords } from "@/components/reveal";
 import TiltCard from "@/components/tilt-card";
+import SectionLabel from "@/components/section-label";
 
 /**
  * Projects — cinematic alternating rows. Each project's screenshot glides
@@ -18,14 +19,7 @@ export default function Projects() {
   return (
     <section id="work" className="relative w-full pb-28 pt-28 md:pb-40 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
-        <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-ink/40" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              Selected Work
-            </span>
-          </div>
-        </Reveal>
+        <SectionLabel>Selected Work</SectionLabel>
         <h2 className="mt-8 max-w-5xl font-display text-[clamp(2.25rem,6vw,5rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
           <SplitWords text="Seven products," />{" "}
           <span className="italic text-terracotta">
@@ -67,6 +61,8 @@ function Row({
   const yGhost = useTransform(scrollYProgress, [0, 1], ["18%", "-18%"]);
   const imgScale = useTransform(scrollYProgress, [0, 0.5], [1.08, 1]);
 
+  const inView = useInView(ref, { once: true, margin: "-12% 0px" });
+
   const slug = project.name.toLowerCase().replace(/\s+/g, "-");
   const hasScreenshot = project.hasScreenshot !== false;
   const isPrivate = project.privateProject === true;
@@ -101,6 +97,13 @@ function Row({
             {hasScreenshot ? (
               <motion.img
                 style={{ scale: imgScale }}
+                initial={{ clipPath: "inset(0 0 100% 0)" }}
+                animate={
+                  inView
+                    ? { clipPath: "inset(0 0 0% 0)" }
+                    : { clipPath: "inset(0 0 100% 0)" }
+                }
+                transition={{ duration: 1.15, ease: [0.76, 0, 0.24, 1] }}
                 src={`/screens/${slug}.jpg`}
                 alt={`${project.name} preview`}
                 className="aspect-[16/10] w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.05]"
