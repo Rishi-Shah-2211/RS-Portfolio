@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
       "The maths and the prose are built as two strictly separate layers. Percentiles and growth rates are computed deterministically in TypeScript against a 500-company synthetic cohort; the LLM only ever receives those already-computed figures and is scoped to narrative wording. Auth, a normalised Drizzle schema, and PDF export complete a single-pass investor memo.",
     outcome:
       "Every figure in a generated memo is reproducible from the underlying data — the model shapes the story but cannot invent a number. A founder gets a percentile read and an export-ready memo in one pass.",
-    gallery: ["/screens/vantage-hero.jpg", "/screens/vantage-2.jpg", "/screens/vantage-3.jpg"],
+    gallery: ["/screens/vantage-2.jpg", "/screens/vantage-3.jpg"],
   },
   {
     index: "02",
@@ -75,7 +75,7 @@ export const PROJECTS: Project[] = [
       "Three models were trained in Python on a 500-row SaaS dataset, exported through skl2onnx to ONNX, and run client-side in the browser. Decision boundaries are made legible through four interactive react-three-fiber scenes rather than static charts.",
     outcome:
       "Predictions run with zero backend in the request path. The honest result — linear regression outperforming both ensemble baselines on this dataset — is reported rather than buried under a more impressive-sounding model.",
-    gallery: ["/screens/bellwether-hero.jpg", "/screens/bellwether-2.jpg", "/screens/bellwether-3.jpg"],
+    gallery: ["/screens/bellwether-2.jpg", "/screens/bellwether-3.jpg"],
   },
   {
     index: "03",
@@ -102,7 +102,7 @@ export const PROJECTS: Project[] = [
       "A weighted-scoring engine feeds dependency-aware capacity packing, with a scenario simulator that places two quarters side by side. The LLM copilot answers natural-language questions against the authenticated user's live roadmap rows rather than a stale export.",
     outcome:
       "Trade-offs become visible before the commitment is made, and the copilot's answers move as the data moves. Auth is handled end-to-end with jose JWTs, bcrypt, and a normalised Prisma 7 schema.",
-    gallery: ["/screens/planmate-hero.jpg", "/screens/planmate-2.jpg", "/screens/planmate-3.jpg"],
+    gallery: ["/screens/planmate-2.jpg", "/screens/planmate-3.jpg"],
   },
   {
     index: "04",
@@ -130,7 +130,7 @@ export const PROJECTS: Project[] = [
       "Tenant-scoped context is pulled from PostgreSQL at query time, so each operator's questions resolve against only their own rows — the boundary sits in the data layer, not in the prompt. Inventory simulation runs beside the copilot in one dashboard, built in a Turborepo + pnpm monorepo with shared TypeScript and ESLint config.",
     outcome:
       "Responses reflect operator-specific state instead of generic advice, and the tenancy boundary is enforced where the data is fetched rather than trusted to instructions.",
-    gallery: ["/screens/optivise-hero.jpg", "/screens/optivise-2.jpg", "/screens/optivise-3.jpg"],
+    gallery: ["/screens/optivise-2.jpg"],
   },
   {
     index: "05",
@@ -138,7 +138,9 @@ export const PROJECTS: Project[] = [
     tagline: "A family farm's heritage, told online.",
     description:
       "A storytelling website for a multi-generation farm in Gujarat — produce catalogue, brand story, and visual identity built around photography sourced directly from the farm. Mobile-first, with a hand-tuned typographic rhythm.",
-    url: "https://kusum-farm.com",
+    // the apex domain's TLS handshake is broken (ERR_SSL_UNRECOGNIZED_NAME_ALERT);
+    // www resolves and serves correctly, so link visitors there
+    url: "https://www.kusum-farm.com",
     year: "2026",
     role: "Design · Development",
     stack: [
@@ -157,6 +159,11 @@ export const PROJECTS: Project[] = [
       "The design was built around photography shot at the farm itself rather than stock imagery. Brand story, produce catalogue, and typographic rhythm were hand-tuned mobile-first, then shipped on a custom .com the family owns outright.",
     outcome:
       "The farm's heritage and catalogue now live at an address the client controls, with product pages built to be shared directly with a buyer.",
+    gallery: [
+      "/screens/kusum-farm-2.jpg",
+      "/screens/kusum-farm-3.jpg",
+      "/screens/kusum-farm-4.jpg",
+    ],
   },
   {
     index: "06",
@@ -184,9 +191,9 @@ export const PROJECTS: Project[] = [
     outcome:
       "Customers can browse the collections before walking in, and product pages are tuned for sharing over WhatsApp — the channel the showroom actually sells through.",
     gallery: [
-      "/screens/gurukrupa-jewellers-hero.jpg",
       "/screens/gurukrupa-jewellers-2.jpg",
       "/screens/gurukrupa-jewellers-3.jpg",
+      "/screens/gurukrupa-jewellers-4.jpg",
     ],
   },
   {
@@ -214,6 +221,6 @@ export const PROJECTS: Project[] = [
       "One Next.js codebase is wrapped for Android, iOS, Windows, and macOS through Capacitor and Electron. Roles are enforced in the database with Postgres Row-Level Security rather than in the UI, with realtime sync across devices and English/Gujarati throughout.",
     outcome:
       "Five platforms ship from a single codebase, access rules hold even if a client is tampered with, and a Day-close audit trail keeps the day's books defensible.",
-    gallery: ["/screens/bizmate-2.jpg", "/screens/bizmate-3.jpg"],
+    gallery: ["/screens/bizmate-2.jpg"],
   },
 ];
