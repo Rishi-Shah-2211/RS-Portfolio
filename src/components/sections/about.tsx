@@ -23,10 +23,10 @@ export default function About() {
       <div className="relative mx-auto grid max-w-[1400px] gap-12 px-6 md:grid-cols-12 md:gap-16 md:px-10">
         {/* photo */}
         <div className="md:col-span-5 md:col-start-1">
-          <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
-            {/* no parallax overscale here — it was clipping the top of his
-                hair. A square frame anchored to the top keeps the head whole
-                and takes the crop off the bottom instead. */}
+          {/* the frame carries the photo's own 3514x3836 ratio, so nothing is
+              cropped and no grade is layered over it — the edit shows exactly
+              as it was supplied */}
+          <div className="relative aspect-[3514/3836] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
             <div className="absolute inset-0">
               <Image
                 src="/rishi.jpg"
@@ -35,12 +35,9 @@ export default function About() {
                 priority
                 quality={92}
                 sizes="(min-width: 768px) 40vw, 90vw"
-                className="object-cover object-top"
+                className="object-cover"
               />
             </div>
-            {/* whisper of plum in the shadows — light enough to stay a grade,
-                not a filter, so skin tones keep their colour */}
-            <div className="absolute inset-0 bg-gradient-to-t from-terracotta/18 via-transparent to-peach/10 mix-blend-soft-light" />
             <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
 
             {/* corner caption */}
