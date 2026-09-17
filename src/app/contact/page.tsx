@@ -4,7 +4,7 @@ import Contact from "@/components/sections/contact";
 export const metadata: Metadata = {
   title: "Contact — Rishi Shah",
   description:
-    "Open to freelance, contract, and full-time work — data-grounded products, ML tooling, and cinematic frontends. Based in Petlad, Gujarat.",
+    "Open to freelance, contract, and full-time work — data-grounded products, ML tooling, and cinematic frontends. Based in Canada.",
 };
 
 export default function ContactPage() {

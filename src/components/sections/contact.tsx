@@ -125,7 +125,7 @@ export default function Contact() {
 
         <footer className="mt-24 flex flex-col items-start justify-between gap-4 border-t border-cream/15 pt-8 md:flex-row md:items-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-cream/50">
-            © {new Date().getFullYear()} Rishi Shah · Crafted in Petlad, Gujarat
+            © {new Date().getFullYear()} Rishi Shah · Crafted in Canada
           </p>
           <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-cream/50">
             Next.js 16 · r3f · Lenis · Motion

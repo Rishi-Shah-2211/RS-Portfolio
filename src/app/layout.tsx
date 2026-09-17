@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-rhs.vercel.app"),
   title: "Rishi Shah — Software Engineer",
   description:
-    "Full-stack engineer building cinematic, data-grounded products — founder analytics, in-browser ML, LLM copilots, and cross-platform tooling. Next.js, TypeScript, ML. Based in Gujarat, India.",
+    "Full-stack engineer building cinematic, data-grounded products — founder analytics, in-browser ML, LLM copilots, and cross-platform tooling. Next.js, TypeScript, ML. Based in Canada.",
   openGraph: {
     type: "website",
     siteName: "Rishi Shah",

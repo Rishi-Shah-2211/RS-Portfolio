@@ -31,17 +31,19 @@ export default function About() {
               className="absolute inset-[-8%]"
             >
               <Image
-                src="/rishi.png"
+                src="/rishi.jpg"
                 alt="Rishi Shah"
                 fill
                 priority
-                quality={95}
+                quality={92}
                 sizes="(min-width: 768px) 40vw, 90vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
             </motion.div>
-            {/* warm color wash */}
-            <div className="absolute inset-0 bg-gradient-to-t from-terracotta/15 via-transparent to-brass/10 mix-blend-soft-light" />
+            {/* subtle duotone — plum settles into the shadows, pale rose into
+                the highlights; kept light so it reads as a grade, not a filter */}
+            <div className="absolute inset-0 bg-gradient-to-t from-terracotta/35 via-transparent to-peach/25 mix-blend-soft-light" />
+            <div className="absolute inset-0 bg-terracotta/10 mix-blend-color" />
             <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
 
             {/* corner caption */}
@@ -50,7 +52,7 @@ export default function About() {
               className="absolute bottom-4 left-4 rounded-full border border-ink/10 bg-cream-dim/75 px-3 py-1.5 backdrop-blur-md"
             >
               <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-ink">
-                Petlad · 2026
+                Canada · 2026
               </span>
             </motion.div>
           </div>

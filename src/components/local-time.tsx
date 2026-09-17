@@ -12,7 +12,7 @@ export default function LocalTime() {
       minute: "2-digit",
       second: "2-digit",
       hour12: true,
-      timeZone: "Asia/Kolkata",
+      timeZone: "America/Toronto",
     });
     const tick = () => setTime(fmt.format(new Date()));
     tick();
@@ -27,7 +27,7 @@ export default function LocalTime() {
         Available for work
       </span>
       <span className="rounded-full border border-cream/20 bg-cream/5 px-4 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-cream/80 backdrop-blur tabular-nums">
-        {time ?? "--:--:--"} IST · Gujarat, India
+        {time ?? "--:--:--"} ET · Canada
       </span>
     </div>
   );

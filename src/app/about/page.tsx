@@ -7,7 +7,7 @@ import PageNav from "@/components/page-nav";
 export const metadata: Metadata = {
   title: "About — Rishi Shah",
   description:
-    "Full-stack engineer in Gujarat, India — background, stack, experience, and a Springer-published paper on churn prediction.",
+    "Full-stack engineer based in Canada — background, stack, experience, and a Springer-published paper on churn prediction.",
 };
 
 export default function AboutPage() {

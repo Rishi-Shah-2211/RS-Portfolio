@@ -49,7 +49,7 @@ export default function Hero() {
             className="mb-7 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.28em] text-ink-soft md:text-[11px]"
           >
             <span className="h-px w-12 bg-terracotta" />
-            Rishi Shah · Full-stack engineer · India
+            Rishi Shah · Full-stack engineer · Canada
           </motion.p>
 
           <h1 className="font-display font-light leading-[0.92] tracking-[-0.045em] text-ink">
@@ -132,7 +132,7 @@ export default function Hero() {
           Scroll to begin ↓
         </span>
         <span className="hidden font-mono text-[10px] uppercase tracking-[0.24em] text-ink-mute md:block">
-          Petlad, Gujarat · Available for freelance
+          Canada · Available for freelance
         </span>
       </motion.div>
     </section>

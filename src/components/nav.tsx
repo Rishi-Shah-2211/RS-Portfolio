@@ -142,7 +142,7 @@ export default function Nav() {
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-terracotta" />
             </a>
             <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-cream/40">
-              Petlad, Gujarat · Available for freelance
+              Canada · Available for freelance
             </p>
           </motion.div>
         </motion.div>
