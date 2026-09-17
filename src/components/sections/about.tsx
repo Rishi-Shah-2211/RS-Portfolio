@@ -11,10 +11,6 @@ export default function About() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // gentle drift only — the portrait is near-square, so a heavy parallax
-  // overscale would crop his shoulders out of the frame
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-3%", "3%"]);
-  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1, 1.02]);
   const tagY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
 
   return (
@@ -27,11 +23,11 @@ export default function About() {
       <div className="relative mx-auto grid max-w-[1400px] gap-12 px-6 md:grid-cols-12 md:gap-16 md:px-10">
         {/* photo */}
         <div className="md:col-span-5 md:col-start-1">
-          <div className="relative aspect-[9/10] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
-            <motion.div
-              style={{ y: imgY, scale: imgScale }}
-              className="absolute inset-[-3%]"
-            >
+          <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
+            {/* no parallax overscale here — it was clipping the top of his
+                hair. A square frame anchored to the top keeps the head whole
+                and takes the crop off the bottom instead. */}
+            <div className="absolute inset-0">
               <Image
                 src="/rishi.jpg"
                 alt="Rishi Shah"
@@ -39,13 +35,12 @@ export default function About() {
                 priority
                 quality={92}
                 sizes="(min-width: 768px) 40vw, 90vw"
-                className="object-cover object-center"
+                className="object-cover object-top"
               />
-            </motion.div>
-            {/* subtle duotone — plum settles into the shadows, pale rose into
-                the highlights; kept light so it reads as a grade, not a filter */}
-            <div className="absolute inset-0 bg-gradient-to-t from-terracotta/35 via-transparent to-peach/25 mix-blend-soft-light" />
-            <div className="absolute inset-0 bg-terracotta/10 mix-blend-color" />
+            </div>
+            {/* whisper of plum in the shadows — light enough to stay a grade,
+                not a filter, so skin tones keep their colour */}
+            <div className="absolute inset-0 bg-gradient-to-t from-terracotta/18 via-transparent to-peach/10 mix-blend-soft-light" />
             <div className="absolute inset-0 ring-1 ring-inset ring-ink/10" />
 
             {/* corner caption */}
