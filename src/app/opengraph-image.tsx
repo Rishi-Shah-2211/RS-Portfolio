@@ -3,9 +3,16 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 /**
- * Branded share card — what WhatsApp, LinkedIn, X, and Slack render when
- * the site is linked. Plum Noir palette, editorial type, and the portrait
- * on the right so the link carries a face.
+ * Branded share card.
+ *
+ * Chat apps often render a link preview as a small SQUARE thumbnail cropped
+ * from the centre of the image, so anything parked on the right edge (like a
+ * side portrait) disappears. The portrait therefore runs full-bleed with the
+ * face on the horizontal centre line, and the copy sits over a dark scrim on
+ * the left — readable in the wide card and still face-first when cropped.
+ *
+ * rishi-og.jpg is pre-cropped to exactly 1200x630 so nothing here depends on
+ * object-fit or inset, neither of which Satori handles reliably.
  */
 export const alt = "Rishi Shah — Software Engineer";
 export const size = { width: 1200, height: 630 };
@@ -19,29 +26,56 @@ export default async function OpengraphImage() {
     (
       <div
         style={{
-          width: "100%",
-          height: "100%",
+          width: "1200px",
+          height: "630px",
           display: "flex",
-          background:
-            "linear-gradient(135deg, #1b1216 0%, #2a1524 45%, #4e1a31 100%)",
+          position: "relative",
+          background: "#140d11",
           color: "#f3f0ee",
           fontFamily: "serif",
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={photoSrc}
+          alt=""
+          width={1200}
+          height={630}
+          style={{ position: "absolute", left: 0, top: 0 }}
+        />
+
+        {/* dark scrim on the left so the copy reads over a pale photo */}
+        <div
+          style={{
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "1200px",
+            height: "630px",
+            display: "flex",
+            background:
+              "linear-gradient(90deg, rgba(16,10,13,0.97) 0%, rgba(16,10,13,0.95) 30%, rgba(24,14,20,0.72) 44%, rgba(32,18,26,0.22) 58%, rgba(32,18,26,0) 70%)",
+          }}
+        />
+
         {/* copy */}
         <div
           style={{
-            flex: 1,
+            position: "absolute",
+            left: 0,
+            top: 0,
+            width: "560px",
+            height: "630px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            padding: "58px 20px 58px 68px",
+            padding: "52px 36px 52px 56px",
           }}
         >
           <div
             style={{
               display: "flex",
-              fontSize: 20,
+              fontSize: 19,
               letterSpacing: 6,
               textTransform: "uppercase",
               color: "#d8bccb",
@@ -52,21 +86,21 @@ export default async function OpengraphImage() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 82, lineHeight: 1.02, letterSpacing: -3 }}>
+            <div style={{ fontSize: 60, lineHeight: 1.05, letterSpacing: -2 }}>
               Software,
             </div>
             <div
               style={{
-                fontSize: 82,
-                lineHeight: 1.02,
-                letterSpacing: -3,
+                fontSize: 60,
+                lineHeight: 1.05,
+                letterSpacing: -2,
                 fontStyle: "italic",
-                color: "#d8bccb",
+                color: "#e2c8d6",
               }}
             >
               engineered
             </div>
-            <div style={{ fontSize: 82, lineHeight: 1.02, letterSpacing: -3 }}>
+            <div style={{ fontSize: 60, lineHeight: 1.05, letterSpacing: -2 }}>
               with intent.
             </div>
           </div>
@@ -75,40 +109,18 @@ export default async function OpengraphImage() {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: 10,
-              fontSize: 20,
+              fontSize: 18,
               letterSpacing: 3,
               textTransform: "uppercase",
               color: "#cbb9c3",
               fontFamily: "sans-serif",
-              borderTop: "1px solid rgba(243,240,238,0.22)",
-              paddingTop: 22,
             }}
           >
             <span>Full-stack · ML · LLM copilots</span>
-            <span style={{ color: "#f3f0ee" }}>portfolio-rhs.vercel.app</span>
+            <span style={{ color: "#f3f0ee", marginTop: 10 }}>
+              portfolio-rhs.vercel.app
+            </span>
           </div>
-        </div>
-
-        {/* portrait */}
-        <div style={{ display: "flex", position: "relative", width: 430, height: "100%" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={photoSrc}
-            alt=""
-            width={430}
-            height={630}
-            style={{ objectFit: "cover", objectPosition: "50% 22%" }}
-          />
-          {/* plum wash so the photo sits inside the palette */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(90deg, rgba(27,18,22,0.92) 0%, rgba(27,18,22,0.25) 26%, rgba(78,26,49,0.18) 100%)",
-            }}
-          />
         </div>
       </div>
     ),
