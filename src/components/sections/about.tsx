@@ -11,8 +11,10 @@ export default function About() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-8%", "12%"]);
-  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.05, 1, 1.05]);
+  // gentle drift only — the portrait is near-square, so a heavy parallax
+  // overscale would crop his shoulders out of the frame
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-3%", "3%"]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1, 1.02]);
   const tagY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
 
   return (
@@ -25,10 +27,10 @@ export default function About() {
       <div className="relative mx-auto grid max-w-[1400px] gap-12 px-6 md:grid-cols-12 md:gap-16 md:px-10">
         {/* photo */}
         <div className="md:col-span-5 md:col-start-1">
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
+          <div className="relative aspect-[9/10] w-full overflow-hidden rounded-sm bg-cream-dim shadow-[0_34px_90px_-36px_rgba(110,39,70,0.2)]">
             <motion.div
               style={{ y: imgY, scale: imgScale }}
-              className="absolute inset-[-8%]"
+              className="absolute inset-[-3%]"
             >
               <Image
                 src="/rishi.jpg"
