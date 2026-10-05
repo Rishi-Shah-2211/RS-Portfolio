@@ -1,11 +1,11 @@
 /**
  * Site-wide feature flags.
  *
- * SHOW_TEST_PREP — controls the entire Test-Prep Suite across the site:
- *   the section itself, the crossing exam marquees, the nav link, the
- *   hero chapter-index entry, and the hero subtitle mention.
+ * SHOW_TEST_PREP — controls the Kanan Test Labs suite across the site:
+ *   the pinned horizontal section on /work, the two crossing exam marquees
+ *   above it, and the command-palette entries (jump to the section plus a
+ *   direct launcher for each of the four simulators).
  *
- *   To hide everything, set this to `false`.
- *   To bring the whole suite back, set this to `true` (one line — that's it).
+ *   `false` hides all of it; `true` brings it all back. One line.
  */
-export const SHOW_TEST_PREP = false;
+export const SHOW_TEST_PREP = true;

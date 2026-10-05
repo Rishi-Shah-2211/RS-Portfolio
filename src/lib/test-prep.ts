@@ -47,9 +47,10 @@ export const PREP_APPS: PrepApp[] = [
     index: "04",
     exam: "SAT",
     description:
-      "Digital-SAT-style adaptive modules in progress — Reading & Writing and Math stages with the two-module adaptive flow, on the same shared exam engine powering the rest of the suite.",
+      "Full-length Digital-SAT practice — two Reading & Writing modules and two Math modules running the real two-stage adaptive flow, on the same shared exam engine powering the rest of the suite.",
     modules: ["Reading & Writing", "Math"],
-    status: "in-development",
+    url: "https://kanan-sat.vercel.app",
+    status: "live",
     accent: "#d8bccb",
   },
 ];

@@ -35,10 +35,11 @@ export default function CommandPalette() {
     };
     const prepCommands: Cmd[] = SHOW_TEST_PREP
       ? [
-          { id: "prep", label: "Go to Test-Prep Suite", hint: "Page", keywords: "ielts gre sat kanan exam", run: go("/work#test-prep") },
-          { id: "ielts-a", label: "Open IELTS Academic simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-academic.vercel.app") },
-          { id: "ielts-g", label: "Open IELTS General simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-ielts-general.vercel.app") },
-          { id: "gre", label: "Open GRE simulator", hint: "Launch ↗", keywords: "test prep exam", run: ext("https://kanan-gre.vercel.app") },
+          { id: "prep", label: "Go to Kanan Test Labs", hint: "Page", keywords: "ielts gre sat kanan exam test prep", run: go("/work#test-prep") },
+          { id: "ielts-a", label: "Open IELTS Academic simulator", hint: "Launch ↗", keywords: "kanan test prep exam", run: ext("https://kanan-ielts-academic.vercel.app") },
+          { id: "ielts-g", label: "Open IELTS General simulator", hint: "Launch ↗", keywords: "kanan test prep exam", run: ext("https://kanan-ielts-general.vercel.app") },
+          { id: "gre", label: "Open GRE simulator", hint: "Launch ↗", keywords: "kanan test prep exam", run: ext("https://kanan-gre.vercel.app") },
+          { id: "sat", label: "Open SAT simulator", hint: "Launch ↗", keywords: "kanan test prep exam digital sat", run: ext("https://kanan-sat.vercel.app") },
         ]
       : [];
     return [

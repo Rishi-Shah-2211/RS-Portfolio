@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { PREP_APPS, type PrepApp } from "@/lib/test-prep";
 import VelocitySkew from "@/components/velocity-skew";
+import SectionLabel from "@/components/section-label";
 
 /**
  * Test-Prep Suite — pinned horizontal gallery. The section pins to the
@@ -31,17 +32,12 @@ export default function TestPrep() {
           aria-hidden
           className="pointer-events-none absolute top-[6%] left-0 select-none whitespace-nowrap font-display text-[clamp(7rem,22vw,19rem)] font-light italic leading-none tracking-[-0.05em] text-ink/[0.05] will-change-transform"
         >
-          Test-Prep Suite — IELTS · GRE · SAT
+          Kanan Test Labs — IELTS · GRE · SAT
         </motion.span>
 
         {/* header */}
         <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-10">
-          <div className="flex items-center gap-3">
-            <span className="h-px w-10 bg-ink/40" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-ink-soft">
-              04 — Test-Prep Suite
-            </span>
-          </div>
+          <SectionLabel>Kanan Test Labs</SectionLabel>
           <VelocitySkew>
             <h2 className="mt-5 max-w-4xl font-display text-[clamp(2rem,5vw,4.25rem)] font-light leading-[0.98] tracking-[-0.04em] text-ink">
               One exam engine,{" "}
@@ -61,10 +57,10 @@ export default function TestPrep() {
           {/* trailing note card */}
           <div className="flex w-[68vw] shrink-0 items-center justify-center sm:w-[44vw] md:w-[26vw]">
             <p className="max-w-[280px] text-sm leading-[1.8] text-ink-soft">
-              A family of computer-delivered exam simulators built for a
-              test-prep institute — shared timing, scoring, and review
-              infrastructure underneath; each exam&rsquo;s real interface
-              faithfully recreated on top.
+              A family of computer-delivered exam simulators built for Kanan
+              Test Labs — shared timing, scoring, and review infrastructure
+              underneath; each exam&rsquo;s real interface faithfully
+              recreated on top.
             </p>
           </div>
         </motion.div>
@@ -76,7 +72,7 @@ export default function TestPrep() {
           </div>
           <div className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-ink-mute">
             <span>Keep scrolling</span>
-            <span>3 live · 1 in development</span>
+            <span>Four exams · all live</span>
           </div>
         </div>
       </div>
